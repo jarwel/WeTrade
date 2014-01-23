@@ -14,13 +14,15 @@
 		CA1008A91890647B0031CF68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008A81890647B0031CF68 /* main.m */; };
 		CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008AC1890647B0031CF68 /* AppDelegate.m */; };
 		CA1008B01890647B0031CF68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA1008AE1890647B0031CF68 /* Main.storyboard */; };
-		CA1008B31890647B0031CF68 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008B21890647B0031CF68 /* ViewController.m */; };
 		CA1008B51890647B0031CF68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1008B41890647B0031CF68 /* Images.xcassets */; };
 		CA1008BC1890647B0031CF68 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008BB1890647B0031CF68 /* XCTest.framework */; };
 		CA1008BD1890647B0031CF68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA10089C1890647B0031CF68 /* Foundation.framework */; };
 		CA1008BE1890647B0031CF68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008A01890647B0031CF68 /* UIKit.framework */; };
 		CA1008C61890647B0031CF68 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA1008C41890647B0031CF68 /* InfoPlist.strings */; };
 		CA1008C81890647B0031CF68 /* WeTradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008C71890647B0031CF68 /* WeTradeTests.m */; };
+		CACD593418919E7E006FD228 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Home.storyboard */; };
+		CACD593C1891C267006FD228 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593B1891C267006FD228 /* MainViewController.m */; };
+		CACD593F1891C369006FD228 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* HomeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +47,17 @@
 		CA1008AB1890647B0031CF68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CA1008AC1890647B0031CF68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CA1008AF1890647B0031CF68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		CA1008B11890647B0031CF68 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CA1008B21890647B0031CF68 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CA1008B41890647B0031CF68 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CA1008BA1890647B0031CF68 /* WeTradeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeTradeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1008BB1890647B0031CF68 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CA1008C31890647B0031CF68 /* WeTradeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeTradeTests-Info.plist"; sourceTree = "<group>"; };
 		CA1008C51890647B0031CF68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CA1008C71890647B0031CF68 /* WeTradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeTradeTests.m; sourceTree = "<group>"; };
+		CACD593318919E7E006FD228 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		CACD593A1891C267006FD228 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		CACD593B1891C267006FD228 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		CACD593D1891C369006FD228 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		CACD593E1891C369006FD228 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,9 +119,12 @@
 			children = (
 				CA1008AB1890647B0031CF68 /* AppDelegate.h */,
 				CA1008AC1890647B0031CF68 /* AppDelegate.m */,
+				CACD593A1891C267006FD228 /* MainViewController.h */,
+				CACD593B1891C267006FD228 /* MainViewController.m */,
 				CA1008AE1890647B0031CF68 /* Main.storyboard */,
-				CA1008B11890647B0031CF68 /* ViewController.h */,
-				CA1008B21890647B0031CF68 /* ViewController.m */,
+				CACD593D1891C369006FD228 /* HomeViewController.h */,
+				CACD593E1891C369006FD228 /* HomeViewController.m */,
+				CACD593318919E7E006FD228 /* Home.storyboard */,
 				CA1008B41890647B0031CF68 /* Images.xcassets */,
 				CA1008A31890647B0031CF68 /* Supporting Files */,
 			);
@@ -231,6 +239,7 @@
 				CA1008B51890647B0031CF68 /* Images.xcassets in Resources */,
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
 				CA1008B01890647B0031CF68 /* Main.storyboard in Resources */,
+				CACD593418919E7E006FD228 /* Home.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,9 +258,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA1008B31890647B0031CF68 /* ViewController.m in Sources */,
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
+				CACD593C1891C267006FD228 /* MainViewController.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,
+				CACD593F1891C369006FD228 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +470,7 @@
 				CA1008CD1890647B0031CF68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CA1008CE1890647B0031CF68 /* Build configuration list for PBXNativeTarget "WeTradeTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +479,7 @@
 				CA1008D01890647B0031CF68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>65B3A077-9823-46DF-A78B-199B0FCE8643</string>
+	<key>IDESourceControlProjectName</key>
+	<string>WeTrade</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FC35C023-CFF8-452B-B897-A62E87C36ACE</key>
+		<string>https://github.com/jarwel/WeTrade.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>WeTrade.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FC35C023-CFF8-452B-B897-A62E87C36ACE</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jarwel/WeTrade.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FC35C023-CFF8-452B-B897-A62E87C36ACE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FC35C023-CFF8-452B-B897-A62E87C36ACE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>WeTrade</string>
+		</dict>
+	</array>
+</dict>
+</plist>
