@@ -13,9 +13,8 @@
 
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
 
-@property (nonatomic, strong) NSMutableArray *lots;
 @property (nonatomic, strong, readonly) NSString *symbol;
-@property (nonatomic, strong, readonly) NSNumber *shares;
-@property (nonatomic, strong, readonly) NSNumber *costBasis;
+@property (nonatomic, assign, readonly) int shares;
+@property (nonatomic, assign, readonly) float costBasis;
 
 @end

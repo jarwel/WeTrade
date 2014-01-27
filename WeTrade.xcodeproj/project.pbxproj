@@ -24,6 +24,8 @@
 		CA977C431896212F002AD88F /* PositionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C421896212F002AD88F /* PositionCell.m */; };
 		CA977C451896214E002AD88F /* PositionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA977C441896214E002AD88F /* PositionCell.xib */; };
 		CA977C4818962696002AD88F /* Position.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4718962696002AD88F /* Position.m */; };
+		CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4B1896429D002AD88F /* FinanceClient.m */; };
+		CA977C4F18964E8E002AD88F /* Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4E18964E8E002AD88F /* Quote.m */; };
 		CACD593418919E7E006FD228 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Home.storyboard */; };
 		CACD593C1891C267006FD228 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593B1891C267006FD228 /* MainViewController.m */; };
 		CACD593F1891C369006FD228 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* HomeViewController.m */; };
@@ -82,6 +84,10 @@
 		CA977C441896214E002AD88F /* PositionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PositionCell.xib; sourceTree = "<group>"; };
 		CA977C4618962696002AD88F /* Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Position.h; sourceTree = "<group>"; };
 		CA977C4718962696002AD88F /* Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Position.m; sourceTree = "<group>"; };
+		CA977C4A1896429D002AD88F /* FinanceClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinanceClient.h; sourceTree = "<group>"; };
+		CA977C4B1896429D002AD88F /* FinanceClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceClient.m; sourceTree = "<group>"; };
+		CA977C4D18964E8E002AD88F /* Quote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quote.h; sourceTree = "<group>"; };
+		CA977C4E18964E8E002AD88F /* Quote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quote.m; sourceTree = "<group>"; };
 		CACD593318919E7E006FD228 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CACD593A1891C267006FD228 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		CACD593B1891C267006FD228 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -191,11 +197,10 @@
 		CA1008A21890647B0031CF68 /* WeTrade */ = {
 			isa = PBXGroup;
 			children = (
+				CA977C4918964280002AD88F /* Clients */,
 				CACD59581891CA09006FD228 /* Models */,
 				CACD59651891D099006FD228 /* Views */,
 				CACD59571891C9A8006FD228 /* Controllers */,
-				CACD59541891C6C6006FD228 /* ParseClient.h */,
-				CACD59551891C6C6006FD228 /* ParseClient.m */,
 				CA1008AB1890647B0031CF68 /* AppDelegate.h */,
 				CA1008AC1890647B0031CF68 /* AppDelegate.m */,
 				CA1008B41890647B0031CF68 /* Images.xcassets */,
@@ -233,6 +238,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CA977C4918964280002AD88F /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				CACD59541891C6C6006FD228 /* ParseClient.h */,
+				CACD59551891C6C6006FD228 /* ParseClient.m */,
+				CA977C4A1896429D002AD88F /* FinanceClient.h */,
+				CA977C4B1896429D002AD88F /* FinanceClient.m */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
 		CACD59571891C9A8006FD228 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +277,8 @@
 				CACD597B1891EA35006FD228 /* Lot.m */,
 				CA977C4618962696002AD88F /* Position.h */,
 				CA977C4718962696002AD88F /* Position.m */,
+				CA977C4D18964E8E002AD88F /* Quote.h */,
+				CA977C4E18964E8E002AD88F /* Quote.m */,
 				CA977C3E1896118B002AD88F /* ParseObject.h */,
 				CA977C3F1896118B002AD88F /* ParseObject.m */,
 			);
@@ -384,6 +402,8 @@
 				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
 				CACD593C1891C267006FD228 /* MainViewController.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
+				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
+				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
 				CACD59641891CFDE006FD228 /* ManageLotsViewController.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,

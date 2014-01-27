@@ -9,13 +9,19 @@
 #import "Position.h"
 #import "Lot.h"
 
+@interface Position ()
+
+@property (nonatomic, strong) NSMutableArray *lots;
+
+@end
+
 @implementation Position
 
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
     NSMutableDictionary *positions = [NSMutableDictionary dictionary];
     for (PFObject *object in objects) {
         NSString *symbol = [object objectForKey:@"symbol"];
-        if([positions valueForKey:symbol] == nil) {
+        if ([positions valueForKey:symbol] == nil) {
             [positions setObject:[[Position alloc] init] forKey:symbol];
         }
         Position *position = [positions objectForKey:symbol];
@@ -34,6 +40,22 @@
 - (NSString *)symbol {
     Lot *lot = [_lots firstObject];
     return lot.symbol;
+}
+
+- (int)shares {
+    int shares = 0;
+    for (Lot *lot in _lots) {
+        shares += lot.shares;
+    }
+    return shares;
+}
+
+- (float)costBasis {
+    float costBasis = 0;
+    for (Lot *lot in _lots) {
+        costBasis += lot.costBasis;
+    }
+    return costBasis;
 }
 
 @end

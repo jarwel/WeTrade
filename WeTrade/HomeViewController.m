@@ -8,15 +8,16 @@
 
 #import "HomeViewController.h"
 #import "ParseClient.h"
+#import "FinanceClient.h"
 #import "PositionCell.h"
 #import "Position.h"
-
+#import "Quote.h"
 
 @interface HomeViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *positionsTableView;
 @property (nonatomic, strong) NSArray *positions;
-
+@property (nonatomic, strong) NSMutableDictionary *quotes;
 
 - (UIColor *)getChangeColor:(float)change;
 
@@ -44,22 +45,48 @@
     PositionCell *positionCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     Position *position = [self.positions objectAtIndex:indexPath.row];
+    Quote *quote = [_quotes valueForKey:position.symbol];
+    
     positionCell.symbolLabel.text = position.symbol;
+    positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     
-    positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", 100.00];
-    
-    float percentChange = -3.47;
-    positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
-    positionCell.percentChangeLabel.textColor = [self getChangeColor:percentChange];
-    
-    float percentChangeTotal = +10.15;
-    positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChangeTotal];
-    positionCell.percentChangeTotalLabel.textColor = [self getChangeColor:percentChangeTotal];
+    if (quote) {
+        positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
+        positionCell.percentChangeLabel.textColor = [self getChangeColor:quote.percentChange];
+        
+        float currentValue = position.shares * quote.price;
+        float percentChangeTotal = (currentValue - position.costBasis) / position.costBasis * 100;
+        positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChangeTotal];
+        positionCell.percentChangeTotalLabel.textColor = [self getChangeColor:percentChangeTotal];
+    }
     
     return positionCell;
 }
 
 - (void) reload {
+    [[FinanceClient instance] fetchQuoteForSymbols:@"F,BA,FB,YHOO,GM" callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            _quotes = [[NSMutableDictionary alloc] init];
+            
+            // Hack to deal with Google Finance API weirdness
+            NSString *content =[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
+            NSRange range1 = [content rangeOfString:@"["];
+            NSRange range2 = [content rangeOfString:@"]"];
+            NSRange range3;
+            range3.location = range1.location+1;
+            range3.length = (range2.location - range1.location)-1;
+            NSString *contentFixed = [NSString stringWithFormat:@"[%@]", [content substringWithRange:range3]];
+            NSData *jsonData = [contentFixed dataUsingEncoding:NSUTF8StringEncoding];
+            
+            NSArray *array = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+            for(NSDictionary *data in array) {
+                Quote *quote = [[Quote alloc] initWithData:data];
+                [_quotes setObject:quote forKey:quote.symbol];
+            }
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
     [[ParseClient instance] fetchLotsForUser:@"" callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromPFObjectArray:objects];

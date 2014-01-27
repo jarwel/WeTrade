@@ -1,4 +1,4 @@
-//
+//[
 //  Lot.m
 //  WeTrade
 //
@@ -22,16 +22,16 @@
     return [self.data objectForKey:@"symbol"];
 }
 
-- (NSNumber *)price {
-    return [self.data objectForKey:@"price"];
+- (float)price {
+    return [[self.data objectForKey:@"price"] floatValue];
 }
 
-- (NSNumber *)shares {
-    return [self.data objectForKey:@"shares"];
+- (int)shares {
+    return [[self.data objectForKey:@"shares"] intValue];
 }
 
-- (NSNumber *)costBasis {
-    return [self.data objectForKey:@"cost_basis"];
+- (float)costBasis {
+    return [[self.data objectForKey:@"cost_basis"] floatValue];
 }
 
 @end

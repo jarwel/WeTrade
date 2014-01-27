@@ -50,9 +50,9 @@
     
     Lot *lot = [self.lots objectAtIndex:indexPath.row];
     lotCell.symbolLabel.text = lot.symbol;
-    lotCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", lot.price.floatValue];
-    lotCell.sharesLabel.text = [NSString stringWithFormat:@"%d", lot.shares.intValue];
-    lotCell.costBasisLabel.text = [NSString stringWithFormat:@"%0.2f", lot.costBasis.floatValue];
+    lotCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", lot.price];
+    lotCell.sharesLabel.text = [NSString stringWithFormat:@"%d", lot.shares];
+    lotCell.costBasisLabel.text = [NSString stringWithFormat:@"%0.2f", lot.costBasis];
     
     return lotCell;
 }
