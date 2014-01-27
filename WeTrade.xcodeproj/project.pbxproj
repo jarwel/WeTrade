@@ -20,6 +20,10 @@
 		CA1008BE1890647B0031CF68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008A01890647B0031CF68 /* UIKit.framework */; };
 		CA1008C61890647B0031CF68 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA1008C41890647B0031CF68 /* InfoPlist.strings */; };
 		CA1008C81890647B0031CF68 /* WeTradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008C71890647B0031CF68 /* WeTradeTests.m */; };
+		CA977C401896118B002AD88F /* ParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C3F1896118B002AD88F /* ParseObject.m */; };
+		CA977C431896212F002AD88F /* PositionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C421896212F002AD88F /* PositionCell.m */; };
+		CA977C451896214E002AD88F /* PositionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA977C441896214E002AD88F /* PositionCell.xib */; };
+		CA977C4818962696002AD88F /* Position.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4718962696002AD88F /* Position.m */; };
 		CACD593418919E7E006FD228 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Home.storyboard */; };
 		CACD593C1891C267006FD228 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593B1891C267006FD228 /* MainViewController.m */; };
 		CACD593F1891C369006FD228 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* HomeViewController.m */; };
@@ -33,6 +37,14 @@
 		CACD59511891C5A9006FD228 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59481891C5A9006FD228 /* Security.framework */; };
 		CACD59521891C5A9006FD228 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59491891C5A9006FD228 /* StoreKit.framework */; };
 		CACD59531891C5A9006FD228 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD594A1891C5A9006FD228 /* SystemConfiguration.framework */; };
+		CACD59561891C6C6006FD228 /* ParseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59551891C6C6006FD228 /* ParseClient.m */; };
+		CACD595B1891CA26006FD228 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD595A1891CA26006FD228 /* User.m */; };
+		CACD59611891CDB3006FD228 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59601891CDB3006FD228 /* SettingsViewController.m */; };
+		CACD59641891CFDE006FD228 /* ManageLotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59631891CFDE006FD228 /* ManageLotsViewController.m */; };
+		CACD596D1891D246006FD228 /* LotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD596C1891D246006FD228 /* LotCell.m */; };
+		CACD59731891E67D006FD228 /* LotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACD59721891E67D006FD228 /* LotCell.xib */; };
+		CACD597C1891EA35006FD228 /* Lot.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597B1891EA35006FD228 /* Lot.m */; };
+		CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597E1891F779006FD228 /* AddLotViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +75,13 @@
 		CA1008C31890647B0031CF68 /* WeTradeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeTradeTests-Info.plist"; sourceTree = "<group>"; };
 		CA1008C51890647B0031CF68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CA1008C71890647B0031CF68 /* WeTradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeTradeTests.m; sourceTree = "<group>"; };
+		CA977C3E1896118B002AD88F /* ParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseObject.h; sourceTree = "<group>"; };
+		CA977C3F1896118B002AD88F /* ParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseObject.m; sourceTree = "<group>"; };
+		CA977C411896212F002AD88F /* PositionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionCell.h; sourceTree = "<group>"; };
+		CA977C421896212F002AD88F /* PositionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionCell.m; sourceTree = "<group>"; };
+		CA977C441896214E002AD88F /* PositionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PositionCell.xib; sourceTree = "<group>"; };
+		CA977C4618962696002AD88F /* Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Position.h; sourceTree = "<group>"; };
+		CA977C4718962696002AD88F /* Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Position.m; sourceTree = "<group>"; };
 		CACD593318919E7E006FD228 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CACD593A1891C267006FD228 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		CACD593B1891C267006FD228 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
@@ -78,6 +97,21 @@
 		CACD59481891C5A9006FD228 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CACD59491891C5A9006FD228 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CACD594A1891C5A9006FD228 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CACD59541891C6C6006FD228 /* ParseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseClient.h; sourceTree = "<group>"; };
+		CACD59551891C6C6006FD228 /* ParseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseClient.m; sourceTree = "<group>"; };
+		CACD59591891CA26006FD228 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		CACD595A1891CA26006FD228 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		CACD595F1891CDB3006FD228 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		CACD59601891CDB3006FD228 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		CACD59621891CFDE006FD228 /* ManageLotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageLotsViewController.h; sourceTree = "<group>"; };
+		CACD59631891CFDE006FD228 /* ManageLotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageLotsViewController.m; sourceTree = "<group>"; };
+		CACD596B1891D246006FD228 /* LotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotCell.h; sourceTree = "<group>"; };
+		CACD596C1891D246006FD228 /* LotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LotCell.m; sourceTree = "<group>"; };
+		CACD59721891E67D006FD228 /* LotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LotCell.xib; sourceTree = "<group>"; };
+		CACD597A1891EA35006FD228 /* Lot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lot.h; sourceTree = "<group>"; };
+		CACD597B1891EA35006FD228 /* Lot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lot.m; sourceTree = "<group>"; };
+		CACD597D1891F779006FD228 /* AddLotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLotViewController.h; sourceTree = "<group>"; };
+		CACD597E1891F779006FD228 /* AddLotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLotViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,14 +191,13 @@
 		CA1008A21890647B0031CF68 /* WeTrade */ = {
 			isa = PBXGroup;
 			children = (
+				CACD59581891CA09006FD228 /* Models */,
+				CACD59651891D099006FD228 /* Views */,
+				CACD59571891C9A8006FD228 /* Controllers */,
+				CACD59541891C6C6006FD228 /* ParseClient.h */,
+				CACD59551891C6C6006FD228 /* ParseClient.m */,
 				CA1008AB1890647B0031CF68 /* AppDelegate.h */,
 				CA1008AC1890647B0031CF68 /* AppDelegate.m */,
-				CACD593A1891C267006FD228 /* MainViewController.h */,
-				CACD593B1891C267006FD228 /* MainViewController.m */,
-				CA1008AE1890647B0031CF68 /* Main.storyboard */,
-				CACD593D1891C369006FD228 /* HomeViewController.h */,
-				CACD593E1891C369006FD228 /* HomeViewController.m */,
-				CACD593318919E7E006FD228 /* Home.storyboard */,
 				CA1008B41890647B0031CF68 /* Images.xcassets */,
 				CA1008A31890647B0031CF68 /* Supporting Files */,
 			);
@@ -198,6 +231,53 @@
 				CA1008C41890647B0031CF68 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CACD59571891C9A8006FD228 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CA1008AE1890647B0031CF68 /* Main.storyboard */,
+				CACD593318919E7E006FD228 /* Home.storyboard */,
+				CACD593A1891C267006FD228 /* MainViewController.h */,
+				CACD593B1891C267006FD228 /* MainViewController.m */,
+				CACD593D1891C369006FD228 /* HomeViewController.h */,
+				CACD593E1891C369006FD228 /* HomeViewController.m */,
+				CACD595F1891CDB3006FD228 /* SettingsViewController.h */,
+				CACD59601891CDB3006FD228 /* SettingsViewController.m */,
+				CACD59621891CFDE006FD228 /* ManageLotsViewController.h */,
+				CACD59631891CFDE006FD228 /* ManageLotsViewController.m */,
+				CACD597D1891F779006FD228 /* AddLotViewController.h */,
+				CACD597E1891F779006FD228 /* AddLotViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		CACD59581891CA09006FD228 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CACD59591891CA26006FD228 /* User.h */,
+				CACD595A1891CA26006FD228 /* User.m */,
+				CACD597A1891EA35006FD228 /* Lot.h */,
+				CACD597B1891EA35006FD228 /* Lot.m */,
+				CA977C4618962696002AD88F /* Position.h */,
+				CA977C4718962696002AD88F /* Position.m */,
+				CA977C3E1896118B002AD88F /* ParseObject.h */,
+				CA977C3F1896118B002AD88F /* ParseObject.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		CACD59651891D099006FD228 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CACD596B1891D246006FD228 /* LotCell.h */,
+				CACD596C1891D246006FD228 /* LotCell.m */,
+				CACD59721891E67D006FD228 /* LotCell.xib */,
+				CA977C411896212F002AD88F /* PositionCell.h */,
+				CA977C421896212F002AD88F /* PositionCell.m */,
+				CA977C441896214E002AD88F /* PositionCell.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,6 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA1008B51890647B0031CF68 /* Images.xcassets in Resources */,
+				CACD59731891E67D006FD228 /* LotCell.xib in Resources */,
+				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
 				CA1008B01890647B0031CF68 /* Main.storyboard in Resources */,
 				CACD593418919E7E006FD228 /* Home.storyboard in Resources */,
@@ -299,9 +381,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
+				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
 				CACD593C1891C267006FD228 /* MainViewController.m in Sources */,
+				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
+				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
+				CACD59641891CFDE006FD228 /* ManageLotsViewController.m in Sources */,
+				CA977C4818962696002AD88F /* Position.m in Sources */,
+				CACD595B1891CA26006FD228 /* User.m in Sources */,
+				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,
 				CACD593F1891C369006FD228 /* HomeViewController.m in Sources */,
+				CACD597C1891EA35006FD228 /* Lot.m in Sources */,
+				CACD59561891C6C6006FD228 /* ParseClient.m in Sources */,
+				CACD59611891CDB3006FD228 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

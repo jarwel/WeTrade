@@ -1,0 +1,37 @@
+//
+//  Lot.m
+//  WeTrade
+//
+//  Created by Jason Wells on 1/23/14.
+//  Copyright (c) 2014 Jason Wells. All rights reserved.
+//
+
+#import "Lot.h"
+
+@implementation Lot
+
++ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
+    NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
+    for (PFObject *object in objects) {
+        [lots addObject:[[Lot alloc] initWithObject:object]];
+    }
+    return lots;
+}
+
+- (NSString *)symbol {
+    return [self.data objectForKey:@"symbol"];
+}
+
+- (NSNumber *)price {
+    return [self.data objectForKey:@"price"];
+}
+
+- (NSNumber *)shares {
+    return [self.data objectForKey:@"shares"];
+}
+
+- (NSNumber *)costBasis {
+    return [self.data objectForKey:@"cost_basis"];
+}
+
+@end

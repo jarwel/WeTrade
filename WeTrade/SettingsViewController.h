@@ -1,5 +1,5 @@
 //
-//  HomeViewController.h
+//  SettingsViewController.h
 //  WeTrade
 //
 //  Created by Jason Wells on 1/23/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController  : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface SettingsViewController : UITableViewController
 
 @end
