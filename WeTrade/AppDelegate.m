@@ -55,7 +55,7 @@
 }
 
 - (UIViewController *)currentViewController {
-    if (YES) {
+    if ([PFUser currentUser]) {
         return self.homeNavigationController;
     }
     return self.mainNavigationController;

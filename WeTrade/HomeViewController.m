@@ -22,16 +22,15 @@
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSMutableDictionary *quotes;
 
-- (void)reloadPositions;
-- (void)reloadQuotes;
+- (void)initTable;
+- (void)initChart;
+- (void)loadPositions;
+- (void)loadQuotes;
 - (void)refreshViews;
 
 
-- (void)initPlot;
-- (void)configureHost;
 - (void)configureGraph;
 - (void)configureChart;
-- (void)configureLegend;
 
 @end
 
@@ -40,52 +39,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self initTable];
+    [self initChart];
+    
+    [self loadPositions];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
+}
+
+- (void)initTable {
     UINib *lotCell = [UINib nibWithNibName:@"PositionCell" bundle:nil];
     [self.positionsTableView registerNib:lotCell forCellReuseIdentifier:@"PositionCell"];
     self.positionsTableView.delegate = self;
     self.positionsTableView.dataSource = self;
-    
-    [self reloadPositions];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _positions.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"PositionCell";
-    PositionCell *positionCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    Position *position = [self.positions objectAtIndex:indexPath.row];
-    Quote *quote = [self.quotes valueForKey:position.symbol];
-    
-    positionCell.symbolLabel.text = position.symbol;
-    positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
-    
-    if (quote) {
-        positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
-        positionCell.percentChangeLabel.textColor = [self getChangeColor:quote.percentChange];
-        
-        float currentValue = [position valueForQuote:quote];
-        float percentChangeTotal = (currentValue - position.costBasis) / position.costBasis * 100;
-        positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChangeTotal];
-        positionCell.percentChangeTotalLabel.textColor = [self getChangeColor:percentChangeTotal];
-    }
-    
-    return positionCell;
-}
-
--(void)initPlot {
-    [self configureHost];
-    [self configureGraph];
-    [self configureChart];
-    [self configureLegend];
-}
-
--(void)configureHost {
+- (void)initChart {
     self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:_chartView.bounds];
     self.hostView.allowPinchScaling = NO;
     [self.chartView addSubview:self.hostView];
+    
+    [self configureGraph];
+    [self configureChart];
 }
 
 -(void)configureGraph {
@@ -129,19 +103,42 @@
     overlayGradient = [overlayGradient addColorStop:[[CPTColor blackColor] colorWithAlphaComponent:0.4] atPosition:1.0];
     pieChart.overlayFill = [CPTFill fillWithGradient:overlayGradient];
     
-    // 4 - Add chart to graph    
+    // 4 - Add chart to graph
     [graph addPlot:pieChart];
 }
 
--(void)configureLegend {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _positions.count;
 }
 
-#pragma mark - CPTPlotDataSource methods
--(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"PositionCell";
+    PositionCell *positionCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    Position *position = [self.positions objectAtIndex:indexPath.row];
+    Quote *quote = [self.quotes valueForKey:position.symbol];
+    
+    positionCell.symbolLabel.text = position.symbol;
+    positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
+    
+    if (quote) {
+        positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
+        positionCell.percentChangeLabel.textColor = [self getChangeColor:quote.percentChange];
+        
+        float currentValue = [position valueForQuote:quote];
+        float percentChangeTotal = (currentValue - position.costBasis) / position.costBasis * 100;
+        positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChangeTotal];
+        positionCell.percentChangeTotalLabel.textColor = [self getChangeColor:percentChangeTotal];
+    }
+    
+    return positionCell;
+}
+
+- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
     return self.positions.count;
 }
 
--(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
+- (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
     if (CPTPieChartFieldSliceWidth == fieldEnum) {
         Position *position = [self.positions objectAtIndex:index];
         Quote *quote = [self.quotes objectForKey:position.symbol];
@@ -150,7 +147,7 @@
     return [NSDecimalNumber zero];
 }
 
--(CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
+- (CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
 
     static CPTMutableTextStyle *style = nil;
     if (!style) {
@@ -159,7 +156,7 @@
     }
     
     float portfolioValue = 0;
-    for(Position *position in self.positions) {
+    for (Position *position in self.positions) {
         portfolioValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
     }
     
@@ -170,19 +167,14 @@
     return [[CPTTextLayer alloc] initWithText:text style:style];
 }
 
--(NSString *)legendTitleForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)index {
-    return @"";
-}
-
 #pragma mark - UIActionSheetDelegate methods
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
-
 
 - (void)refreshViews {
     float currentValue = 0;
     float costBasis = 0;
-    for(Position *position in self.positions) {
+    for (Position *position in self.positions) {
         Quote *quote = [self.quotes objectForKey:position.symbol];
         currentValue += [position valueForQuote:quote];
         costBasis += position.costBasis;
@@ -192,14 +184,13 @@
     self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
     
     [self.positionsTableView reloadData];
-    [self initPlot];
+    [self.hostView.hostedGraph reloadData];
 }
 
-- (void)reloadPositions {
+- (void)loadPositions {
     [[ParseClient instance] fetchLotsForUser:@"" callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromPFObjectArray:objects];
-            [self reloadQuotes];
             [self refreshViews];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -207,9 +198,9 @@
     }];
 }
 
-- (void)reloadQuotes {
+- (void)loadQuotes {
     NSMutableArray * symbols = [[NSMutableArray alloc] init];
-    for(Position *position in self.positions) {
+    for (Position *position in self.positions) {
         [symbols addObject:position.symbol];
     }
     if (symbols.count > 0) {
@@ -218,7 +209,7 @@
                 _quotes = [[NSMutableDictionary alloc] init];
                 data = [self fixGoogleApiData:data];
                 NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                for(NSDictionary *data in array) {
+                for( NSDictionary *data in array) {
                     Quote *quote = [[Quote alloc] initWithData:data];
                     [_quotes setObject:quote forKey:quote.symbol];
                 }
