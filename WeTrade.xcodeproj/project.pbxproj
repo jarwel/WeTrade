@@ -46,7 +46,7 @@
 		CACD59561891C6C6006FD228 /* ParseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59551891C6C6006FD228 /* ParseClient.m */; };
 		CACD595B1891CA26006FD228 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD595A1891CA26006FD228 /* User.m */; };
 		CACD59611891CDB3006FD228 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59601891CDB3006FD228 /* SettingsViewController.m */; };
-		CACD59641891CFDE006FD228 /* ManageLotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59631891CFDE006FD228 /* ManageLotsViewController.m */; };
+		CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59631891CFDE006FD228 /* EditLotsViewController.m */; };
 		CACD596D1891D246006FD228 /* LotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD596C1891D246006FD228 /* LotCell.m */; };
 		CACD59731891E67D006FD228 /* LotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACD59721891E67D006FD228 /* LotCell.xib */; };
 		CACD597C1891EA35006FD228 /* Lot.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597B1891EA35006FD228 /* Lot.m */; };
@@ -197,8 +197,8 @@
 		CACD595A1891CA26006FD228 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CACD595F1891CDB3006FD228 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		CACD59601891CDB3006FD228 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		CACD59621891CFDE006FD228 /* ManageLotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageLotsViewController.h; sourceTree = "<group>"; };
-		CACD59631891CFDE006FD228 /* ManageLotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageLotsViewController.m; sourceTree = "<group>"; };
+		CACD59621891CFDE006FD228 /* EditLotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLotsViewController.h; sourceTree = "<group>"; };
+		CACD59631891CFDE006FD228 /* EditLotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLotsViewController.m; sourceTree = "<group>"; };
 		CACD596B1891D246006FD228 /* LotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotCell.h; sourceTree = "<group>"; };
 		CACD596C1891D246006FD228 /* LotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LotCell.m; sourceTree = "<group>"; };
 		CACD59721891E67D006FD228 /* LotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LotCell.xib; sourceTree = "<group>"; };
@@ -440,8 +440,8 @@
 				CACD593E1891C369006FD228 /* HomeViewController.m */,
 				CACD595F1891CDB3006FD228 /* SettingsViewController.h */,
 				CACD59601891CDB3006FD228 /* SettingsViewController.m */,
-				CACD59621891CFDE006FD228 /* ManageLotsViewController.h */,
-				CACD59631891CFDE006FD228 /* ManageLotsViewController.m */,
+				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
+				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
 				CACD597D1891F779006FD228 /* AddLotViewController.h */,
 				CACD597E1891F779006FD228 /* AddLotViewController.m */,
 				CA60662618982BFE00A55D3F /* SignInViewController.h */,
@@ -589,7 +589,7 @@
 				CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */,
 				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
-				CACD59641891CFDE006FD228 /* ManageLotsViewController.m in Sources */,
+				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
 				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
 				CACD595B1891CA26006FD228 /* User.m in Sources */,

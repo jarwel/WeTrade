@@ -1,39 +1,41 @@
 //
-//  ManageLotsViewController.m
+//  EditLotsViewController.m
 //  WeTrade
 //
 //  Created by Jason Wells on 1/23/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "ManageLotsViewController.h"
+#import "EditLotsViewController.h"
 #import "ParseClient.h"
 #import "LotCell.h"
 #import "Lot.h"
 
-@interface ManageLotsViewController ()
+@interface EditLotsViewController ()
 
 @property (nonatomic, strong) NSArray *lots;
 
 @end
 
-@implementation ManageLotsViewController
-
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@implementation EditLotsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     UINib *lotCell = [UINib nibWithNibName:@"LotCell" bundle:nil];
     [self.tableView registerNib:lotCell forCellReuseIdentifier:@"LotCell"];
-    
-    [self reload];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _lots = [Lot fromPFObjectArray:objects];
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -55,17 +57,6 @@
     lotCell.costBasisLabel.text = [NSString stringWithFormat:@"%0.2f", lot.costBasis];
     
     return lotCell;
-}
-
-- (void) reload {
-    [[ParseClient instance] fetchLotsForUser:@"" callback:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            _lots = [Lot fromPFObjectArray:objects];
-            [self.tableView reloadData];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
 }
 
 - (void)didReceiveMemoryWarning {

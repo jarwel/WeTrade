@@ -12,7 +12,8 @@
 @interface ParseClient : NSObject
 
 + (ParseClient *)instance;
-- (void)fetchLotsForUser:(NSString *)user callback:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchLots:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)createLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis;
 
 @end

@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *symbolTextField;
 @property (weak, nonatomic) IBOutlet UITextField *sharesTextField;
 @property (weak, nonatomic) IBOutlet UITextField *priceTextField;
+
 - (IBAction)onSubmitButton:(id)sender;
 - (IBAction)onCancelButton:(id)sender;
 - (IBAction)onTap:(id)sender;
@@ -40,7 +41,7 @@
 }
 
 - (IBAction)onSubmitButton:(id)sender {
-    NSString *symbol = _symbolTextField.text;
+    NSString *symbol = [_symbolTextField.text uppercaseString];
     float price = [_priceTextField.text floatValue];
     int shares = [_sharesTextField.text intValue];
     float costBasis = price * shares;

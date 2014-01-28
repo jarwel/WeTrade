@@ -19,20 +19,28 @@
     return instance;
 }
 
-- (void)fetchLotsForUser:(NSString *)user callback:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)fetchLots:(void (^)(NSArray *objects, NSError *error))callback {
+    NSString *userId = [PFUser currentUser].objectId;
+    [self fetchLotsForUserId:userId callback:callback];
+}
+
+- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback {
     PFQuery *query = [PFQuery queryWithClassName:@"lot"];
-    //[query whereKey:@"symbol" equalTo:@"F"];
+    [query whereKey:@"userId" equalTo:userId];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
 - (void)createLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis {
     NSLog(@"createLotWithSymbol: %@ price: %f.00 shares: %d costBasis: %f.00", symbol, price, shares, costBasis);
     
+    NSString *userId = [PFUser currentUser].objectId;
+    
     PFObject *lotObject = [PFObject objectWithClassName:@"lot"];
+    lotObject[@"userId"] = userId;
     lotObject[@"symbol"] = symbol;
     lotObject[@"price"] = [@(price) stringValue];
     lotObject[@"shares"] = [@(shares) stringValue];
-    lotObject[@"cost_basis"] = [@(costBasis) stringValue];
+    lotObject[@"costBasis"] = [@(costBasis) stringValue];
     [lotObject saveInBackground];
 }
 

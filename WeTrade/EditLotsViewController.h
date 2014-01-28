@@ -1,5 +1,5 @@
 //
-//  ManageLotsViewController.h
+//  EditLotsViewController.h
 //  WeTrade
 //
 //  Created by Jason Wells on 1/23/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ManageLotsViewController : UITableViewController
+@interface EditLotsViewController : UITableViewController
 
 @end

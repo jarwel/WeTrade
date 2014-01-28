@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
 @property (weak, nonatomic) IBOutlet UIView *chartView;
 @property (weak, nonatomic) IBOutlet UITableView *positionsTableView;
+
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
@@ -42,12 +43,10 @@
     
     [self initTable];
     [self initChart];
-    
-    [self loadQuotes];
-    [self loadPositions];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self loadPositions];
     _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
 }
 
@@ -87,13 +86,7 @@
     CPTMutableTextStyle *textStyle = [CPTMutableTextStyle textStyle];
     textStyle.color = [CPTColor grayColor];
     textStyle.fontName = @"Helvetica-Bold";
-    textStyle.fontSize = 16.0f;
-    
-    // 3 - Configure title
-    graph.title = @"";
-    graph.titleTextStyle = textStyle;
-    graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
-    graph.titleDisplacement = CGPointMake(0.0f, -12.0f);
+    textStyle.fontSize = 14.0f;
 }
 
 -(void)configureChart {
@@ -165,6 +158,7 @@
     if (!style) {
         style= [[CPTMutableTextStyle alloc] init];
         style.color = [CPTColor grayColor];
+        style.fontSize = 10.0f;
     }
     
     float portfolioValue = 0;
@@ -205,7 +199,7 @@
 }
 
 - (void)loadPositions {
-    [[ParseClient instance] fetchLotsForUser:@"" callback:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromPFObjectArray:objects];
             [self refreshViews];

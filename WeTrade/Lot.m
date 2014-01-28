@@ -31,7 +31,7 @@
 }
 
 - (float)costBasis {
-    return [[self.data objectForKey:@"cost_basis"] floatValue];
+    return [[self.data objectForKey:@"costBasis"] floatValue];
 }
 
 @end
