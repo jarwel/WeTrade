@@ -11,12 +11,12 @@
 
 @interface Lot : ParseObject
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
-
 @property (nonatomic, strong, readonly) NSDate *purchased;
 @property (nonatomic, strong, readonly) NSString *symbol;
 @property (nonatomic, assign, readonly) int shares;
 @property (nonatomic, assign, readonly) float price;
 @property (nonatomic, assign, readonly) float costBasis;
+
++ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
 
 @end

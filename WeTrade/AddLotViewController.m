@@ -45,7 +45,7 @@
     int shares = [_sharesTextField.text intValue];
     float costBasis = price * shares;
     
-    [[ParseClient instance] createLotWithSymbol:symbol withPrice:price withShares:shares withCostBasis:costBasis];
+    [[ParseClient instance] createLotWithSymbol:symbol price:price shares:shares costBasis:costBasis];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

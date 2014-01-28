@@ -1,5 +1,5 @@
 //
-//  ManageTradesViewController.m
+//  ManageLotsViewController.m
 //  WeTrade
 //
 //  Created by Jason Wells on 1/23/14.

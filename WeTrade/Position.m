@@ -11,11 +11,54 @@
 
 @interface Position ()
 
+@property (nonatomic, strong) NSString *symbol;
+@property (nonatomic, assign) int shares;
+@property (nonatomic, assign) float costBasis;
 @property (nonatomic, strong) NSMutableArray *lots;
 
 @end
 
 @implementation Position
+
+- (id)init {
+    if (self = [super init]) {
+        _lots = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (NSString *)symbol {
+    if (! _symbol) {
+        Lot *lot = [_lots firstObject];
+        _symbol = lot.symbol;
+    }
+    return _symbol;
+}
+
+- (int)shares {
+    if (_shares == 0) {
+        for (Lot *lot in _lots) {
+            _shares += lot.shares;
+        }
+    }
+    return _shares;
+}
+
+- (float)costBasis {
+    if (_costBasis == 0) {
+        for (Lot *lot in _lots) {
+            _costBasis += lot.costBasis;
+        }
+    }
+    return _costBasis;
+}
+
+- (float)valueForQuote:(Quote *)quote {
+    if (quote) {
+        return self.shares * quote.price;
+    }
+    return 0;
+}
 
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
     NSMutableDictionary *positions = [NSMutableDictionary dictionary];
@@ -28,41 +71,6 @@
         [position.lots addObject:[[Lot alloc] initWithObject:object]];
     }
     return [[NSMutableArray alloc] initWithArray:[positions allValues]];
-}
-
-- (id)init {
-    if (self = [super init]) {
-        _lots = [[NSMutableArray alloc] init];
-    }
-    return self;
-}
-
-- (NSString *)symbol {
-    Lot *lot = [_lots firstObject];
-    return lot.symbol;
-}
-
-- (int)shares {
-    int shares = 0;
-    for (Lot *lot in _lots) {
-        shares += lot.shares;
-    }
-    return shares;
-}
-
-- (float)costBasis {
-    float costBasis = 0;
-    for (Lot *lot in _lots) {
-        costBasis += lot.costBasis;
-    }
-    return costBasis;
-}
-
-- (float)valueForQuote:(Quote *)quote {
-    if (quote) {
-        return self.shares * quote.price;
-    }
-    return 0;
 }
 
 @end

@@ -11,6 +11,6 @@
 @interface FinanceClient : NSObject
 
 + (FinanceClient *)instance;
-- (void)fetchQuoteForSymbols:(NSString* )symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
+- (void)fetchQuotesForSymbols:(NSString* )symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
 
 @end

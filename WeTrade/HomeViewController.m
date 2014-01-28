@@ -20,7 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *positionsTableView;
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
 @property (nonatomic, strong) NSArray *positions;
-@property (nonatomic, strong) NSMutableDictionary *quotes;
+@property (nonatomic, strong) NSDictionary *quotes;
+@property (nonatomic, strong) NSTimer *quoteTimer;
 
 - (void)initTable;
 - (void)initChart;
@@ -42,8 +43,19 @@
     [self initTable];
     [self initChart];
     
+    [self loadQuotes];
     [self loadPositions];
-    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    if(self.quoteTimer) {
+        [self.quoteTimer invalidate];
+        _quoteTimer = nil;
+    }
 }
 
 - (void)initTable {
@@ -172,19 +184,24 @@
 }
 
 - (void)refreshViews {
-    float currentValue = 0;
-    float costBasis = 0;
-    for (Position *position in self.positions) {
-        Quote *quote = [self.quotes objectForKey:position.symbol];
-        currentValue += [position valueForQuote:quote];
-        costBasis += position.costBasis;
+    if (((Quote *)[[self.quotes allValues] firstObject]).price == 0) {
+        NSLog(@"Error: zero value quotes!!!");
     }
-    float percentChange = costBasis > 0 ? (currentValue - costBasis) / costBasis * 100 : 0;
-    self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
-    self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
+    else {
+        float currentValue = 0;
+        float costBasis = 0;
+        for (Position *position in self.positions) {
+            Quote *quote = [self.quotes objectForKey:position.symbol];
+            currentValue += [position valueForQuote:quote];
+            costBasis += position.costBasis;
+        }
+        float percentChange = costBasis > 0 ? (currentValue - costBasis) / costBasis * 100 : 0;
+        self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
+        self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
     
-    [self.positionsTableView reloadData];
-    [self.hostView.hostedGraph reloadData];
+        [self.positionsTableView reloadData];
+        [self.hostView.hostedGraph reloadData];
+    }
 }
 
 - (void)loadPositions {
@@ -204,15 +221,22 @@
         [symbols addObject:position.symbol];
     }
     if (symbols.count > 0) {
-        [[FinanceClient instance] fetchQuoteForSymbols:[symbols componentsJoinedByString:@","] callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [[FinanceClient instance] fetchQuotesForSymbols:[symbols componentsJoinedByString:@","] callback:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
-                _quotes = [[NSMutableDictionary alloc] init];
+                NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
                 data = [self fixGoogleApiData:data];
                 NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 for( NSDictionary *data in array) {
                     Quote *quote = [[Quote alloc] initWithData:data];
-                    [_quotes setObject:quote forKey:quote.symbol];
+                    
+                    if (quote.price == 0) {
+                        NSLog(@"Error: price for %@ is empty", quote.symbol);
+                        return;
+                    }
+                    
+                    [quotes setObject:quote forKey:quote.symbol];
                 }
+                _quotes = quotes;
                 [self refreshViews];
             } else {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);

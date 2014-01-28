@@ -7,17 +7,14 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+#import "SignInViewController.h"
+#import "SignUpViewController.h"
 #import "HomeViewController.h"
-#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) UINavigationController *mainNavigationController;
+@property (nonatomic, strong) SignInViewController *signInViewController;
 @property (nonatomic, strong) UINavigationController *homeNavigationController;
-@property (nonatomic, strong) UIViewController *currentViewController;
-
-//- (void)updateRootViewController;
 
 @end
 
@@ -27,8 +24,7 @@
     [Parse setApplicationId:@"UNHnBc0u6JDIJWWoD3BhcyWoRHv8vwLxq8RMtaee" clientKey:@"bHDHQsHitqfTVJzuEUC22roOU6At1XfUoc1XAxAd"];
     //[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    self.window.rootViewController = self.currentViewController;
-    
+    [self updateCurrentViewController];
     return YES;
 }
 							
@@ -54,29 +50,89 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
+    
+    if (username && password && username.length != 0 && password.length != 0) {
+        return YES;
+    }
+    
+    [[[UIAlertView alloc] initWithTitle:@"Missing Information"
+                                message:@"Make sure you fill out all of the information!"
+                               delegate:nil
+                      cancelButtonTitle:@"ok"
+                      otherButtonTitles:nil] show];
+    return NO;
+}
+
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
+    BOOL informationComplete = YES;
+    
+    for (id key in info) {
+        NSString *field = [info objectForKey:key];
+        if (!field || field.length == 0) {
+            informationComplete = NO;
+            break;
+        }
+    }
+    
+    if (!informationComplete) {
+        [[[UIAlertView alloc] initWithTitle:@"Missing Information"
+                                    message:@"Make sure you fill out all of the information!"
+                                   delegate:nil
+                          cancelButtonTitle:@"ok"
+                          otherButtonTitles:nil] show];
+    }
+    
+    return informationComplete;
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    [self updateCurrentViewController];
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    [self updateCurrentViewController];
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
+    NSLog(@"Failed to log in...");
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
+    NSLog(@"Failed to sign up...");
+}
+
+- (void)updateCurrentViewController {
+    self.window.rootViewController = self.currentViewController;
+}
+
 - (UIViewController *)currentViewController {
-    if ([PFUser currentUser]) {
-        return self.homeNavigationController;
+    if (![PFUser currentUser]) {
+        return self.signInViewController;
     }
-    return self.mainNavigationController;
+    return self.homeNavigationController;
 }
 
-- (UINavigationController *)mainNavigationController {
-    if (! _mainNavigationController) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MainViewController *mainViewController = [storyboard instantiateViewControllerWithIdentifier:@"Main"];
-        _mainNavigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+- (UIViewController *)signInViewController {
+    if (!_signInViewController) {
+        SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
+        [signUpViewController setDelegate:self];
+        
+        _signInViewController = [[SignInViewController alloc] init];
+        [_signInViewController setDelegate:self];
+        [_signInViewController setSignUpController:signUpViewController];
     }
-    return _mainNavigationController;
+    return _signInViewController;
 }
 
-- (UINavigationController *)homeNavigationController {
-    if (! _homeNavigationController) {
+- (UIViewController *)homeNavigationController {
+    if (!_homeNavigationController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Home" bundle:nil];
         HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
         _homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
     }
     return _homeNavigationController;
 }
+
 
 @end

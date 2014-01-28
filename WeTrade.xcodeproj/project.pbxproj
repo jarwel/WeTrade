@@ -13,13 +13,14 @@
 		CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA1008A51890647B0031CF68 /* InfoPlist.strings */; };
 		CA1008A91890647B0031CF68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008A81890647B0031CF68 /* main.m */; };
 		CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008AC1890647B0031CF68 /* AppDelegate.m */; };
-		CA1008B01890647B0031CF68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA1008AE1890647B0031CF68 /* Main.storyboard */; };
 		CA1008B51890647B0031CF68 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA1008B41890647B0031CF68 /* Images.xcassets */; };
 		CA1008BC1890647B0031CF68 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008BB1890647B0031CF68 /* XCTest.framework */; };
 		CA1008BD1890647B0031CF68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA10089C1890647B0031CF68 /* Foundation.framework */; };
 		CA1008BE1890647B0031CF68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008A01890647B0031CF68 /* UIKit.framework */; };
 		CA1008C61890647B0031CF68 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA1008C41890647B0031CF68 /* InfoPlist.strings */; };
 		CA1008C81890647B0031CF68 /* WeTradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008C71890647B0031CF68 /* WeTradeTests.m */; };
+		CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662718982BFE00A55D3F /* SignInViewController.m */; };
+		CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662A18982CC600A55D3F /* SignUpViewController.m */; };
 		CA977C401896118B002AD88F /* ParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C3F1896118B002AD88F /* ParseObject.m */; };
 		CA977C431896212F002AD88F /* PositionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C421896212F002AD88F /* PositionCell.m */; };
 		CA977C451896214E002AD88F /* PositionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA977C441896214E002AD88F /* PositionCell.xib */; };
@@ -31,7 +32,6 @@
 		CAB14EFF1897307300B2C9BE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFD18972DAB00B2C9BE /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CAB14F03189730B400B2C9BE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14F02189730B400B2C9BE /* FacebookSDK.framework */; };
 		CACD593418919E7E006FD228 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Home.storyboard */; };
-		CACD593C1891C267006FD228 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593B1891C267006FD228 /* MainViewController.m */; };
 		CACD593F1891C369006FD228 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* HomeViewController.m */; };
 		CACD59411891C4DC006FD228 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59401891C4DC006FD228 /* Parse.framework */; };
 		CACD594B1891C5A9006FD228 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59421891C5A9006FD228 /* AudioToolbox.framework */; };
@@ -74,13 +74,16 @@
 		CA1008AA1890647B0031CF68 /* WeTrade-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WeTrade-Prefix.pch"; sourceTree = "<group>"; };
 		CA1008AB1890647B0031CF68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CA1008AC1890647B0031CF68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CA1008AF1890647B0031CF68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA1008B41890647B0031CF68 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CA1008BA1890647B0031CF68 /* WeTradeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeTradeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1008BB1890647B0031CF68 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CA1008C31890647B0031CF68 /* WeTradeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeTradeTests-Info.plist"; sourceTree = "<group>"; };
 		CA1008C51890647B0031CF68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CA1008C71890647B0031CF68 /* WeTradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeTradeTests.m; sourceTree = "<group>"; };
+		CA60662618982BFE00A55D3F /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		CA60662718982BFE00A55D3F /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		CA60662918982CC600A55D3F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		CA60662A18982CC600A55D3F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		CA977C3E1896118B002AD88F /* ParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseObject.h; sourceTree = "<group>"; };
 		CA977C3F1896118B002AD88F /* ParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseObject.m; sourceTree = "<group>"; };
 		CA977C411896212F002AD88F /* PositionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionCell.h; sourceTree = "<group>"; };
@@ -176,8 +179,6 @@
 		CAB14F001897307A00B2C9BE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CAB14F02189730B400B2C9BE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		CACD593318919E7E006FD228 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
-		CACD593A1891C267006FD228 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		CACD593B1891C267006FD228 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		CACD593D1891C369006FD228 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		CACD593E1891C369006FD228 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		CACD59401891C4DC006FD228 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -249,11 +250,11 @@
 			isa = PBXGroup;
 			children = (
 				CAB14EFB1897280A00B2C9BE /* libCorePlot-CocoaTouch.a */,
-				CAB14EAC189727EE00B2C9BE /* CorePlotHeaders */,
 				CA1008A21890647B0031CF68 /* WeTrade */,
 				CA1008C11890647B0031CF68 /* WeTradeTests */,
 				CA10089B1890647B0031CF68 /* Frameworks */,
 				CA10089A1890647B0031CF68 /* Products */,
+				CAB14EAC189727EE00B2C9BE /* CorePlotHeaders */,
 			);
 			sourceTree = "<group>";
 		};
@@ -434,10 +435,7 @@
 		CACD59571891C9A8006FD228 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				CA1008AE1890647B0031CF68 /* Main.storyboard */,
 				CACD593318919E7E006FD228 /* Home.storyboard */,
-				CACD593A1891C267006FD228 /* MainViewController.h */,
-				CACD593B1891C267006FD228 /* MainViewController.m */,
 				CACD593D1891C369006FD228 /* HomeViewController.h */,
 				CACD593E1891C369006FD228 /* HomeViewController.m */,
 				CACD595F1891CDB3006FD228 /* SettingsViewController.h */,
@@ -446,6 +444,10 @@
 				CACD59631891CFDE006FD228 /* ManageLotsViewController.m */,
 				CACD597D1891F779006FD228 /* AddLotViewController.h */,
 				CACD597E1891F779006FD228 /* AddLotViewController.m */,
+				CA60662618982BFE00A55D3F /* SignInViewController.h */,
+				CA60662718982BFE00A55D3F /* SignInViewController.m */,
+				CA60662918982CC600A55D3F /* SignUpViewController.h */,
+				CA60662A18982CC600A55D3F /* SignUpViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -561,7 +563,6 @@
 				CACD59731891E67D006FD228 /* LotCell.xib in Resources */,
 				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
-				CA1008B01890647B0031CF68 /* Main.storyboard in Resources */,
 				CACD593418919E7E006FD228 /* Home.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -583,13 +584,14 @@
 			files = (
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
 				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
-				CACD593C1891C267006FD228 /* MainViewController.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
+				CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */,
 				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
 				CACD59641891CFDE006FD228 /* ManageLotsViewController.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
+				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
 				CACD595B1891CA26006FD228 /* User.m in Sources */,
 				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,
@@ -625,14 +627,6 @@
 				CA1008A61890647B0031CF68 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		CA1008AE1890647B0031CF68 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CA1008AF1890647B0031CF68 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		CA1008C41890647B0031CF68 /* InfoPlist.strings */ = {

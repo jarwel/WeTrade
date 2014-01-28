@@ -20,7 +20,9 @@
 }
 
 
-- (void)fetchQuoteForSymbols:(NSString* )symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+- (void)fetchQuotesForSymbols:(NSString* )symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    NSLog(@"fetchQuotesForSymbols: %@", symbols);
+    
     NSString *url = [NSString stringWithFormat:@"http://www.google.com/finance/info?q=%@", symbols];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];

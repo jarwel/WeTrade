@@ -13,6 +13,6 @@
 
 + (ParseClient *)instance;
 - (void)fetchLotsForUser:(NSString *)user callback:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)createLotWithSymbol:(NSString *)symbol withPrice:(float)price withShares:(int)shares withCostBasis:(float) costBasis;
+- (void)createLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "ParseClient.h"
-#import <Parse/Parse.h>
 
 @implementation ParseClient
 
@@ -26,8 +25,8 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)createLotWithSymbol:(NSString *)symbol withPrice:(float) price withShares:(int)shares withCostBasis:(float)costBasis {
-    NSLog([NSString stringWithFormat:@"createLot with symbol: %@ price: %f.00 shares: %d costBasis: %f.00", symbol, price, shares, costBasis]);
+- (void)createLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis {
+    NSLog(@"createLotWithSymbol: %@ price: %f.00 shares: %d costBasis: %f.00", symbol, price, shares, costBasis);
     
     PFObject *lotObject = [PFObject objectWithClassName:@"lot"];
     lotObject[@"symbol"] = symbol;
