@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CorePlot-CocoaTouch.h"
 
-@interface HomeViewController  : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface HomeViewController  : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource, UIActionSheetDelegate>
 
 @end

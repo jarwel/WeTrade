@@ -58,4 +58,11 @@
     return costBasis;
 }
 
+- (float)valueForQuote:(Quote *)quote {
+    if (quote) {
+        return self.shares * quote.price;
+    }
+    return 0;
+}
+
 @end

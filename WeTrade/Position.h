@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+#import "Quote.h"
 
 @interface Position : NSObject
 
@@ -16,5 +17,6 @@
 @property (nonatomic, strong, readonly) NSString *symbol;
 @property (nonatomic, assign, readonly) int shares;
 @property (nonatomic, assign, readonly) float costBasis;
+- (float)valueForQuote:(Quote *)quote;
 
 @end
