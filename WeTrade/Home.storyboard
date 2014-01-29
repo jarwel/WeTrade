@@ -22,7 +22,7 @@
         <!--Home View Controller - Home-->
         <scene sceneID="eru-ud-5Yp">
             <objects>
-                <viewController storyboardIdentifier="Home" id="i5f-bq-GVV" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Home" automaticallyAdjustsScrollViewInsets="NO" id="i5f-bq-GVV" customClass="HomeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1Wn-h3-b8X"/>
                         <viewControllerLayoutGuide type="bottom" id="s1o-sp-nJc"/>

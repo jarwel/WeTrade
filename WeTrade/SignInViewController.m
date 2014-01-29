@@ -25,6 +25,11 @@
     [self.logInView.passwordField setBorderStyle:UITextBorderStyleBezel];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.logInView.usernameField.text = nil;
+    self.logInView.passwordField.text = nil;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

@@ -11,7 +11,6 @@
 
 @interface Lot : ParseObject
 
-@property (nonatomic, strong, readonly) NSDate *purchased;
 @property (nonatomic, strong, readonly) NSString *symbol;
 @property (nonatomic, assign, readonly) int shares;
 @property (nonatomic, assign, readonly) float price;

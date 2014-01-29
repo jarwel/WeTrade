@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Constants.h"
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
 #import "HomeViewController.h"
@@ -25,6 +26,9 @@
     //[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     [self updateCurrentViewController];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentViewController) name:UserDidLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentViewController) name:UserDidLogoutNotification object:nil];
     return YES;
 }
 							
@@ -87,11 +91,11 @@
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    [self updateCurrentViewController];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLoginNotification object:nil];
 }
 
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-    [self updateCurrentViewController];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLoginNotification object:nil];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {

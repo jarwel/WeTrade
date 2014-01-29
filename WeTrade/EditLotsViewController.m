@@ -24,7 +24,6 @@
     
     UINib *lotCell = [UINib nibWithNibName:@"LotCell" bundle:nil];
     [self.tableView registerNib:lotCell forCellReuseIdentifier:@"LotCell"];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {

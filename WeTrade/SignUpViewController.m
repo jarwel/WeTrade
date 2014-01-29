@@ -26,6 +26,12 @@
     [self.signUpView.emailField setBorderStyle:UITextBorderStyleBezel];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.signUpView.usernameField.text = nil;
+    self.signUpView.passwordField.text = nil;
+    self.signUpView.emailField.text = nil;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

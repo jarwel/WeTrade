@@ -7,7 +7,7 @@
 //
 
 #import "SettingsViewController.h"
-#import "AppDelegate.h"
+#import "Constants.h"
 
 @implementation SettingsViewController
 
@@ -38,9 +38,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        NSLog(@"Signing out");
         [PFUser logOut];
-        [[[UIApplication sharedApplication] delegate] performSelector:@selector(updateCurrentViewController)];
+        [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
     }
 }
 
