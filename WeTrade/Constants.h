@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const UserDidLoginNotification;
-extern NSString *const UserDidLogoutNotification;
+extern NSString *const LoginNotification;
+extern NSString *const LogoutNotification;
 

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "IIViewDeckController.h"
 #import "Constants.h"
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
@@ -15,7 +16,7 @@
 @interface AppDelegate ()
 
 @property (nonatomic, strong) SignInViewController *signInViewController;
-@property (nonatomic, strong) UINavigationController *homeNavigationController;
+@property (nonatomic, strong) IIViewDeckController *homeNavigationController;
 
 @end
 
@@ -25,33 +26,11 @@
     [Parse setApplicationId:@"UNHnBc0u6JDIJWWoD3BhcyWoRHv8vwLxq8RMtaee" clientKey:@"bHDHQsHitqfTVJzuEUC22roOU6At1XfUoc1XAxAd"];
     //[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    [self updateCurrentViewController];
+    self.window.rootViewController = self.currentViewController;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentViewController) name:UserDidLoginNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentViewController) name:UserDidLogoutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signIn) name:LoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signOut) name:LogoutNotification object:nil];
     return YES;
-}
-							
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 - (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
@@ -91,11 +70,11 @@
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoginNotification object:nil];
 }
 
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-    [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLoginNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LoginNotification object:nil];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
@@ -106,7 +85,12 @@
     NSLog(@"Failed to sign up...");
 }
 
-- (void)updateCurrentViewController {
+- (void)signIn {
+    self.window.rootViewController = self.currentViewController;
+}
+
+- (void)signOut {
+    [PFUser logOut];
     self.window.rootViewController = self.currentViewController;
 }
 
@@ -132,11 +116,38 @@
 - (UIViewController *)homeNavigationController {
     if (!_homeNavigationController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Home" bundle:nil];
+        
         HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
-        _homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+        UIViewController* leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Settings"];
+        UIViewController* rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Favorites"];
+        
+        UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+        
+        _homeNavigationController = [[IIViewDeckController alloc] initWithCenterViewController:centerViewController leftViewController:leftViewController rightViewController:rightViewController];
     }
     return _homeNavigationController;
 }
 
+- (void)applicationWillResignActive:(UIApplication *)application {
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
 
 @end

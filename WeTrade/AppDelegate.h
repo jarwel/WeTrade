@@ -12,6 +12,5 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
--(void)updateCurrentViewController;
 
 @end

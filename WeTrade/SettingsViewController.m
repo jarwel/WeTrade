@@ -16,30 +16,41 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 2;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case 0:
-            return [tableView dequeueReusableCellWithIdentifier:@"SignInCell" forIndexPath:indexPath];
-            break;
-        case 1:
-            return [tableView dequeueReusableCellWithIdentifier:@"ManageCell" forIndexPath:indexPath];
-            break;
-        default:
-            return [tableView dequeueReusableCellWithIdentifier:@"EmptyCell" forIndexPath:indexPath];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
     }
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
+    }
+    if (indexPath.row == 0) {
+        return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
+    }
+    if (indexPath.row == 1) {
+        return [tableView dequeueReusableCellWithIdentifier:@"ManageCell" forIndexPath:indexPath];
+    }
+    return [tableView dequeueReusableCellWithIdentifier:@"EmptyCell" forIndexPath:indexPath];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 65;
+    }
+    return 50;
+    //UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //return cell.bounds.size.height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        [PFUser logOut];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:LogoutNotification object:nil];
     }
 }
 

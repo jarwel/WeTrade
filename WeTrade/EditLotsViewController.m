@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) NSArray *lots;
 
+- (IBAction)onDoneButton:(id)sender;
+
 @end
 
 @implementation EditLotsViewController
@@ -56,6 +58,10 @@
     lotCell.costBasisLabel.text = [NSString stringWithFormat:@"%0.2f", lot.costBasis];
     
     return lotCell;
+}
+
+- (IBAction)onDoneButton:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

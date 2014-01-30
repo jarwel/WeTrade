@@ -8,5 +8,5 @@
 
 #import "Constants.h"
 
-NSString * const UserDidLoginNotification = @"UserDidLoginNotification";
-NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
+NSString * const LoginNotification = @"LoginNotification";
+NSString * const LogoutNotification = @"LogoutNotification";

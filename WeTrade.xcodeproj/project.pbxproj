@@ -19,6 +19,8 @@
 		CA1008BE1890647B0031CF68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008A01890647B0031CF68 /* UIKit.framework */; };
 		CA1008C61890647B0031CF68 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CA1008C41890647B0031CF68 /* InfoPlist.strings */; };
 		CA1008C81890647B0031CF68 /* WeTradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008C71890647B0031CF68 /* WeTradeTests.m */; };
+		CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5D112C1898CDF9006940E8 /* IIViewDeckController.m */; };
+		CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5D112F1898CFDD006940E8 /* IIWrapController.m */; };
 		CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662718982BFE00A55D3F /* SignInViewController.m */; };
 		CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662A18982CC600A55D3F /* SignUpViewController.m */; };
 		CA60662E18986C3000A55D3F /* UserFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662D18986C3000A55D3F /* UserFavorite.m */; };
@@ -81,6 +83,10 @@
 		CA1008C31890647B0031CF68 /* WeTradeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeTradeTests-Info.plist"; sourceTree = "<group>"; };
 		CA1008C51890647B0031CF68 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CA1008C71890647B0031CF68 /* WeTradeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeTradeTests.m; sourceTree = "<group>"; };
+		CA5D112B1898CDF9006940E8 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
+		CA5D112C1898CDF9006940E8 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
+		CA5D112E1898CFDD006940E8 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
+		CA5D112F1898CFDD006940E8 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		CA60662618982BFE00A55D3F /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		CA60662718982BFE00A55D3F /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		CA60662918982CC600A55D3F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
@@ -302,6 +308,7 @@
 				CACD59581891CA09006FD228 /* Models */,
 				CACD59651891D099006FD228 /* Views */,
 				CACD59571891C9A8006FD228 /* Controllers */,
+				CAC6C27C189AB193006A84BC /* ViewDeck */,
 				CA1008AB1890647B0031CF68 /* AppDelegate.h */,
 				CA1008AC1890647B0031CF68 /* AppDelegate.m */,
 				CA7B32FA1898988B001C14AF /* Constants.h */,
@@ -435,6 +442,17 @@
 				CAB14EFA189727EE00B2C9BE /* NSNumberExtensions.h */,
 			);
 			path = CorePlotHeaders;
+			sourceTree = "<group>";
+		};
+		CAC6C27C189AB193006A84BC /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				CA5D112B1898CDF9006940E8 /* IIViewDeckController.h */,
+				CA5D112C1898CDF9006940E8 /* IIViewDeckController.m */,
+				CA5D112E1898CFDD006940E8 /* IIWrapController.h */,
+				CA5D112F1898CFDD006940E8 /* IIWrapController.m */,
+			);
+			name = ViewDeck;
 			sourceTree = "<group>";
 		};
 		CACD59571891C9A8006FD228 /* Controllers */ = {
@@ -588,6 +606,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
+				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
@@ -598,6 +617,7 @@
 				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
 				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
+				CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */,
 				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,
 				CACD593F1891C369006FD228 /* HomeViewController.m in Sources */,
