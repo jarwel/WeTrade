@@ -14,4 +14,6 @@
 @property (nonatomic, strong, readonly) NSString *username;
 @property (nonatomic, assign, readonly) BOOL *follow;
 
++ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
+
 @end

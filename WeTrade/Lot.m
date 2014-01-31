@@ -10,14 +10,6 @@
 
 @implementation Lot
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
-    NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
-    for (PFObject *object in objects) {
-        [lots addObject:[[Lot alloc] initWithObject:object]];
-    }
-    return lots;
-}
-
 - (NSString *)symbol {
     return [self.data objectForKey:@"symbol"];
 }
@@ -32,6 +24,14 @@
 
 - (float)costBasis {
     return [[self.data objectForKey:@"costBasis"] floatValue];
+}
+
++ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
+    NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
+    for (PFObject *object in objects) {
+        [lots addObject:[[Lot alloc] initWithObject:object]];
+    }
+    return lots;
 }
 
 @end

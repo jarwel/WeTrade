@@ -224,6 +224,9 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="onEditingChanged:" destination="9hJ-YY-QIb" eventType="editingChanged" id="wiI-ik-iXj"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -233,6 +236,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="searchTextField" destination="QxB-u3-wdZ" id="SIg-te-o4c"/>
                         <outlet property="tableView" destination="paz-4p-P2p" id="9bC-Zt-QIe"/>
                     </connections>
                 </viewController>

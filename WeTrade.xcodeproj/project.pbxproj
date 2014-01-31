@@ -31,7 +31,7 @@
 		CA977C4818962696002AD88F /* Position.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4718962696002AD88F /* Position.m */; };
 		CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4B1896429D002AD88F /* FinanceClient.m */; };
 		CA977C4F18964E8E002AD88F /* Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4E18964E8E002AD88F /* Quote.m */; };
-		CAA6893F189B5F8100CE7FAA /* FollowUser.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAA6893E189B5F8100CE7FAA /* FollowUser.xib */; };
+		CAA6893F189B5F8100CE7FAA /* FollowUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAA6893E189B5F8100CE7FAA /* FollowUserCell.xib */; };
 		CAA68942189B5FA400CE7FAA /* FollowUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA68941189B5FA400CE7FAA /* FollowUserCell.m */; };
 		CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA68944189B60F300CE7FAA /* FollowingViewController.m */; };
 		CAB14EAB189726E300B2C9BE /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EAA189726E300B2C9BE /* Accelerate.framework */; };
@@ -109,7 +109,7 @@
 		CA977C4B1896429D002AD88F /* FinanceClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceClient.m; sourceTree = "<group>"; };
 		CA977C4D18964E8E002AD88F /* Quote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quote.h; sourceTree = "<group>"; };
 		CA977C4E18964E8E002AD88F /* Quote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quote.m; sourceTree = "<group>"; };
-		CAA6893E189B5F8100CE7FAA /* FollowUser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowUser.xib; sourceTree = "<group>"; };
+		CAA6893E189B5F8100CE7FAA /* FollowUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowUserCell.xib; sourceTree = "<group>"; };
 		CAA68940189B5FA400CE7FAA /* FollowUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowUserCell.h; sourceTree = "<group>"; };
 		CAA68941189B5FA400CE7FAA /* FollowUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUserCell.m; sourceTree = "<group>"; };
 		CAA68943189B60F300CE7FAA /* FollowingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingViewController.h; sourceTree = "<group>"; };
@@ -513,7 +513,7 @@
 				CA977C441896214E002AD88F /* PositionCell.xib */,
 				CAA68940189B5FA400CE7FAA /* FollowUserCell.h */,
 				CAA68941189B5FA400CE7FAA /* FollowUserCell.m */,
-				CAA6893E189B5F8100CE7FAA /* FollowUser.xib */,
+				CAA6893E189B5F8100CE7FAA /* FollowUserCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -595,7 +595,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAA6893F189B5F8100CE7FAA /* FollowUser.xib in Resources */,
+				CAA6893F189B5F8100CE7FAA /* FollowUserCell.xib in Resources */,
 				CA1008B51890647B0031CF68 /* Images.xcassets in Resources */,
 				CACD59731891E67D006FD228 /* LotCell.xib in Resources */,
 				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,

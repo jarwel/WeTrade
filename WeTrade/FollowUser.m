@@ -10,4 +10,20 @@
 
 @implementation FollowUser
 
+- (NSString *)userId {
+    return [self.data objectForKey:@"userId"];
+}
+
+- (NSString *)username {
+    return [self.data objectForKey:@"username"];
+}
+
++ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
+    NSMutableArray *users = [[NSMutableArray alloc] initWithCapacity:objects.count];
+    for (PFObject *object in objects) {
+        [users addObject:[[FollowUser alloc] initWithObject:object]];
+    }
+    return users;
+}
+
 @end

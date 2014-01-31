@@ -14,7 +14,8 @@
 + (ParseClient *)instance;
 - (void)fetchLots:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)addLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis;
-- (void)favoriteUserId:(NSString *)favoriteUserId;
+- (void)followUserId:(NSString *)userId;
 
 @end
