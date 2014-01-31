@@ -1,14 +1,14 @@
 //
-//  PositionCell.m
+//  FollowUserCell.m
 //  WeTrade
 //
-//  Created by Jason Wells on 1/26/14.
+//  Created by Jason Wells on 1/30/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "PositionCell.h"
+#import "FollowUserCell.h"
 
-@implementation PositionCell
+@implementation FollowUserCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

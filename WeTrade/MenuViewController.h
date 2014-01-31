@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.h
+//  MenuViewController.h
 //  WeTrade
 //
 //  Created by Jason Wells on 1/23/14.
@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface SettingsViewController : UITableViewController
+@interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end
+

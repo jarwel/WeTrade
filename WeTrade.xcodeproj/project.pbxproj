@@ -23,7 +23,7 @@
 		CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5D112F1898CFDD006940E8 /* IIWrapController.m */; };
 		CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662718982BFE00A55D3F /* SignInViewController.m */; };
 		CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662A18982CC600A55D3F /* SignUpViewController.m */; };
-		CA60662E18986C3000A55D3F /* UserFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662D18986C3000A55D3F /* UserFavorite.m */; };
+		CA60662E18986C3000A55D3F /* FollowUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662D18986C3000A55D3F /* FollowUser.m */; };
 		CA7B32FC1898988B001C14AF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7B32FB1898988B001C14AF /* Constants.m */; };
 		CA977C401896118B002AD88F /* ParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C3F1896118B002AD88F /* ParseObject.m */; };
 		CA977C431896212F002AD88F /* PositionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C421896212F002AD88F /* PositionCell.m */; };
@@ -31,6 +31,9 @@
 		CA977C4818962696002AD88F /* Position.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4718962696002AD88F /* Position.m */; };
 		CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4B1896429D002AD88F /* FinanceClient.m */; };
 		CA977C4F18964E8E002AD88F /* Quote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C4E18964E8E002AD88F /* Quote.m */; };
+		CAA6893F189B5F8100CE7FAA /* FollowUser.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAA6893E189B5F8100CE7FAA /* FollowUser.xib */; };
+		CAA68942189B5FA400CE7FAA /* FollowUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA68941189B5FA400CE7FAA /* FollowUserCell.m */; };
+		CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA68944189B60F300CE7FAA /* FollowingViewController.m */; };
 		CAB14EAB189726E300B2C9BE /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EAA189726E300B2C9BE /* Accelerate.framework */; };
 		CAB14EFC1897280A00B2C9BE /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFB1897280A00B2C9BE /* libCorePlot-CocoaTouch.a */; };
 		CAB14EFF1897307300B2C9BE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFD18972DAB00B2C9BE /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -48,7 +51,7 @@
 		CACD59521891C5A9006FD228 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59491891C5A9006FD228 /* StoreKit.framework */; };
 		CACD59531891C5A9006FD228 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD594A1891C5A9006FD228 /* SystemConfiguration.framework */; };
 		CACD59561891C6C6006FD228 /* ParseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59551891C6C6006FD228 /* ParseClient.m */; };
-		CACD59611891CDB3006FD228 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59601891CDB3006FD228 /* SettingsViewController.m */; };
+		CACD59611891CDB3006FD228 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59601891CDB3006FD228 /* MenuViewController.m */; };
 		CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD59631891CFDE006FD228 /* EditLotsViewController.m */; };
 		CACD596D1891D246006FD228 /* LotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD596C1891D246006FD228 /* LotCell.m */; };
 		CACD59731891E67D006FD228 /* LotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACD59721891E67D006FD228 /* LotCell.xib */; };
@@ -91,8 +94,8 @@
 		CA60662718982BFE00A55D3F /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		CA60662918982CC600A55D3F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		CA60662A18982CC600A55D3F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
-		CA60662C18986C3000A55D3F /* UserFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFavorite.h; sourceTree = "<group>"; };
-		CA60662D18986C3000A55D3F /* UserFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFavorite.m; sourceTree = "<group>"; };
+		CA60662C18986C3000A55D3F /* FollowUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowUser.h; sourceTree = "<group>"; };
+		CA60662D18986C3000A55D3F /* FollowUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUser.m; sourceTree = "<group>"; };
 		CA7B32FA1898988B001C14AF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CA7B32FB1898988B001C14AF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CA977C3E1896118B002AD88F /* ParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseObject.h; sourceTree = "<group>"; };
@@ -106,6 +109,11 @@
 		CA977C4B1896429D002AD88F /* FinanceClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinanceClient.m; sourceTree = "<group>"; };
 		CA977C4D18964E8E002AD88F /* Quote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quote.h; sourceTree = "<group>"; };
 		CA977C4E18964E8E002AD88F /* Quote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quote.m; sourceTree = "<group>"; };
+		CAA6893E189B5F8100CE7FAA /* FollowUser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowUser.xib; sourceTree = "<group>"; };
+		CAA68940189B5FA400CE7FAA /* FollowUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowUserCell.h; sourceTree = "<group>"; };
+		CAA68941189B5FA400CE7FAA /* FollowUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUserCell.m; sourceTree = "<group>"; };
+		CAA68943189B60F300CE7FAA /* FollowingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingViewController.h; sourceTree = "<group>"; };
+		CAA68944189B60F300CE7FAA /* FollowingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowingViewController.m; sourceTree = "<group>"; };
 		CAB14EAA189726E300B2C9BE /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		CAB14EAD189727EE00B2C9BE /* CorePlot-CocoaTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CorePlot-CocoaTouch.h"; sourceTree = "<group>"; };
 		CAB14EAE189727EE00B2C9BE /* CPTAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTAnimation.h; sourceTree = "<group>"; };
@@ -204,8 +212,8 @@
 		CACD594A1891C5A9006FD228 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CACD59541891C6C6006FD228 /* ParseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseClient.h; sourceTree = "<group>"; };
 		CACD59551891C6C6006FD228 /* ParseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseClient.m; sourceTree = "<group>"; };
-		CACD595F1891CDB3006FD228 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		CACD59601891CDB3006FD228 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		CACD595F1891CDB3006FD228 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		CACD59601891CDB3006FD228 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		CACD59621891CFDE006FD228 /* EditLotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLotsViewController.h; sourceTree = "<group>"; };
 		CACD59631891CFDE006FD228 /* EditLotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLotsViewController.m; sourceTree = "<group>"; };
 		CACD596B1891D246006FD228 /* LotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotCell.h; sourceTree = "<group>"; };
@@ -461,8 +469,10 @@
 				CACD593318919E7E006FD228 /* Home.storyboard */,
 				CACD593D1891C369006FD228 /* HomeViewController.h */,
 				CACD593E1891C369006FD228 /* HomeViewController.m */,
-				CACD595F1891CDB3006FD228 /* SettingsViewController.h */,
-				CACD59601891CDB3006FD228 /* SettingsViewController.m */,
+				CACD595F1891CDB3006FD228 /* MenuViewController.h */,
+				CACD59601891CDB3006FD228 /* MenuViewController.m */,
+				CAA68943189B60F300CE7FAA /* FollowingViewController.h */,
+				CAA68944189B60F300CE7FAA /* FollowingViewController.m */,
 				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
 				CACD597D1891F779006FD228 /* AddLotViewController.h */,
@@ -482,8 +492,8 @@
 				CACD597B1891EA35006FD228 /* Lot.m */,
 				CA977C4618962696002AD88F /* Position.h */,
 				CA977C4718962696002AD88F /* Position.m */,
-				CA60662C18986C3000A55D3F /* UserFavorite.h */,
-				CA60662D18986C3000A55D3F /* UserFavorite.m */,
+				CA60662C18986C3000A55D3F /* FollowUser.h */,
+				CA60662D18986C3000A55D3F /* FollowUser.m */,
 				CA977C4D18964E8E002AD88F /* Quote.h */,
 				CA977C4E18964E8E002AD88F /* Quote.m */,
 				CA977C3E1896118B002AD88F /* ParseObject.h */,
@@ -501,6 +511,9 @@
 				CA977C411896212F002AD88F /* PositionCell.h */,
 				CA977C421896212F002AD88F /* PositionCell.m */,
 				CA977C441896214E002AD88F /* PositionCell.xib */,
+				CAA68940189B5FA400CE7FAA /* FollowUserCell.h */,
+				CAA68941189B5FA400CE7FAA /* FollowUserCell.m */,
+				CAA6893E189B5F8100CE7FAA /* FollowUser.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -582,6 +595,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAA6893F189B5F8100CE7FAA /* FollowUser.xib in Resources */,
 				CA1008B51890647B0031CF68 /* Images.xcassets in Resources */,
 				CACD59731891E67D006FD228 /* LotCell.xib in Resources */,
 				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,
@@ -612,9 +626,11 @@
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
 				CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */,
 				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
-				CA60662E18986C3000A55D3F /* UserFavorite.m in Sources */,
+				CA60662E18986C3000A55D3F /* FollowUser.m in Sources */,
+				CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
 				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
+				CAA68942189B5FA400CE7FAA /* FollowUserCell.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
 				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
 				CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */,
@@ -623,7 +639,7 @@
 				CACD593F1891C369006FD228 /* HomeViewController.m in Sources */,
 				CACD597C1891EA35006FD228 /* Lot.m in Sources */,
 				CACD59561891C6C6006FD228 /* ParseClient.m in Sources */,
-				CACD59611891CDB3006FD228 /* SettingsViewController.m in Sources */,
+				CACD59611891CDB3006FD228 /* MenuViewController.m in Sources */,
 				CA7B32FC1898988B001C14AF /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

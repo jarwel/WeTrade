@@ -17,7 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
 @property (weak, nonatomic) IBOutlet UIView *chartView;
-@property (weak, nonatomic) IBOutlet UITableView *positionsTableView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
 @property (nonatomic, strong) NSArray *positions;
@@ -59,9 +59,7 @@
 
 - (void)initTable {
     UINib *lotCell = [UINib nibWithNibName:@"PositionCell" bundle:nil];
-    [self.positionsTableView registerNib:lotCell forCellReuseIdentifier:@"PositionCell"];
-    self.positionsTableView.delegate = self;
-    self.positionsTableView.dataSource = self;
+    [self.tableView registerNib:lotCell forCellReuseIdentifier:@"PositionCell"];
 }
 
 - (void)initChart {
@@ -113,7 +111,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _positions.count;
+    return self.positions.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -189,11 +187,13 @@
             currentValue += [position valueForQuote:quote];
             costBasis += position.costBasis;
         }
-        float percentChange = costBasis > 0 ? (currentValue - costBasis) / costBasis * 100 : 0;
-        self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
-        self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
+        if (costBasis > 0) {
+            float percentChange = costBasis > 0 ? (currentValue - costBasis) / costBasis * 100 : 0;
+            self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
+            self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
+        }
     
-        [self.positionsTableView reloadData];
+        [self.tableView reloadData];
         [self.hostView.hostedGraph reloadData];
     }
 }

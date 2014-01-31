@@ -118,8 +118,8 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Home" bundle:nil];
         
         HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
-        UIViewController* leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Settings"];
-        UIViewController* rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Favorites"];
+        UIViewController* leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
+        UIViewController* rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
         
         UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
         

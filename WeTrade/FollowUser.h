@@ -1,5 +1,5 @@
 //
-//  UserFavorite.h
+//  FollowUser.h
 //  WeTrade
 //
 //  Created by Jason Wells on 1/28/14.
@@ -8,10 +8,10 @@
 
 #import "ParseObject.h"
 
-@interface UserFavorite : ParseObject
+@interface FollowUser : ParseObject
 
 @property (nonatomic, strong, readonly) NSString *userId;
 @property (nonatomic, strong, readonly) NSString *username;
-@property (nonatomic, assign, readonly) BOOL *favorite;
+@property (nonatomic, assign, readonly) BOOL *follow;
 
 @end

@@ -1,15 +1,13 @@
 //
-//  UserFavorite.m
+//  FollowUser.m
 //  WeTrade
 //
 //  Created by Jason Wells on 1/28/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "UserFavorite.h"
+#import "FollowUser.h"
 
-@implementation UserFavorite
-
-
+@implementation FollowUser
 
 @end
