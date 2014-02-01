@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "IIViewDeckController.h"
 #import "Constants.h"
+#import "IIViewDeckController.h"
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
 #import "HomeViewController.h"
@@ -39,11 +39,9 @@
         return YES;
     }
     
-    [[[UIAlertView alloc] initWithTitle:@"Missing Information"
-                                message:@"Make sure you fill out all of the information!"
-                               delegate:nil
-                      cancelButtonTitle:@"ok"
-                      otherButtonTitles:nil] show];
+    NSString *title = @"Log In Error";
+    NSString *message = @"Please fill out all of the information.";
+    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     return NO;
 }
 
@@ -59,11 +57,9 @@
     }
     
     if (!informationComplete) {
-        [[[UIAlertView alloc] initWithTitle:@"Missing Information"
-                                    message:@"Make sure you fill out all of the information!"
-                                   delegate:nil
-                          cancelButtonTitle:@"ok"
-                          otherButtonTitles:nil] show];
+        NSString *title = @"Log In Error";
+        NSString *message = @"Please fill out all of the information.";
+        [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
     
     return informationComplete;
@@ -78,11 +74,9 @@
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
-    NSLog(@"Failed to log in...");
-}
-
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
-    NSLog(@"Failed to sign up...");
+    NSString *title = @"Log In Error";
+    NSString *message = @"The username or password you provided is not correct.";
+    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 - (void)signIn {

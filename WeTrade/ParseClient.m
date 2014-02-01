@@ -32,6 +32,14 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
+- (void)fetchUserForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchUserForUserId: %@", userId);
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    [query whereKey:@"objectId" equalTo:userId];
+    [query findObjectsInBackgroundWithBlock:callback];
+}
+
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchUsersForSearch: %@", search);
     

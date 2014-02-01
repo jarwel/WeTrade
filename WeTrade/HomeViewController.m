@@ -15,11 +15,9 @@
 
 @interface HomeViewController ()
 
+@property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
-@property (weak, nonatomic) IBOutlet UIView *chartView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
-@property (nonatomic, strong) CPTGraphHostingView *hostView;
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
@@ -63,17 +61,14 @@
 }
 
 - (void)initChart {
-    self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:_chartView.bounds];
-    self.hostView.allowPinchScaling = NO;
-    [self.chartView addSubview:self.hostView];
-    
+    self.chartView.allowPinchScaling = NO;
     [self configureGraph];
     [self configureChart];
 }
 
 -(void)configureGraph {
-    CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.hostView.bounds];
-    self.hostView.hostedGraph = graph;
+    CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.chartView.bounds];
+    self.chartView.hostedGraph = graph;
     graph.paddingLeft = 0.0f;
     graph.paddingTop = 0.0f;
     graph.paddingRight = 0.0f;
@@ -88,13 +83,13 @@
 }
 
 -(void)configureChart {
-    CPTGraph *graph = self.hostView.hostedGraph;
+    CPTGraph *graph = self.chartView.hostedGraph;
     
     // 2 - Create chart
     CPTPieChart *pieChart = [[CPTPieChart alloc] init];
     pieChart.dataSource = self;
     pieChart.delegate = self;
-    pieChart.pieRadius = (self.hostView.bounds.size.height * 0.7) / 2;
+    pieChart.pieRadius = (self.chartView.bounds.size.height * 0.7) / 2;
     pieChart.identifier = graph.title;
     pieChart.startAngle = M_PI_4;
     pieChart.sliceDirection = CPTPieDirectionClockwise;
@@ -194,7 +189,7 @@
         }
     
         [self.tableView reloadData];
-        [self.hostView.hostedGraph reloadData];
+        [self.chartView.hostedGraph reloadData];
     }
 }
 
