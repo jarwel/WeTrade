@@ -32,11 +32,11 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)fetchUserForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback {
-    NSLog(@"fetchUserForUserId: %@", userId);
+- (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchFollowing");
     
-    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-    [query whereKey:@"objectId" equalTo:userId];
+    PFRelation *relation = [[PFUser currentUser] relationforKey:@"following"];
+    PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
@@ -61,14 +61,22 @@
     [lotObject saveInBackground];
 }
 
-- (void)followUserId:(NSString *)followUserId {
-    NSLog(@"followUserId: %@", followUserId);
+- (void)followUser:(PFUser *)user {
+    NSLog(@"followUser: %@", user.objectId);
 
-    NSString *userId = [PFUser currentUser].objectId;
-    PFObject *lotObject = [PFObject objectWithClassName:@"followUser"];
-    lotObject[@"userId"] = userId;
-    lotObject[@"followUserId"] = followUserId;
-    [lotObject saveInBackground];
+    PFUser *currentUser = [PFUser currentUser];
+    PFRelation *relation = [currentUser relationforKey:@"following"];
+    [relation addObject:user];
+    [currentUser saveInBackground];
+}
+
+- (void)unfollowUser:(PFUser *)user {
+    NSLog(@"unfollowUser: %@", user.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    PFRelation *relation = [currentUser relationforKey:@"following"];
+    [relation removeObject:user];
+    [currentUser saveInBackground];
 }
 
 @end

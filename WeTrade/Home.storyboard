@@ -283,34 +283,24 @@
                                     <outlet property="delegate" destination="9hJ-YY-QIb" id="kcg-Im-E2X"/>
                                 </connections>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Search..." borderStyle="roundedRect" clearsOnBeginEditing="YES" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="QxB-u3-wdZ">
-                                <rect key="frame" x="50" y="27" width="265" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <searchBar opaque="NO" contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="TSa-mq-AWK">
+                                <rect key="frame" x="50" y="21" width="270" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="onEditingChanged:" destination="9hJ-YY-QIb" eventType="editingChanged" id="wiI-ik-iXj"/>
+                                    <outlet property="delegate" destination="9hJ-YY-QIb" id="5Aq-zC-DzZ"/>
                                 </connections>
-                            </textField>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <gestureRecognizers/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="w62-6S-FL9" appends="YES" id="c3r-VJ-FnE"/>
-                        </connections>
                     </view>
                     <connections>
-                        <outlet property="searchTextField" destination="QxB-u3-wdZ" id="SIg-te-o4c"/>
                         <outlet property="tableView" destination="paz-4p-P2p" id="9bC-Zt-QIe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7rh-81-x8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="w62-6S-FL9">
-                    <connections>
-                        <action selector="onTap:" destination="9hJ-YY-QIb" id="ORS-z1-mXI"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1249" y="-764"/>
         </scene>

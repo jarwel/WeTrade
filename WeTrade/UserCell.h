@@ -1,5 +1,5 @@
 //
-//  FollowUserCell.h
+//  UserCell.h
 //  WeTrade
 //
 //  Created by Jason Wells on 1/30/14.
@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FollowUserCell : UITableViewCell
+@interface UserCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalChangeLabel;
 
 @end
+

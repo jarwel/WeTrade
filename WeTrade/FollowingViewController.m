@@ -8,17 +8,18 @@
 
 #import "FollowingViewController.h"
 #import "ParseClient.h"
-#import "FollowUser.h"
-#import "FollowUserCell.h"
+#import "UserCell.h"
 
 @interface FollowingViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *following;
+@property (nonatomic, strong) NSMutableDictionary *following;
+@property (nonatomic, strong) NSArray *search;
+@property (nonatomic, assign) BOOL searchMode;
 
-- (IBAction)onEditingChanged:(id)sender;
-- (IBAction)onTap:(id)sender;
+- (NSArray *)current;
+- (void)onFollowButton:(id)sender;
+- (void)onUnfollowButton:(id)sender;
 
 @end
 
@@ -27,8 +28,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UINib *lotCell = [UINib nibWithNibName:@"FollowUserCell" bundle:nil];
-    [self.tableView registerNib:lotCell forCellReuseIdentifier:@"FollowUserCell"];
+    UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
+    [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
+    
+    _following = [[NSMutableDictionary alloc] init];
+    [[ParseClient instance] fetchFollowing:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSMutableDictionary *following = [[NSMutableDictionary alloc] init];
+            for (PFUser *user in objects) {
+                [following setObject:user forKey:user.objectId];
+            }
+            _following = following;
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -36,26 +51,61 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.following.count;
+    return self.current.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"FollowUserCell";
-    FollowUserCell *followUserCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"UserCell";
+    UserCell *userCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    FollowUser *followUser = [self.following objectAtIndex:indexPath.row];
-    followUserCell.usernameLabel.text = followUser.username;
-    return followUserCell;
-
+    PFUser *user = [self.current objectAtIndex:indexPath.row];
+    userCell.tag = indexPath.row;
+    userCell.usernameLabel.text = user.username;
+    
+    [userCell.followButton setTitle:@"FO" forState:UIControlStateNormal];
+    [userCell.followButton setTitle:@"UF" forState:UIControlStateSelected];
+    if (self.searchMode && [self.following objectForKey:user.objectId] == nil) {
+        [userCell.followButton addTarget:self action:@selector(onFollowButton:) forControlEvents:UIControlEventTouchUpInside];
+        [userCell.followButton setSelected:NO];
+    }
+    else {
+        [userCell.followButton addTarget:self action:@selector(onUnfollowButton:) forControlEvents:UIControlEventTouchUpInside];
+        [userCell.followButton setSelected:YES];
+    }
+    return userCell;
 }
 
-- (IBAction)onEditingChanged:(id)sender {
-    NSString *search = self.searchTextField.text;
-    if (search.length > 2) {
-        [[ParseClient instance] fetchUsersForSearch:search callback:^(NSArray *objects, NSError *error) {
+- (NSArray *)current {
+    if (self.searchMode) {
+        return self.search;
+    }
+    return [self.following allValues];
+}
+
+
+- (void)onFollowButton:(id)sender {
+    PFUser *user = [self.current objectAtIndex:[sender tag]];
+    [self.following setObject:user forKey:user.objectId];
+    [[ParseClient instance] followUser:user];
+    [self.tableView reloadData];
+}
+
+- (void)onUnfollowButton:(id)sender {
+    PFUser *user = [self.current objectAtIndex:[sender tag]];
+    [self.following removeObjectForKey:user.objectId];
+    [[ParseClient instance] unfollowUser:user];
+    [self.tableView reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"(objectId != %@)", [PFUser currentUser].objectId]];
+    
+    _searchMode = YES;
+    if (searchText.length > 0) {
+        [[ParseClient instance] fetchUsersForSearch:searchText callback:^(NSArray *objects, NSError *error) {
             if (!error) {
-                if ([search isEqualToString:self.searchTextField.text]) {
-                    _following = [FollowUser fromPFObjectArray:objects];
+                if ([searchText isEqualToString:searchText]) {
+                    _search = [objects filteredArrayUsingPredicate:predicate];
                     [self.tableView reloadData];
                 }
             } else {
@@ -64,13 +114,21 @@
         }];
     }
     else {
-        _following = nil;
+        _search = nil;
         [self.tableView reloadData];
     }
 }
 
-- (IBAction)onTap:(id)sender {
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    _searchMode = NO;
+    searchBar.text = nil;
+    [searchBar setShowsCancelButton:NO animated:YES];
     [self.view endEditing:YES];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

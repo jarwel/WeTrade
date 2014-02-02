@@ -13,10 +13,10 @@
 
 + (ParseClient *)instance;
 - (void)fetchLots:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)fetchUserForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)addLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis;
-- (void)followUserId:(NSString *)userId;
+- (void)followUser:(PFUser *)user;
+- (void)unfollowUser:(PFUser *)user;
 
 @end
