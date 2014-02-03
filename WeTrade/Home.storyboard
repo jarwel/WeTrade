@@ -161,6 +161,7 @@
         <scene sceneID="MjS-4o-d7u">
             <objects>
                 <navigationController definesPresentationContext="YES" id="beF-9p-xZS" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="1RZ-Oh-b60"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4t3-yi-1IE">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -223,44 +224,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap9-Dj-fCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1903" y="-764"/>
-        </scene>
-        <!--View Controller - Friend-->
-        <scene sceneID="6xU-vd-ChL">
-            <objects>
-                <viewController id="us0-sZ-oca" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qSh-ec-nHh"/>
-                        <viewControllerLayoutGuide type="bottom" id="b2s-hX-Igd"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="231-ie-eOC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n57-BG-7ks">
-                                <rect key="frame" x="20" y="314" width="280" height="234"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total change:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IOM-dD-80y">
-                                <rect key="frame" x="20" y="79" width="174" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+100.00%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvM-lo-5V2">
-                                <rect key="frame" x="197" y="79" width="103" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Friend" id="aZZ-bs-lCS"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dOX-LA-eHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-775" y="-764"/>
         </scene>
         <!--Following View Controller-->
         <scene sceneID="NCn-lS-VCh">
