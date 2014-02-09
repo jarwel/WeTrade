@@ -7,6 +7,7 @@
 //
 
 #import "HomeViewController.h"
+#import "StockViewController.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "PositionCell.h"
@@ -14,13 +15,19 @@
 #import "Quote.h"
 
 @interface HomeViewController ()
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *followButton;
 
-@property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
+
+- (IBAction)onBackButton:(id)sender;
+- (IBAction)onFollowButton:(id)sender;
+- (IBAction)onUnfollowButton:(id)sender;
 
 - (void)initTable;
 - (void)initChart;
@@ -39,6 +46,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (self.forUser) {
+        [self setTitle:self.forUser.username];
+    }
+    else {
+        _forUser = [PFUser currentUser];
+        [self.backButton setEnabled:NO];
+        [self.followButton setEnabled:NO];
+    }
+    
     [self initTable];
     [self initChart];
 }
@@ -105,6 +121,40 @@
     [graph addPlot:pieChart];
 }
 
+- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
+    return self.positions.count;
+}
+
+- (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
+    if (CPTPieChartFieldSliceWidth == fieldEnum) {
+        Position *position = [self.positions objectAtIndex:index];
+        Quote *quote = [self.quotes objectForKey:position.symbol];
+        return [NSNumber numberWithFloat:[position valueForQuote:quote]];
+    }
+    return [NSDecimalNumber zero];
+}
+
+- (CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
+
+    static CPTMutableTextStyle *style = nil;
+    if (!style) {
+        style= [[CPTMutableTextStyle alloc] init];
+        style.color = [CPTColor grayColor];
+        style.fontSize = 10.0f;
+    }
+    
+    float portfolioValue = 0;
+    for (Position *position in self.positions) {
+        portfolioValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
+    }
+    
+    Position *position = [self.positions objectAtIndex:index];
+    float positionValue = [position valueForQuote:[self.quotes objectForKey:position.symbol]];
+    
+    NSString *text = [NSString stringWithFormat:@"%@ - %0.2f%%", position.symbol, positionValue / portfolioValue * 100];
+    return [[CPTTextLayer alloc] initWithText:position.symbol style:style];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.positions.count;
 }
@@ -132,42 +182,18 @@
     return positionCell;
 }
 
-- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return self.positions.count;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"ShowStock" sender:self];
 }
 
-- (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
-    if (CPTPieChartFieldSliceWidth == fieldEnum) {
-        Position *position = [self.positions objectAtIndex:index];
-        Quote *quote = [self.quotes objectForKey:position.symbol];
-        return [NSNumber numberWithFloat: [position valueForQuote:quote]];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowStock"]) {
+        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
+        Position *position = [self.positions objectAtIndex:indexPath.row];
+        
+        StockViewController *stockViewController = segue.destinationViewController;
+        stockViewController.forPosition = position;
     }
-    return [NSDecimalNumber zero];
-}
-
-- (CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
-
-    static CPTMutableTextStyle *style = nil;
-    if (!style) {
-        style= [[CPTMutableTextStyle alloc] init];
-        style.color = [CPTColor grayColor];
-        style.fontSize = 10.0f;
-    }
-    
-    float portfolioValue = 0;
-    for (Position *position in self.positions) {
-        portfolioValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
-    }
-    
-    Position *position = [self.positions objectAtIndex:index];
-    float positionValue = [position valueForQuote:[self.quotes objectForKey:position.symbol]];
-    
-    NSString *text = [NSString stringWithFormat:@"%@ - %0.2f%%", position.symbol, positionValue / portfolioValue * 100];
-    return [[CPTTextLayer alloc] initWithText:text style:style];
-}
-
-#pragma mark - UIActionSheetDelegate methods
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
 - (void)refreshViews {
@@ -194,7 +220,7 @@
 }
 
 - (void)loadPositions {
-    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchLotsForUserId:self.forUser.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromPFObjectArray:objects];
             [self refreshViews];
@@ -210,22 +236,20 @@
         [symbols addObject:position.symbol];
     }
     if (symbols.count > 0) {
-        [[FinanceClient instance] fetchQuotesForSymbols:[symbols componentsJoinedByString:@","] callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
                 NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
-                data = [self fixGoogleApiData:data];
-                NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                for( NSDictionary *data in array) {
+                
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSDictionary *results = [[dictionary objectForKey:@"query"] objectForKey:@"results"];
+                
+                NSArray *array = [results objectForKey:@"quote"];
+                for (NSDictionary *data in array) {
                     Quote *quote = [[Quote alloc] initWithData:data];
-                    
-                    if (quote.price == 0) {
-                        NSLog(@"Error: price for %@ is empty", quote.symbol);
-                        return;
-                    }
-                    
                     [quotes setObject:quote forKey:quote.symbol];
                 }
                 _quotes = quotes;
+                
                 [self refreshViews];
             } else {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -244,17 +268,16 @@
     return [UIColor blueColor];
 }
 
-// Hack to deal with Google Finance API data weirdness
-- (NSData *)fixGoogleApiData:(NSData *)data {
-    NSString *content =[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
-    NSRange range1 = [content rangeOfString:@"["];
-    NSRange range2 = [content rangeOfString:@"]"];
-    NSRange range3;
-    range3.location = range1.location+1;
-    range3.length = (range2.location - range1.location)-1;
-    NSString *contentFixed = [NSString stringWithFormat:@"[%@]", [content substringWithRange:range3]];
-    NSData *dataFixed = [contentFixed dataUsingEncoding:NSUTF8StringEncoding];
-    return dataFixed;
+- (IBAction)onBackButton:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)onFollowButton:(id)sender {
+    [[ParseClient instance] followUser:self.forUser];
+}
+
+- (IBAction)onUnfollowButton:(id)sender {
+    [[ParseClient instance] unfollowUser:self.forUser];
 }
 
 @end

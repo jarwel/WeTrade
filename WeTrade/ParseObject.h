@@ -12,7 +12,6 @@
 @interface ParseObject : NSObject
 
 @property (nonatomic, strong) PFObject *data;
-
-- (id)initWithObject:(PFObject *)data;
+- (id)initWithData:(PFObject *)data;
 
 @end

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62A718A6CFE9001FAA1A /* RestObject.m */; };
+		CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AC18A73D61001FAA1A /* StockViewController.m */; };
+		CA0F62B018A742D2001FAA1A /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AF18A742D2001FAA1A /* CommentCell.m */; };
+		CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA0F62B118A742F2001FAA1A /* CommentCell.xib */; };
+		CA0F62B518A7464F001FAA1A /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62B418A7464F001FAA1A /* Comment.m */; };
+		CA0F62B818A7550D001FAA1A /* HistoricalQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62B718A7550D001FAA1A /* HistoricalQuote.m */; };
 		CA10089D1890647B0031CF68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA10089C1890647B0031CF68 /* Foundation.framework */; };
 		CA10089F1890647B0031CF68 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA10089E1890647B0031CF68 /* CoreGraphics.framework */; };
 		CA1008A11890647B0031CF68 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA1008A01890647B0031CF68 /* UIKit.framework */; };
@@ -69,6 +75,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA0F62A618A6CFE9001FAA1A /* RestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestObject.h; sourceTree = "<group>"; };
+		CA0F62A718A6CFE9001FAA1A /* RestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestObject.m; sourceTree = "<group>"; };
+		CA0F62AB18A73D61001FAA1A /* StockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockViewController.h; sourceTree = "<group>"; };
+		CA0F62AC18A73D61001FAA1A /* StockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockViewController.m; sourceTree = "<group>"; };
+		CA0F62AE18A742D2001FAA1A /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		CA0F62AF18A742D2001FAA1A /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
+		CA0F62B118A742F2001FAA1A /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		CA0F62B318A7464F001FAA1A /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		CA0F62B418A7464F001FAA1A /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		CA0F62B618A7550D001FAA1A /* HistoricalQuote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoricalQuote.h; sourceTree = "<group>"; };
+		CA0F62B718A7550D001FAA1A /* HistoricalQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoricalQuote.m; sourceTree = "<group>"; };
 		CA1008991890647B0031CF68 /* WeTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA10089C1890647B0031CF68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CA10089E1890647B0031CF68 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -470,6 +487,8 @@
 				CACD59601891CDB3006FD228 /* MenuViewController.m */,
 				CAA68943189B60F300CE7FAA /* FollowingViewController.h */,
 				CAA68944189B60F300CE7FAA /* FollowingViewController.m */,
+				CA0F62AB18A73D61001FAA1A /* StockViewController.h */,
+				CA0F62AC18A73D61001FAA1A /* StockViewController.m */,
 				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
 				CACD597D1891F779006FD228 /* AddLotViewController.h */,
@@ -485,14 +504,20 @@
 		CACD59581891CA09006FD228 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CACD597A1891EA35006FD228 /* Lot.h */,
-				CACD597B1891EA35006FD228 /* Lot.m */,
 				CA977C4618962696002AD88F /* Position.h */,
 				CA977C4718962696002AD88F /* Position.m */,
+				CACD597A1891EA35006FD228 /* Lot.h */,
+				CACD597B1891EA35006FD228 /* Lot.m */,
+				CA0F62B318A7464F001FAA1A /* Comment.h */,
+				CA0F62B418A7464F001FAA1A /* Comment.m */,
 				CA977C4D18964E8E002AD88F /* Quote.h */,
 				CA977C4E18964E8E002AD88F /* Quote.m */,
+				CA0F62B618A7550D001FAA1A /* HistoricalQuote.h */,
+				CA0F62B718A7550D001FAA1A /* HistoricalQuote.m */,
 				CA977C3E1896118B002AD88F /* ParseObject.h */,
 				CA977C3F1896118B002AD88F /* ParseObject.m */,
+				CA0F62A618A6CFE9001FAA1A /* RestObject.h */,
+				CA0F62A718A6CFE9001FAA1A /* RestObject.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -509,6 +534,9 @@
 				CA977C411896212F002AD88F /* PositionCell.h */,
 				CA977C421896212F002AD88F /* PositionCell.m */,
 				CA977C441896214E002AD88F /* PositionCell.xib */,
+				CA0F62AE18A742D2001FAA1A /* CommentCell.h */,
+				CA0F62AF18A742D2001FAA1A /* CommentCell.m */,
+				CA0F62B118A742F2001FAA1A /* CommentCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -596,6 +624,7 @@
 				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
 				CACD593418919E7E006FD228 /* Home.storyboard in Resources */,
+				CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,8 +643,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA0F62B818A7550D001FAA1A /* HistoricalQuote.m in Sources */,
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
+				CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */,
 				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
@@ -626,11 +657,14 @@
 				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
 				CAA68942189B5FA400CE7FAA /* UserCell.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
+				CA0F62B518A7464F001FAA1A /* Comment.m in Sources */,
+				CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */,
 				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
 				CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */,
 				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,
 				CACD593F1891C369006FD228 /* HomeViewController.m in Sources */,
+				CA0F62B018A742D2001FAA1A /* CommentCell.m in Sources */,
 				CACD597C1891EA35006FD228 /* Lot.m in Sources */,
 				CACD59561891C6C6006FD228 /* ParseClient.m in Sources */,
 				CACD59611891CDB3006FD228 /* MenuViewController.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "FollowingViewController.h"
+#import "HomeViewController.h"
 #import "ParseClient.h"
 #import "UserCell.h"
 
@@ -75,13 +76,27 @@
     return userCell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"ShowPortfolio" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowPortfolio"]) {
+        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
+        PFUser *user = [self.current objectAtIndex:indexPath.row];
+        
+        UINavigationController *navigationViewController = segue.destinationViewController;
+        HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
+        homeViewController.forUser = user;
+    }
+}
+
 - (NSArray *)current {
     if (self.searchMode) {
         return self.search;
     }
     return [self.following allValues];
 }
-
 
 - (void)onFollowButton:(id)sender {
     PFUser *user = [self.current objectAtIndex:[sender tag]];
@@ -98,7 +113,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"(objectId != %@)", [PFUser currentUser].objectId]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"objectId != %@", [PFUser currentUser].objectId]];
     
     _searchMode = YES;
     if (searchText.length > 0) {

@@ -1,16 +1,16 @@
 //
-//  ParseObject.m
+//  RestObject.m
 //  WeTrade
 //
-//  Created by Jason Wells on 1/26/14.
+//  Created by Jason Wells on 2/8/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "ParseObject.h"
+#import "RestObject.h"
 
-@implementation ParseObject
+@implementation RestObject
 
-- (id)initWithData:(PFObject *)data {
+- (id)initWithData:(NSDictionary *)data {
     if (self = [super init]) {
         _data = data;
     }

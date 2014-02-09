@@ -29,7 +29,7 @@
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
     NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
     for (PFObject *object in objects) {
-        [lots addObject:[[Lot alloc] initWithObject:object]];
+        [lots addObject:[[Lot alloc] initWithData:object]];
     }
     return lots;
 }

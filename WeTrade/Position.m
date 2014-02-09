@@ -68,7 +68,7 @@
             [positions setObject:[[Position alloc] init] forKey:symbol];
         }
         Position *position = [positions objectForKey:symbol];
-        [position.lots addObject:[[Lot alloc] initWithObject:object]];
+        [position.lots addObject:[[Lot alloc] initWithData:object]];
     }
     return [[NSMutableArray alloc] initWithArray:[positions allValues]];
 }

@@ -32,6 +32,14 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
+- (void)fetchCommentsForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchCommentsForSymbol: %@", symbol);
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"comment"];
+    [query whereKey:@"symbol" equalTo:symbol];
+    [query findObjectsInBackgroundWithBlock:callback];
+}
+
 - (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchFollowing");
     
@@ -59,6 +67,17 @@
     lotObject[@"shares"] = [@(shares) stringValue];
     lotObject[@"costBasis"] = [@(costBasis) stringValue];
     [lotObject saveInBackground];
+}
+
+- (void)addCommentWithSymbol:(NSString *)symbol text:(NSString *)text {
+    NSLog(@"addCommentWithSymbol: %@ text: %@", symbol, text);
+    
+    NSString *userId = [PFUser currentUser].objectId;
+    PFObject *commentObject = [PFObject objectWithClassName:@"comment"];
+    commentObject[@"symbol"] = symbol;
+    commentObject[@"userId"] = userId;
+    commentObject[@"text"] = text;
+    [commentObject saveInBackground];
 }
 
 - (void)followUser:(PFUser *)user {
