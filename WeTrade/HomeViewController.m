@@ -90,18 +90,11 @@
     graph.paddingRight = 0.0f;
     graph.paddingBottom = 0.0f;
     graph.axisSet = nil;
-    
-    // 2 - Set up text style
-    CPTMutableTextStyle *textStyle = [CPTMutableTextStyle textStyle];
-    textStyle.color = [CPTColor grayColor];
-    textStyle.fontName = @"Helvetica-Bold";
-    textStyle.fontSize = 14.0f;
 }
 
 -(void)configureChart {
     CPTGraph *graph = self.chartView.hostedGraph;
     
-    // 2 - Create chart
     CPTPieChart *pieChart = [[CPTPieChart alloc] init];
     pieChart.dataSource = self;
     pieChart.delegate = self;
@@ -110,14 +103,12 @@
     pieChart.startAngle = M_PI_4;
     pieChart.sliceDirection = CPTPieDirectionClockwise;
     
-    // 3 - Create gradient
     CPTGradient *overlayGradient = [[CPTGradient alloc] init];
     overlayGradient.gradientType = CPTGradientTypeRadial;
     overlayGradient = [overlayGradient addColorStop:[[CPTColor blackColor] colorWithAlphaComponent:0.0] atPosition:0.9];
     overlayGradient = [overlayGradient addColorStop:[[CPTColor blackColor] colorWithAlphaComponent:0.4] atPosition:1.0];
     pieChart.overlayFill = [CPTFill fillWithGradient:overlayGradient];
     
-    // 4 - Add chart to graph
     [graph addPlot:pieChart];
 }
 
@@ -135,7 +126,6 @@
 }
 
 - (CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
-
     static CPTMutableTextStyle *style = nil;
     if (!style) {
         style= [[CPTMutableTextStyle alloc] init];
@@ -143,15 +133,7 @@
         style.fontSize = 10.0f;
     }
     
-    float portfolioValue = 0;
-    for (Position *position in self.positions) {
-        portfolioValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
-    }
-    
     Position *position = [self.positions objectAtIndex:index];
-    float positionValue = [position valueForQuote:[self.quotes objectForKey:position.symbol]];
-    
-    NSString *text = [NSString stringWithFormat:@"%@ - %0.2f%%", position.symbol, positionValue / portfolioValue * 100];
     return [[CPTTextLayer alloc] initWithText:position.symbol style:style];
 }
 
@@ -238,18 +220,8 @@
     if (symbols.count > 0) {
         [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
-                NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
-                
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSDictionary *results = [[dictionary objectForKey:@"query"] objectForKey:@"results"];
-                
-                NSArray *array = [results objectForKey:@"quote"];
-                for (NSDictionary *data in array) {
-                    Quote *quote = [[Quote alloc] initWithData:data];
-                    [quotes setObject:quote forKey:quote.symbol];
-                }
-                _quotes = quotes;
-                
+                _quotes = [Quote fromDictionary:dictionary];
                 [self refreshViews];
             } else {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);

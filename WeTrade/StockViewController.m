@@ -47,9 +47,9 @@
             NSMutableArray *historicalQuotes = [[NSMutableArray alloc] init];
             
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSDictionary *results = [[dictionary objectForKey:@"query"] objectForKey:@"results"];
+            NSDictionary *query = [dictionary objectForKey:@"query"];
             
-            NSArray *array = [results objectForKey:@"quote"];
+            NSArray *array = [[query objectForKey:@"results"] objectForKey:@"quote"];
             float smallest = 100;
             float largest = 0;
             for (NSDictionary *data in array) {

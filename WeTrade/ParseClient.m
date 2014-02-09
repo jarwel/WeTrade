@@ -12,7 +12,6 @@
 
 + (ParseClient *)instance {
     static ParseClient *instance;
-    
     if (! instance) {
         instance = [[ParseClient alloc] init];
     }
