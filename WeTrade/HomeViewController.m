@@ -35,10 +35,6 @@
 - (void)loadQuotes;
 - (void)refreshViews;
 
-
-- (void)configureGraph;
-- (void)configureChart;
-
 @end
 
 @implementation HomeViewController
@@ -221,7 +217,7 @@
         [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                _quotes = [Quote fromDictionary:dictionary];
+                _quotes = [Quote fromJSONDictionary:dictionary];
                 [self refreshViews];
             } else {
                 NSLog(@"Error: %@ %@", error, [error userInfo]);

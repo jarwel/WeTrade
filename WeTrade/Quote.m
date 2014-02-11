@@ -22,19 +22,23 @@
     return [[self.data objectForKey:@"PercentChange"] floatValue];
 }
 
-+ (NSMutableDictionary *)fromDictionary:(NSDictionary *)dictionary {
++ (NSMutableDictionary *)fromJSONDictionary:(NSDictionary *)dictionary {
     NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
-   
     NSDictionary *query = [dictionary objectForKey:@"query"];
-    int count = [[query objectForKey:@"count"] intValue];
     
+    int count = [[query objectForKey:@"count"] intValue];
+    if (count == 0) {
+        return quotes;
+    }
     if (count == 1) {
-        NSDictionary *data = [[query objectForKey:@"results"] objectForKey:@"quote"];
+        NSDictionary *results = [query objectForKey:@"results"];
+        NSDictionary *data = [results objectForKey:@"quote"];
         Quote *quote = [[Quote alloc] initWithData:data];
         [quotes setObject:quote forKey:quote.symbol];
     }
     else {
-        for (NSDictionary *data in [[query objectForKey:@"results"] objectForKey:@"quote"]) {
+        NSDictionary *results = [query objectForKey:@"results"];
+        for (NSDictionary *data in [results objectForKey:@"quote"]) {
             Quote *quote = [[Quote alloc] initWithData:data];
             [quotes setObject:quote forKey:quote.symbol];
         }

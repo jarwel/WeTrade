@@ -11,15 +11,19 @@
 #import "FinanceClient.h"
 #import "CommentCell.h"
 #import "Comment.h"
+#import "History.h"
 #import "HistoricalQuote.h"
 
 @interface StockViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *stockNameLabel;
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (nonatomic, strong) NSMutableArray *comments;
-@property (nonatomic, strong) NSArray *historicalQuotes;
+@property (nonatomic, strong) History *history;
+
+- (IBAction)onAddComment:(id)sender;
 
 @end
 
@@ -42,33 +46,21 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    [[FinanceClient instance] fetchPlotsForSymbol:self.forPosition.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    
+    NSDateComponents *addComponents = [[NSDateComponents alloc] init];
+    addComponents.year = - 1;
+    NSDate *endDate = [NSDate date];
+    NSDate *startDate = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] dateByAddingComponents:addComponents toDate:endDate options:0];
+    
+    [[FinanceClient instance] fetchHistoryForSymbol:self.forPosition.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
-            NSMutableArray *historicalQuotes = [[NSMutableArray alloc] init];
-            
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSDictionary *query = [dictionary objectForKey:@"query"];
-            
-            NSArray *array = [[query objectForKey:@"results"] objectForKey:@"quote"];
-            float smallest = 100;
-            float largest = 0;
-            for (NSDictionary *data in array) {
-                HistoricalQuote *historicalQuote = [[HistoricalQuote alloc] initWithData:data];
-                if(historicalQuote.close < smallest) {
-                    smallest = historicalQuote.close;
-                }
-                if(historicalQuote.close > largest) {
-                    largest = historicalQuote.close;
-                }
-                [historicalQuotes addObject:historicalQuote];
-            }
+            _history = [History fromJSONDictionary:dictionary];
 
-            float xMax = historicalQuotes.count;
             CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) self.chartView.hostedGraph.defaultPlotSpace;
-            plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(xMax)];
-            plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(smallest) length:CPTDecimalFromFloat(largest)];
-            
-            _historicalQuotes = [[historicalQuotes reverseObjectEnumerator] allObjects];
+            plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(self.history.quotes.count)];
+            plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(self.history.priceLow) length:CPTDecimalFromFloat(self.history.priceHigh)];
+    
             [self.chartView.hostedGraph reloadData];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -117,25 +109,23 @@
 
 
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return self.historicalQuotes.count;
+    return self.history.quotes.count;
 }
 
 - (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
-    int count = self.historicalQuotes.count;
+    int count = self.history.quotes.count;
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
             if (index < count) {
                 return [NSNumber numberWithUnsignedInteger:index];
             }
         case CPTScatterPlotFieldY: {
-            HistoricalQuote *historicalQuote = [self.historicalQuotes objectAtIndex:index];
+            HistoricalQuote *historicalQuote = [self.history.quotes objectAtIndex:index];
             return [NSNumber numberWithFloat:historicalQuote.close];
         }
     }
     return [NSDecimalNumber zero];
 }
-
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.comments.count;
@@ -148,6 +138,26 @@
     Comment *comment = [self.comments objectAtIndex:indexPath.row];
     commentCell.textLabel.text = comment.text;
     return commentCell;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //NSString *cellText = [self.comments objectAtIndex:indexPath.row];
+    //UIFont *cellFont = [UIFont fontWithName:@"Arial" size:15];
+    //CGSize constraintSize = CGSizeMake(320.0f, MAXFLOAT);
+    //CGSize labelSize = [cellText sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+    return 95;
+}
+
+- (IBAction)onAddComment:(id)sender {
+    NSString *commentText = self.commentTextField.text;
+    if (commentText) {
+        [[ParseClient instance] addCommentWithSymbol:self.forPosition.symbol text:commentText];
+        Comment *comment = [[Comment alloc] init];
+        comment.text = commentText;
+        [self.comments insertObject:comment atIndex:0];
+    }
+    [self.view endEditing:YES];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

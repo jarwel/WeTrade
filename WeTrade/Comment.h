@@ -11,8 +11,8 @@
 
 @interface Comment : ParseObject
 
-@property (nonatomic, strong, readonly) NSString *text;
-@property (nonatomic, strong, readonly) NSDate *postDate;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *text;
 
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
 

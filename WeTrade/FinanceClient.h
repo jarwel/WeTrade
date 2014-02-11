@@ -12,6 +12,6 @@
 
 + (FinanceClient *)instance;
 - (void)fetchQuotesForSymbols:(NSArray *)array callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
-- (void)fetchPlotsForSymbol:(NSString *)string callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
+- (void)fetchHistoryForSymbol:(NSString *)string startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
 
 @end

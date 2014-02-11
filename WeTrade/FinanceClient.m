@@ -29,11 +29,16 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
 }
 
-- (void)fetchPlotsForSymbol:(NSString *)string callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    NSString *symbol = [NSString stringWithFormat:@"'%@'", string];
-    NSLog(@"fetchPlotsForSymbol: %@", symbol);
+- (void)fetchHistoryForSymbol:(NSString *)string startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.historicaldata where symbol in (%@) and startDate = '2013-01-01' and endDate = '2014-01-01'", symbol];
+    NSString *symbol = [NSString stringWithFormat:@"'%@'", string];
+    NSString *start = [dateFormatter stringFromDate:startDate];
+    NSString *end = [dateFormatter stringFromDate:endDate];
+    NSLog(@"fetchHistoryForSymbol: %@ start: %@ end: %@", symbol, start, end);
+    
+    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.historicaldata where symbol in (%@) and startDate = '%@' and endDate = '%@'", symbol, start, end];
     NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];

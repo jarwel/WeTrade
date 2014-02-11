@@ -10,10 +10,6 @@
 
 @implementation Comment
 
-- (NSString *)symbol {
-    return [self.data objectForKey:@"symbol"];
-}
-
 - (NSString *)text {
     return [self.data objectForKey:@"text"];
 }
