@@ -136,7 +136,11 @@
     CommentCell *commentCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     Comment *comment = [self.comments objectAtIndex:indexPath.row];
+    commentCell.usernameLabel.text = comment.username;
     commentCell.textLabel.text = comment.text;
+    
+    int hours = [[NSDate date] timeIntervalSinceDate:comment.createdAt] / 3600;
+    commentCell.timeLabel.text = [NSString stringWithFormat:@"%d hrs", hours];
     return commentCell;
 }
 
@@ -153,11 +157,13 @@
     if (commentText) {
         [[ParseClient instance] addCommentWithSymbol:self.forPosition.symbol text:commentText];
         Comment *comment = [[Comment alloc] init];
+        comment.username = [PFUser currentUser].username;
         comment.text = commentText;
+        comment.createdAt = [NSDate date];
         [self.comments insertObject:comment atIndex:0];
+        [self.tableView reloadData];
     }
     [self.view endEditing:YES];
-    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

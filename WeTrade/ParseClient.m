@@ -36,6 +36,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"comment"];
     [query whereKey:@"symbol" equalTo:symbol];
+    [query includeKey:@"user"];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
@@ -71,11 +72,10 @@
 - (void)addCommentWithSymbol:(NSString *)symbol text:(NSString *)text {
     NSLog(@"addCommentWithSymbol: %@ text: %@", symbol, text);
     
-    NSString *userId = [PFUser currentUser].objectId;
     PFObject *commentObject = [PFObject objectWithClassName:@"comment"];
     commentObject[@"symbol"] = symbol;
-    commentObject[@"userId"] = userId;
     commentObject[@"text"] = text;
+    commentObject[@"user"] = [PFUser currentUser];
     [commentObject saveInBackground];
 }
 

@@ -175,26 +175,21 @@
 }
 
 - (void)refreshViews {
-    if (((Quote *)[[self.quotes allValues] firstObject]).price == 0) {
-        NSLog(@"Error: zero value quotes!!!");
+    float currentValue = 0;
+    float costBasis = 0;
+    for (Position *position in self.positions) {
+        Quote *quote = [self.quotes objectForKey:position.symbol];
+        currentValue += [position valueForQuote:quote];
+        costBasis += position.costBasis;
     }
-    else {
-        float currentValue = 0;
-        float costBasis = 0;
-        for (Position *position in self.positions) {
-            Quote *quote = [self.quotes objectForKey:position.symbol];
-            currentValue += [position valueForQuote:quote];
-            costBasis += position.costBasis;
-        }
-        if (costBasis > 0) {
-            float percentChange = costBasis > 0 ? (currentValue - costBasis) / costBasis * 100 : 0;
-            self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
-            self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
-        }
+    if (costBasis > 0) {
+        float percentChange = costBasis > 0 ? (currentValue - costBasis) / costBasis * 100 : 0;
+        self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
+        self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
+    }
     
-        [self.tableView reloadData];
-        [self.chartView.hostedGraph reloadData];
-    }
+    [self.tableView reloadData];
+    [self.chartView.hostedGraph reloadData];
 }
 
 - (void)loadPositions {
