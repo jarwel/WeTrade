@@ -14,13 +14,12 @@
 @interface FollowingViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property (nonatomic, strong) NSMutableDictionary *following;
 @property (nonatomic, strong) NSArray *search;
 @property (nonatomic, assign) BOOL searchMode;
 
 - (NSArray *)current;
-- (void)onFollowButton:(id)sender;
-- (void)onUnfollowButton:(id)sender;
 
 @end
 
@@ -59,16 +58,8 @@
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
     
-    [userCell.followButton setTitle:@"FO" forState:UIControlStateNormal];
-    [userCell.followButton setTitle:@"UF" forState:UIControlStateSelected];
-    if (self.searchMode && [self.following objectForKey:user.objectId] == nil) {
-        [userCell.followButton addTarget:self action:@selector(onFollowButton:) forControlEvents:UIControlEventTouchUpInside];
-        [userCell.followButton setSelected:NO];
-    }
-    else {
-        [userCell.followButton addTarget:self action:@selector(onUnfollowButton:) forControlEvents:UIControlEventTouchUpInside];
-        [userCell.followButton setSelected:YES];
-    }
+    BOOL following = [self.following objectForKey:user.objectId] != nil;
+    [userCell.followButton initForUser:user following:following];
     return userCell;
 }
 
@@ -94,29 +85,13 @@
     return [self.following allValues];
 }
 
-- (void)onFollowButton:(id)sender {
-    PFUser *user = [self.current objectAtIndex:[sender tag]];
-    [self.following setObject:user forKey:user.objectId];
-    [[ParseClient instance] followUser:user];
-    [self.tableView reloadData];
-}
-
-- (void)onUnfollowButton:(id)sender {
-    PFUser *user = [self.current objectAtIndex:[sender tag]];
-    [self.following removeObjectForKey:user.objectId];
-    [[ParseClient instance] unfollowUser:user];
-    [self.tableView reloadData];
-}
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"objectId != %@", [PFUser currentUser].objectId]];
-    
     _searchMode = YES;
     if (searchText.length > 0) {
         [[ParseClient instance] fetchUsersForSearch:searchText callback:^(NSArray *objects, NSError *error) {
             if (!error) {
                 if ([searchText isEqualToString:searchText]) {
-                    _search = [objects filteredArrayUsingPredicate:predicate];
+                    _search = objects;
                     [self.tableView reloadData];
                 }
             } else {

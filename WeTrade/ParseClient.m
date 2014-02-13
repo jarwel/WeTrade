@@ -37,6 +37,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"comment"];
     [query whereKey:@"symbol" equalTo:symbol];
     [query includeKey:@"user"];
+    [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
@@ -53,6 +54,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"username" hasPrefix:search];
+    [query whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 

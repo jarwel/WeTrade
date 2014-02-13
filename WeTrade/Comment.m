@@ -10,6 +10,10 @@
 
 @implementation Comment
 
+- (PFUser *)user {
+    return [self.data objectForKey:@"user"];
+}
+
 - (NSString *)username {
     if ( !_username) {
         PFUser *user = [self.data objectForKey:@"user"];

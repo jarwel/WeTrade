@@ -15,6 +15,7 @@
 #import "Quote.h"
 
 @interface HomeViewController ()
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *followButton;
 

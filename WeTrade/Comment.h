@@ -11,6 +11,7 @@
 
 @interface Comment : ParseObject
 
+@property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSDate *createdAt;

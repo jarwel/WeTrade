@@ -85,6 +85,7 @@
 
 - (void)signOut {
     [PFUser logOut];
+    _homeNavigationController = nil;
     self.window.rootViewController = self.currentViewController;
 }
 

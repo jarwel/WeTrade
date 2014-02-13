@@ -13,7 +13,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saB-Vm-HAX">
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saB-Vm-HAX" customClass="FollowButton">
                         <rect key="frame" x="285" y="7" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="FU"/>
@@ -34,7 +34,7 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="followButton" destination="saB-Vm-HAX" id="55H-aH-PYY"/>
+                <outlet property="followButton" destination="saB-Vm-HAX" id="gAC-yT-uWG"/>
                 <outlet property="totalChangeLabel" destination="cET-kx-P5E" id="nEI-2S-I6O"/>
                 <outlet property="usernameLabel" destination="VaE-7B-4oR" id="3NM-nL-Rir"/>
             </connections>

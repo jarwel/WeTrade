@@ -140,7 +140,10 @@
     commentCell.textLabel.text = comment.text;
     
     int hours = [[NSDate date] timeIntervalSinceDate:comment.createdAt] / 3600;
-    commentCell.timeLabel.text = [NSString stringWithFormat:@"%d hrs", hours];
+    commentCell.timeLabel.text = [NSString stringWithFormat:@"%d hours ago", hours];
+    
+    [commentCell.followButton initForUser:comment.user following:NO];
+    
     return commentCell;
 }
 

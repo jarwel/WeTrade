@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FollowButton.h"
 
 @interface UserCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
+@property (weak, nonatomic) IBOutlet FollowButton *followButton;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalChangeLabel;
 

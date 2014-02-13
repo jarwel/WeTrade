@@ -19,7 +19,7 @@
 }
 
 - (float)percentChange {
-    return [[self.data objectForKey:@"PercentChange"] floatValue];
+    return [[self.data objectForKey:@"ChangeinPercent"] floatValue];
 }
 
 + (NSMutableDictionary *)fromJSONDictionary:(NSDictionary *)dictionary {
