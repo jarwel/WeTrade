@@ -59,7 +59,7 @@
 
             CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) self.chartView.hostedGraph.defaultPlotSpace;
             plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(self.history.quotes.count)];
-            plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(self.history.priceLow) length:CPTDecimalFromFloat(self.history.priceHigh)];
+            plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(self.history.priceLow) length:CPTDecimalFromFloat(self.history.priceHigh - self.history.priceLow)];
     
             [self.chartView.hostedGraph reloadData];
         } else {
@@ -86,25 +86,24 @@
     graph.paddingTop = 0.0f;
     graph.paddingRight = 0.0f;
     graph.paddingBottom = 0.0f;
-    CPTXYAxis *y = [(CPTXYAxisSet *)graph.axisSet yAxis];
-    y.visibleRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0.0) length:CPTDecimalFromFloat(24.0)];
-    y.majorIntervalLength = CPTDecimalFromInt(2);
-    graph.axisSet.axes = @[y];
-    NSNumberFormatter *noDecimalFormatter = [[NSNumberFormatter alloc] init];
-    [noDecimalFormatter setNumberStyle:NSNumberFormatterNoStyle];
-    y.labelFormatter = noDecimalFormatter;
-    y.majorIntervalLength = CPTDecimalFromInt(2);
+    //CPTXYAxis *y = [(CPTXYAxisSet *)graph.axisSet yAxis];
+    //y.visibleRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0.0) length:CPTDecimalFromFloat(24.0)];
+    //y.majorIntervalLength = CPTDecimalFromInt(2);
+    //graph.axisSet.axes = @[y];
+    //NSNumberFormatter *noDecimalFormatter = [[NSNumberFormatter alloc] init];
+    //[noDecimalFormatter setNumberStyle:NSNumberFormatterNoStyle];
+    //y.labelFormatter = noDecimalFormatter;
+    //y.majorIntervalLength = CPTDecimalFromInt(2);
 }
 
 -(void)configureChart {
-    CPTGraph *graph = self.chartView.hostedGraph;
-    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
+    CPTXYPlotSpace *plotSpace  = (CPTXYPlotSpace *) self.chartView.hostedGraph.defaultPlotSpace;
     
     CPTScatterPlot *pricePlot = [[CPTScatterPlot alloc] init];
     pricePlot.dataSource = self;
     pricePlot.delegate = self;
     
-    [graph addPlot:pricePlot toPlotSpace:plotSpace];
+    [self.chartView.hostedGraph addPlot:pricePlot toPlotSpace:plotSpace];
 }
 
 
