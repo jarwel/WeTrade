@@ -10,4 +10,5 @@
 
 extern NSString *const LoginNotification;
 extern NSString *const LogoutNotification;
+extern NSString *const FollowingChangedNotification;
 

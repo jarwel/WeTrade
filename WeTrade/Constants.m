@@ -10,3 +10,4 @@
 
 NSString * const LoginNotification = @"LoginNotification";
 NSString * const LogoutNotification = @"LogoutNotification";
+NSString * const FollowingChangedNotification = @"FollowingChangedNotification";

@@ -11,6 +11,6 @@
 
 @interface FollowButton : UIButton
 
-- (void)initForUser:(PFUser *)user following:(BOOL)following;
+- (void)initForUser:(PFUser *)user;
 
 @end

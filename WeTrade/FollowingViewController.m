@@ -7,18 +7,20 @@
 //
 
 #import "FollowingViewController.h"
+#import "Constants.h"
 #import "HomeViewController.h"
 #import "ParseClient.h"
+#import "Following.h"
 #import "UserCell.h"
 
 @interface FollowingViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) NSMutableDictionary *following;
 @property (nonatomic, strong) NSArray *search;
 @property (nonatomic, assign) BOOL searchMode;
 
+- (void)refreshViews;
 - (NSArray *)current;
 
 @end
@@ -31,19 +33,7 @@
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
     
-    _following = [[NSMutableDictionary alloc] init];
-    [[ParseClient instance] fetchFollowing:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            NSMutableDictionary *following = [[NSMutableDictionary alloc] init];
-            for (PFUser *user in objects) {
-                [following setObject:user forKey:user.objectId];
-            }
-            _following = following;
-            [self.tableView reloadData];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -57,9 +47,7 @@
     PFUser *user = [self.current objectAtIndex:indexPath.row];
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
-    
-    BOOL following = [self.following objectForKey:user.objectId] != nil;
-    [userCell.followButton initForUser:user following:following];
+    [userCell.followButton initForUser:user];
     return userCell;
 }
 
@@ -76,13 +64,6 @@
         HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
         homeViewController.forUser = user;
     }
-}
-
-- (NSArray *)current {
-    if (self.searchMode) {
-        return self.search;
-    }
-    return [self.following allValues];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -115,6 +96,17 @@
     [searchBar setShowsCancelButton:NO animated:YES];
     [self.view endEditing:YES];
     [self.tableView reloadData];
+}
+
+- (void)refreshViews {
+    [self.tableView reloadData];
+}
+
+- (NSArray *)current {
+    if (self.searchMode) {
+        return self.search;
+    }
+    return [[Following instance] asArray];
 }
 
 - (void)didReceiveMemoryWarning {

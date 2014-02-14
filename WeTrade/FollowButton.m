@@ -7,12 +7,12 @@
 //
 
 #import "FollowButton.h"
-#import "ParseClient.h"
+#import "Following.h"
 
 @interface FollowButton ()
 
 @property (nonatomic, strong) PFUser *user;
-@property (nonatomic, assign) BOOL following;
+@property (nonatomic, assign) BOOL isFollowing;
 
 @end
 
@@ -20,25 +20,25 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self setTitle:@"FO" forState:UIControlStateNormal];
-    [self setTitle:@"UF" forState:UIControlStateSelected];
+    [self setImage:[UIImage imageNamed:@"follow.png"] forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:@"follow_selected.png"] forState:UIControlStateSelected];
     [self addTarget:self action:@selector(didTouchButton) forControlEvents:UIControlEventTouchDown];
 }
 
-- (void)initForUser:(PFUser *)user following:(BOOL)following {
+- (void)initForUser:(PFUser *)user {
     if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self setEnabled:NO];
         [self setHidden:YES];
     }
     _user = user;
-    _following = following;
-    [self setSelected:self.following];
+    _isFollowing = [[Following instance] contains:user.objectId];
+    [self setSelected:self.isFollowing];
 }
 
 - (void)didTouchButton {
-    self.following ? [[ParseClient instance] unfollowUser:self.user] : [[ParseClient instance] followUser:self.user];
-    _following = !self.following;
-    [self setSelected:self.following];
+    self.isFollowing ? [[Following instance] unfollowUser:self.user] : [[Following instance] followUser:self.user];
+    _isFollowing = !self.isFollowing;
+    [self setSelected:self.isFollowing];
 }
 
 @end

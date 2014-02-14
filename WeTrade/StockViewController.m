@@ -7,6 +7,7 @@
 //
 
 #import "StockViewController.h"
+#import "Constants.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "CommentCell.h"
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) History *history;
 
 - (IBAction)onAddComment:(id)sender;
+- (void)refreshViews;
 
 @end
 
@@ -35,6 +37,8 @@
     [self setTitle:self.forPosition.symbol];
     [self initChart];
     [self initTable];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -140,9 +144,7 @@
     
     int hours = [[NSDate date] timeIntervalSinceDate:comment.createdAt] / 3600;
     commentCell.timeLabel.text = [NSString stringWithFormat:@"%d hours ago", hours];
-    
-    [commentCell.followButton initForUser:comment.user following:NO];
-    
+    [commentCell.followButton initForUser:comment.user];
     return commentCell;
 }
 
@@ -166,6 +168,10 @@
         [self.tableView reloadData];
     }
     [self.view endEditing:YES];
+}
+
+- (void)refreshViews {
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
