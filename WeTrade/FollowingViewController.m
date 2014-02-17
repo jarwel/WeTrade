@@ -47,7 +47,7 @@
     PFUser *user = [self.current objectAtIndex:indexPath.row];
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
-    [userCell.followButton initForUser:user];
+    [userCell.followButton setUser:user];
     return userCell;
 }
 

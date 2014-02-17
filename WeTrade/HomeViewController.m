@@ -10,14 +10,12 @@
 #import "StockViewController.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
+#import "FollowButton.h"
 #import "PositionCell.h"
 #import "Position.h"
 #import "Quote.h"
 
 @interface HomeViewController ()
-
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *followButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -26,15 +24,13 @@
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
 
-- (IBAction)onBackButton:(id)sender;
-- (IBAction)onFollowButton:(id)sender;
-- (IBAction)onUnfollowButton:(id)sender;
-
 - (void)initTable;
 - (void)initChart;
 - (void)loadPositions;
 - (void)loadQuotes;
 - (void)refreshViews;
+- (void)onDoneButton;
+- (UIColor *)getChangeColor:(float)change;
 
 @end
 
@@ -45,11 +41,13 @@
 
     if (self.forUser) {
         [self setTitle:self.forUser.username];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(onDoneButton)];
+        //FollowButton *followButton = [[FollowButton alloc] init];
+        //[followButton setUser:self.forUser];
+        //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:followButton];
     }
     else {
         _forUser = [PFUser currentUser];
-        [self.backButton setEnabled:NO];
-        [self.followButton setEnabled:NO];
     }
     
     [self initTable];
@@ -222,6 +220,10 @@
     }
 }
 
+- (void)onDoneButton {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (UIColor *)getChangeColor:(float)change {
     if (change > 0) {
         return [UIColor greenColor];
@@ -230,18 +232,6 @@
         return [UIColor redColor];
     }
     return [UIColor blueColor];
-}
-
-- (IBAction)onBackButton:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)onFollowButton:(id)sender {
-    [[ParseClient instance] followUser:self.forUser];
-}
-
-- (IBAction)onUnfollowButton:(id)sender {
-    [[ParseClient instance] unfollowUser:self.forUser];
 }
 
 @end

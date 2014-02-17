@@ -25,7 +25,7 @@
     [self addTarget:self action:@selector(didTouchButton) forControlEvents:UIControlEventTouchDown];
 }
 
-- (void)initForUser:(PFUser *)user {
+- (void)setUser:(PFUser *)user {
     if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self setEnabled:NO];
         [self setHidden:YES];

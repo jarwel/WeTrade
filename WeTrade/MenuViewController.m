@@ -26,26 +26,24 @@
     self.emailLabel.text = user.email;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
-    }
-    if (indexPath.row == 1) {
-        return [tableView dequeueReusableCellWithIdentifier:@"ManageCell" forIndexPath:indexPath];
+    switch (indexPath.row) {
+        case 0 :
+            return [tableView dequeueReusableCellWithIdentifier:@"BuySharesCell" forIndexPath:indexPath];
+        case 1 :
+            return [tableView dequeueReusableCellWithIdentifier:@"SellSharesCell" forIndexPath:indexPath];
+        case 2 :
+            return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
     }
     return [tableView dequeueReusableCellWithIdentifier:@"EmptyCell" forIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 2) {
         [[NSNotificationCenter defaultCenter] postNotificationName:LogoutNotification object:nil];
     }
 }
