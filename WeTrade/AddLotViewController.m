@@ -11,7 +11,6 @@
 
 @interface AddLotViewController ()
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *actionSegmentedControl;
 @property (weak, nonatomic) IBOutlet UITextField *symbolTextField;
 @property (weak, nonatomic) IBOutlet UITextField *sharesTextField;
 @property (weak, nonatomic) IBOutlet UITextField *priceTextField;

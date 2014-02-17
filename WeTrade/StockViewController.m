@@ -18,13 +18,18 @@
 @interface StockViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *stockNameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *commentButton;
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) History *history;
 
+- (IBAction)onShowCommentTextField:(id)sender;
 - (IBAction)onAddComment:(id)sender;
+- (IBAction)onEditingChanged:(id)sender;
+- (IBAction)onTap:(id)sender;
 - (void)refreshViews;
 
 @end
@@ -116,7 +121,7 @@
 }
 
 - (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
-    int count = self.history.quotes.count;
+    long count = self.history.quotes.count;
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
             if (index < count) {
@@ -156,7 +161,18 @@
     return 95;
 }
 
+- (IBAction)onShowCommentTextField:(id)sender {
+    [self.commentButton setHidden:YES];
+    [self.addButton setHidden:NO];
+    [self.addButton setEnabled:NO];
+    [self.commentTextField setHidden:NO];
+    [self.commentTextField setTextColor:[UIColor blackColor]];
+}
+
 - (IBAction)onAddComment:(id)sender {
+    [self.commentTextField setHidden:YES];
+    [self.addButton setHidden:YES];
+    [self.commentButton setHidden:NO];
     NSString *commentText = self.commentTextField.text;
     if (commentText) {
         [[ParseClient instance] addCommentWithSymbol:self.forPosition.symbol text:commentText];
@@ -167,6 +183,18 @@
         [self.comments insertObject:comment atIndex:0];
         [self.tableView reloadData];
     }
+    [self.view endEditing:YES];
+    self.commentTextField.text = nil;
+}
+
+- (IBAction)onEditingChanged:(id)sender {
+    [self.addButton setEnabled:self.commentTextField.text.length > 0];
+}
+
+- (IBAction)onTap:(id)sender {
+    [self.commentTextField setHidden:YES];
+    [self.addButton setHidden:YES];
+    [self.commentButton setHidden:NO];
     [self.view endEditing:YES];
 }
 

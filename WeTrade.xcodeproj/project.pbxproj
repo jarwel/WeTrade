@@ -36,6 +36,7 @@
 		CA861DE018AEA4C00057D163 /* Following.m in Sources */ = {isa = PBXBuildFile; fileRef = CA861DDF18AEA4C00057D163 /* Following.m */; };
 		CA861DED18AEC65C0057D163 /* follow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = CA861DEB18AEC65C0057D163 /* follow_selected.png */; };
 		CA861DEE18AEC65C0057D163 /* follow.png in Resources */ = {isa = PBXBuildFile; fileRef = CA861DEC18AEC65C0057D163 /* follow.png */; };
+		CA861DF218AEEAFC0057D163 /* core_plot_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA861DF118AEEAFC0057D163 /* core_plot_all.a */; };
 		CA977C401896118B002AD88F /* ParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C3F1896118B002AD88F /* ParseObject.m */; };
 		CA977C431896212F002AD88F /* PositionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C421896212F002AD88F /* PositionCell.m */; };
 		CA977C451896214E002AD88F /* PositionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA977C441896214E002AD88F /* PositionCell.xib */; };
@@ -46,7 +47,6 @@
 		CAA68942189B5FA400CE7FAA /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA68941189B5FA400CE7FAA /* UserCell.m */; };
 		CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA68944189B60F300CE7FAA /* FollowingViewController.m */; };
 		CAB14EAB189726E300B2C9BE /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EAA189726E300B2C9BE /* Accelerate.framework */; };
-		CAB14EFC1897280A00B2C9BE /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFB1897280A00B2C9BE /* libCorePlot-CocoaTouch.a */; };
 		CAB14EFF1897307300B2C9BE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFD18972DAB00B2C9BE /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CAB14F03189730B400B2C9BE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14F02189730B400B2C9BE /* FacebookSDK.framework */; };
 		CACD593418919E7E006FD228 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Home.storyboard */; };
@@ -127,6 +127,7 @@
 		CA861DDF18AEA4C00057D163 /* Following.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Following.m; sourceTree = "<group>"; };
 		CA861DEB18AEC65C0057D163 /* follow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow_selected.png; sourceTree = "<group>"; };
 		CA861DEC18AEC65C0057D163 /* follow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow.png; sourceTree = "<group>"; };
+		CA861DF118AEEAFC0057D163 /* core_plot_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = core_plot_all.a; sourceTree = "<group>"; };
 		CA977C3E1896118B002AD88F /* ParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseObject.h; sourceTree = "<group>"; };
 		CA977C3F1896118B002AD88F /* ParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseObject.m; sourceTree = "<group>"; };
 		CA977C411896212F002AD88F /* PositionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionCell.h; sourceTree = "<group>"; };
@@ -222,7 +223,6 @@
 		CAB14EF8189727EE00B2C9BE /* NSCoderExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCoderExtensions.h; sourceTree = "<group>"; };
 		CAB14EF9189727EE00B2C9BE /* NSDecimalNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDecimalNumberExtensions.h; sourceTree = "<group>"; };
 		CAB14EFA189727EE00B2C9BE /* NSNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSNumberExtensions.h; sourceTree = "<group>"; };
-		CAB14EFB1897280A00B2C9BE /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCorePlot-CocoaTouch.a"; path = "CorePlotHeaders/libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		CAB14EFD18972DAB00B2C9BE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		CAB14F001897307A00B2C9BE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CAB14F02189730B400B2C9BE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -262,7 +262,6 @@
 				CAB14EFF1897307300B2C9BE /* Accounts.framework in Frameworks */,
 				CAB14EAB189726E300B2C9BE /* Accelerate.framework in Frameworks */,
 				CACD59501891C5A9006FD228 /* QuartzCore.framework in Frameworks */,
-				CAB14EFC1897280A00B2C9BE /* libCorePlot-CocoaTouch.a in Frameworks */,
 				CAB14F03189730B400B2C9BE /* FacebookSDK.framework in Frameworks */,
 				CACD594B1891C5A9006FD228 /* AudioToolbox.framework in Frameworks */,
 				CACD594C1891C5A9006FD228 /* CFNetwork.framework in Frameworks */,
@@ -272,6 +271,7 @@
 				CACD59511891C5A9006FD228 /* Security.framework in Frameworks */,
 				CACD59521891C5A9006FD228 /* StoreKit.framework in Frameworks */,
 				CACD59531891C5A9006FD228 /* SystemConfiguration.framework in Frameworks */,
+				CA861DF218AEEAFC0057D163 /* core_plot_all.a in Frameworks */,
 				CA10089F1890647B0031CF68 /* CoreGraphics.framework in Frameworks */,
 				CA1008A11890647B0031CF68 /* UIKit.framework in Frameworks */,
 				CACD59411891C4DC006FD228 /* Parse.framework in Frameworks */,
@@ -295,7 +295,7 @@
 		CA1008901890647B0031CF68 = {
 			isa = PBXGroup;
 			children = (
-				CAB14EFB1897280A00B2C9BE /* libCorePlot-CocoaTouch.a */,
+				CA861DF118AEEAFC0057D163 /* core_plot_all.a */,
 				CA1008A21890647B0031CF68 /* WeTrade */,
 				CA1008C11890647B0031CF68 /* WeTradeTests */,
 				CA10089B1890647B0031CF68 /* Frameworks */,
@@ -836,6 +836,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/jwells/git/WeTrade/CorePlotHeaders,
+					/Users/jwells/git/WeTrade,
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -863,6 +864,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/jwells/git/WeTrade/CorePlotHeaders,
+					/Users/jwells/git/WeTrade,
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
