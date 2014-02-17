@@ -36,6 +36,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="VnJ-Hd-VRP" kind="modal" id="WWB-xg-rAB"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SellSharesCell" id="bPR-je-jdL">
                                         <rect key="frame" x="0.0" y="66" width="320" height="44"/>
@@ -114,7 +117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HLc-5n-ZiP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3267" y="-1868"/>
+            <point key="canvasLocation" x="-3635" y="-2443"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MjS-4o-d7u">
@@ -130,7 +133,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nK6-xb-QiZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3267" y="-2623"/>
+            <point key="canvasLocation" x="-3635" y="-3198"/>
         </scene>
         <!--Home View Controller - My Portfolio-->
         <scene sceneID="eru-ud-5Yp">
@@ -202,7 +205,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap9-Dj-fCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2707" y="-2623"/>
+            <point key="canvasLocation" x="-3075" y="-3198"/>
         </scene>
         <!--Stock View Controller-->
         <scene sceneID="m8s-hr-bHq">
@@ -290,7 +293,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-2165" y="-2623"/>
+            <point key="canvasLocation" x="-2549" y="-3198"/>
         </scene>
         <!--Following View Controller-->
         <scene sceneID="NCn-lS-VCh">
@@ -333,7 +336,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7rh-81-x8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3809" y="-1868"/>
+            <point key="canvasLocation" x="-4177" y="-2443"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zIA-id-dpK">
@@ -348,7 +351,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5YD-2G-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2707" y="-1868"/>
+            <point key="canvasLocation" x="-3091" y="-2443"/>
         </scene>
         <!--Edit Lots View Controller - Manage Lots-->
         <scene sceneID="ZKx-hJ-9xU">
@@ -364,21 +367,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Manage Lots" id="deT-gu-Ari">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="Gwo-E8-KQl">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Gwo-E8-KQl">
                             <connections>
                                 <action selector="onDoneButton:" destination="uRJ-UM-ELb" id="SxX-2Z-yD4"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9OA-uF-hwc">
-                            <connections>
-                                <segue destination="VnJ-Hd-VRP" kind="modal" id="72V-PP-toL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v03-BO-XZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2165" y="-1868"/>
+            <point key="canvasLocation" x="-2549" y="-2443"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pgz-l9-ONq">
@@ -393,7 +391,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3T3-hT-pjf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1645" y="-1868"/>
+            <point key="canvasLocation" x="-3091" y="-1699"/>
         </scene>
         <!--Add Lot View Controller - Add Lot-->
         <scene sceneID="4Zx-pN-HXY">
@@ -487,7 +485,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1119" y="-1868"/>
+            <point key="canvasLocation" x="-2549" y="-1699"/>
         </scene>
     </scenes>
     <resources>
