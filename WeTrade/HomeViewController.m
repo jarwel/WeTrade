@@ -29,7 +29,7 @@
 - (void)loadPositions;
 - (void)loadQuotes;
 - (void)refreshViews;
-- (void)onDoneButton;
+- (IBAction)onDoneButton:(id)sender;
 - (UIColor *)getChangeColor:(float)change;
 
 @end
@@ -41,13 +41,11 @@
 
     if (self.forUser) {
         [self setTitle:self.forUser.username];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(onDoneButton)];
-        //FollowButton *followButton = [[FollowButton alloc] init];
-        //[followButton setUser:self.forUser];
-        //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:followButton];
     }
     else {
         _forUser = [PFUser currentUser];
+        self.navigationItem.leftBarButtonItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
     }
     
     [self initTable];
@@ -96,7 +94,7 @@
     pieChart.pieRadius = (self.chartView.bounds.size.height * 0.7) / 2;
     pieChart.identifier = graph.title;
     pieChart.startAngle = M_PI_4;
-    pieChart.sliceDirection = CPTPieDirectionClockwise;
+    pieChart.sliceDirection = CPTPieDirectionCounterClockwise;
     
     CPTGradient *overlayGradient = [[CPTGradient alloc] init];
     overlayGradient.gradientType = CPTGradientTypeRadial;
@@ -125,11 +123,16 @@
     if (!style) {
         style= [[CPTMutableTextStyle alloc] init];
         style.color = [CPTColor grayColor];
-        style.fontSize = 10.0f;
+        style.fontSize = 11.0f;
     }
     
     Position *position = [self.positions objectAtIndex:index];
     return [[CPTTextLayer alloc] initWithText:position.symbol style:style];
+}
+
+-(CPTFill *)sliceFillForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)index {
+    float alpha = ((float)self.positions.count - index) / self.positions.count;
+    return [CPTFill fillWithColor:[[CPTColor blueColor] colorWithAlphaComponent:alpha]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -163,17 +166,13 @@
     [self performSegueWithIdentifier:@"ShowStock" sender:self];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowStock"]) {
-        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
-        Position *position = [self.positions objectAtIndex:indexPath.row];
-        
-        StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.forPosition = position;
-    }
-}
-
 - (void)refreshViews {
+    _positions = [_positions sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        float first = [(Position*)a costBasis];
+        float second = [(Position*)b costBasis];
+        return first < second;
+    }];
+    
     float currentValue = 0;
     float costBasis = 0;
     for (Position *position in self.positions) {
@@ -186,7 +185,6 @@
         self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
         self.percentChangeLabel.textColor = [self getChangeColor:percentChange];
     }
-    
     [self.tableView reloadData];
     [self.chartView.hostedGraph reloadData];
 }
@@ -220,7 +218,17 @@
     }
 }
 
-- (void)onDoneButton {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowStock"]) {
+        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
+        Position *position = [self.positions objectAtIndex:indexPath.row];
+        
+        StockViewController *stockViewController = segue.destinationViewController;
+        stockViewController.forPosition = position;
+    }
+}
+
+- (IBAction)onDoneButton:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

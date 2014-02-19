@@ -15,6 +15,7 @@
 
 @interface FollowingViewController ()
 
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) NSArray *search;
@@ -61,6 +62,8 @@
         PFUser *user = [self.current objectAtIndex:indexPath.row];
         
         UINavigationController *navigationViewController = segue.destinationViewController;
+        navigationViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
         HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
         homeViewController.forUser = user;
     }
