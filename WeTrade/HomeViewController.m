@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "StockViewController.h"
+#import "Constants.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "FollowButton.h"
@@ -53,6 +54,8 @@
     
     [self initTable];
     [self initChart];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:FollowingChangedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

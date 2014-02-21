@@ -25,7 +25,7 @@
 
 - (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchLotsForUserId: %@", userId);
-    PFQuery *query = [PFQuery queryWithClassName:@"lot"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Lot"];
     [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [query whereKey:@"userId" equalTo:userId];
     [query findObjectsInBackgroundWithBlock:callback];
@@ -34,7 +34,7 @@
 - (void)fetchCommentsForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchCommentsForSymbol: %@", symbol);
     
-    PFQuery *query = [PFQuery queryWithClassName:@"comment"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
     [query whereKey:@"symbol" equalTo:symbol];
     [query includeKey:@"user"];
     [query orderByDescending:@"createdAt"];
@@ -62,7 +62,7 @@
     NSLog(@"createLotWithSymbol: %@ price: %f.00 shares: %d costBasis: %f.00", symbol, price, shares, costBasis);
     
     NSString *userId = [PFUser currentUser].objectId;
-    PFObject *lotObject = [PFObject objectWithClassName:@"lot"];
+    PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
     lotObject[@"userId"] = userId;
     lotObject[@"symbol"] = symbol;
     lotObject[@"price"] = [@(price) stringValue];
@@ -74,7 +74,7 @@
 - (void)addCommentWithSymbol:(NSString *)symbol text:(NSString *)text {
     NSLog(@"addCommentWithSymbol: %@ text: %@", symbol, text);
     
-    PFObject *commentObject = [PFObject objectWithClassName:@"comment"];
+    PFObject *commentObject = [PFObject objectWithClassName:@"Comment"];
     commentObject[@"symbol"] = symbol;
     commentObject[@"text"] = text;
     commentObject[@"user"] = [PFUser currentUser];

@@ -7,6 +7,7 @@
 //
 
 #import "AddLotViewController.h"
+#import "Constants.h"
 #import "ParseClient.h"
 
 @interface AddLotViewController ()
@@ -34,6 +35,7 @@
     float costBasis = price * shares;
     
     [[ParseClient instance] addLotWithSymbol:symbol price:price shares:shares costBasis:costBasis];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LotsChangedNotification object:nil];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

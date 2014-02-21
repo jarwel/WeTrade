@@ -201,7 +201,7 @@
                                 <action selector="onDoneButton:" destination="i5f-bq-GVV" id="WI3-D1-6Q3"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="follow.png" style="plain" id="nUG-Sb-nV5" customClass="FollowBarButton">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="follow.png" id="nUG-Sb-nV5" customClass="FollowBarButton">
                             <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                     </navigationItem>
@@ -364,7 +364,7 @@
             </objects>
             <point key="canvasLocation" x="-3863" y="-2427"/>
         </scene>
-        <!--Edit Lots View Controller - Sell-->
+        <!--Edit Lots View Controller - Sell Shares-->
         <scene sceneID="ZKx-hJ-9xU">
             <objects>
                 <tableViewController id="uRJ-UM-ELb" customClass="EditLotsViewController" sceneMemberID="viewController">
@@ -377,7 +377,7 @@
                             <outlet property="delegate" destination="uRJ-UM-ELb" id="xiq-ea-Zxr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sell" id="deT-gu-Ari">
+                    <navigationItem key="navigationItem" title="Sell Shares" id="deT-gu-Ari">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Gwo-E8-KQl">
                             <connections>
                                 <action selector="onDoneButton:" destination="uRJ-UM-ELb" id="SxX-2Z-yD4"/>
@@ -404,7 +404,7 @@
             </objects>
             <point key="canvasLocation" x="-3863" y="-1683"/>
         </scene>
-        <!--Add Lot View Controller - Buy-->
+        <!--Add Lot View Controller - Buy Shares-->
         <scene sceneID="4Zx-pN-HXY">
             <objects>
                 <viewController id="g1u-eQ-hq1" customClass="AddLotViewController" sceneMemberID="viewController">
@@ -420,7 +420,7 @@
                                 <rect key="frame" x="203" y="115" width="97" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gON-kY-eE1">
                                 <rect key="frame" x="203" y="227" width="97" height="30"/>
@@ -456,7 +456,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7U1-Ik-dIb">
-                                <rect key="frame" x="20" y="320" width="280" height="50"/>
+                                <rect key="frame" x="20" y="287" width="280" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -475,7 +475,7 @@
                             <outletCollection property="gestureRecognizers" destination="R2P-gK-cuD" appends="YES" id="k1j-ZH-Sbn"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Buy" id="1pk-Nf-MVX">
+                    <navigationItem key="navigationItem" title="Buy Shares" id="1pk-Nf-MVX">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="W2F-xf-Esh">
                             <connections>
                                 <action selector="onCancelButton:" destination="g1u-eQ-hq1" id="scP-hd-pp7"/>

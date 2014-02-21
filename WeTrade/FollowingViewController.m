@@ -7,8 +7,8 @@
 //
 
 #import "FollowingViewController.h"
-#import "Constants.h"
 #import "HomeViewController.h"
+#import "Constants.h"
 #import "ParseClient.h"
 #import "Following.h"
 #import "UserCell.h"

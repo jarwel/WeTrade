@@ -13,7 +13,7 @@
 
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, assign) BOOL isFollowing;
-- (void)didTouchButton;
+- (IBAction)didTouchButton:(id)sender;
 
 @end
 
@@ -23,7 +23,7 @@
     [super awakeFromNib];
     [self setImage:[UIImage imageNamed:@"follow.png"] forState:UIControlStateNormal];
     [self setImage:[UIImage imageNamed:@"follow_selected.png"] forState:UIControlStateSelected];
-    [self addTarget:self action:@selector(didTouchButton) forControlEvents:UIControlEventTouchDown];
+    [self addTarget:self action:@selector(didTouchButton:) forControlEvents:UIControlEventTouchDown];
 }
 
 - (void)initForUser:(PFUser *)user {
@@ -36,7 +36,7 @@
     [self setSelected:self.isFollowing];
 }
 
-- (void)didTouchButton {
+- (IBAction)didTouchButton:(id)sender {
     self.isFollowing ? [[Following instance] unfollowUser:self.user] : [[Following instance] followUser:self.user];
     _isFollowing = !self.isFollowing;
     [self setSelected:self.isFollowing];
