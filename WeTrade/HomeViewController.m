@@ -11,12 +11,14 @@
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "FollowButton.h"
+#import "FollowBarButton.h"
 #import "PositionCell.h"
 #import "Position.h"
 #import "Quote.h"
 
 @interface HomeViewController ()
 
+@property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
@@ -41,6 +43,7 @@
 
     if (self.forUser) {
         [self setTitle:self.forUser.username];
+        [self.followBarButton initForUser:self.forUser];
     }
     else {
         _forUser = [PFUser currentUser];
@@ -58,7 +61,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    if(self.quoteTimer) {
+    if (self.quoteTimer) {
         [self.quoteTimer invalidate];
         _quoteTimer = nil;
     }
@@ -167,11 +170,11 @@
 }
 
 - (void)refreshViews {
-    _positions = [_positions sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        float first = [(Position*)a costBasis];
-        float second = [(Position*)b costBasis];
-        return first < second;
-    }];
+    //NSArray *sorted = [_positions sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    //    float first = [(Position*)a costBasis];
+    //    float second = [(Position*)b costBasis];
+    //    return first < second;
+    //}];
     
     float currentValue = 0;
     float costBasis = 0;
@@ -193,6 +196,7 @@
     [[ParseClient instance] fetchLotsForUserId:self.forUser.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromPFObjectArray:objects];
+            [self loadQuotes];
             [self refreshViews];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

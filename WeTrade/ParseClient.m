@@ -25,8 +25,8 @@
 
 - (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchLotsForUserId: %@", userId);
-    
     PFQuery *query = [PFQuery queryWithClassName:@"lot"];
+    [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [query whereKey:@"userId" equalTo:userId];
     [query findObjectsInBackgroundWithBlock:callback];
 }

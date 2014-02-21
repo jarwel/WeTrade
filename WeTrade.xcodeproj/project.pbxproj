@@ -49,7 +49,7 @@
 		CAB14EAB189726E300B2C9BE /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EAA189726E300B2C9BE /* Accelerate.framework */; };
 		CAB14EFF1897307300B2C9BE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFD18972DAB00B2C9BE /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CAB14F03189730B400B2C9BE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14F02189730B400B2C9BE /* FacebookSDK.framework */; };
-		CACD593418919E7E006FD228 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Home.storyboard */; };
+		CACD593418919E7E006FD228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Main.storyboard */; };
 		CACD593F1891C369006FD228 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* HomeViewController.m */; };
 		CACD59411891C4DC006FD228 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59401891C4DC006FD228 /* Parse.framework */; };
 		CACD594B1891C5A9006FD228 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59421891C5A9006FD228 /* AudioToolbox.framework */; };
@@ -68,6 +68,7 @@
 		CACD59731891E67D006FD228 /* LotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACD59721891E67D006FD228 /* LotCell.xib */; };
 		CACD597C1891EA35006FD228 /* Lot.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597B1891EA35006FD228 /* Lot.m */; };
 		CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597E1891F779006FD228 /* AddLotViewController.m */; };
+		CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,7 +227,7 @@
 		CAB14EFD18972DAB00B2C9BE /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		CAB14F001897307A00B2C9BE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CAB14F02189730B400B2C9BE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
-		CACD593318919E7E006FD228 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		CACD593318919E7E006FD228 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CACD593D1891C369006FD228 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		CACD593E1891C369006FD228 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		CACD59401891C4DC006FD228 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -252,6 +253,8 @@
 		CACD597B1891EA35006FD228 /* Lot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lot.m; sourceTree = "<group>"; };
 		CACD597D1891F779006FD228 /* AddLotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLotViewController.h; sourceTree = "<group>"; };
 		CACD597E1891F779006FD228 /* AddLotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLotViewController.m; sourceTree = "<group>"; };
+		CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowBarButton.h; sourceTree = "<group>"; };
+		CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowBarButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -508,7 +511,7 @@
 		CACD59571891C9A8006FD228 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				CACD593318919E7E006FD228 /* Home.storyboard */,
+				CACD593318919E7E006FD228 /* Main.storyboard */,
 				CACD593D1891C369006FD228 /* HomeViewController.h */,
 				CACD593E1891C369006FD228 /* HomeViewController.m */,
 				CACD595F1891CDB3006FD228 /* MenuViewController.h */,
@@ -569,6 +572,8 @@
 				CA0F62B118A742F2001FAA1A /* CommentCell.xib */,
 				CA6B5C0718AB0870006CB919 /* FollowButton.h */,
 				CA6B5C0818AB0870006CB919 /* FollowButton.m */,
+				CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */,
+				CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -658,7 +663,7 @@
 				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
 				CA829F0018AC62D600AEA465 /* profile_default.jpeg in Resources */,
-				CACD593418919E7E006FD228 /* Home.storyboard in Resources */,
+				CACD593418919E7E006FD228 /* Main.storyboard in Resources */,
 				CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,6 +687,7 @@
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */,
+				CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */,
 				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,

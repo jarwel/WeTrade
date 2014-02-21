@@ -30,11 +30,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.view endEditing:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -48,7 +52,7 @@
     PFUser *user = [self.current objectAtIndex:indexPath.row];
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
-    [userCell.followButton setUser:user];
+    [userCell.followButton initForUser:user];
     return userCell;
 }
 

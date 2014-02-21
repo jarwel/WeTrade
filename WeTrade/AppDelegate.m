@@ -16,7 +16,7 @@
 @interface AppDelegate ()
 
 @property (nonatomic, strong) SignInViewController *signInViewController;
-@property (nonatomic, strong) IIViewDeckController *homeNavigationController;
+@property (nonatomic, strong) IIViewDeckController *mainNavigationController;
 
 @end
 
@@ -85,7 +85,7 @@
 
 - (void)signOut {
     [PFUser logOut];
-    _homeNavigationController = nil;
+    _mainNavigationController = nil;
     self.window.rootViewController = self.currentViewController;
 }
 
@@ -109,8 +109,8 @@
 }
 
 - (UIViewController *)homeNavigationController {
-    if (!_homeNavigationController) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Home" bundle:nil];
+    if (!_mainNavigationController) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
         UIViewController* leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
@@ -118,9 +118,9 @@
         
         UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
         
-        _homeNavigationController = [[IIViewDeckController alloc] initWithCenterViewController:centerViewController leftViewController:leftViewController rightViewController:rightViewController];
+        _mainNavigationController = [[IIViewDeckController alloc] initWithCenterViewController:centerViewController leftViewController:leftViewController rightViewController:rightViewController];
     }
-    return _homeNavigationController;
+    return _mainNavigationController;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
