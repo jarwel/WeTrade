@@ -37,6 +37,9 @@
     [self.signUpView.passwordField setBorderStyle:UITextBorderStyleBezel];
     [self.signUpView.emailField setBackgroundColor:[UIColor blackColor]];
     [self.signUpView.emailField setBorderStyle:UITextBorderStyleBezel];
+    [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
+    [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [self.signUpView.signUpButton setBackgroundColor:[UIColor colorWithRed:0.25 green:0.6 blue:1.0 alpha:1.0]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

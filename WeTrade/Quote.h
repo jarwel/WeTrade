@@ -12,6 +12,7 @@
 @interface Quote : RestObject
 
 @property (nonatomic, strong, readonly) NSString *symbol;
+@property (nonatomic, strong, readonly) NSString *name;
 @property (nonatomic, assign, readonly) float price;
 @property (nonatomic, assign, readonly) float percentChange;
 

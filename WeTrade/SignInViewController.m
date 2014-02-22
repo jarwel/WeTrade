@@ -36,6 +36,9 @@
     [self.logInView.usernameField setBorderStyle:UITextBorderStyleBezel];
     [self.logInView.passwordField setBackgroundColor:[UIColor blackColor]];
     [self.logInView.passwordField setBorderStyle:UITextBorderStyleBezel];
+    [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
+    [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [self.logInView.signUpButton setBackgroundColor:[UIColor colorWithRed:0.25 green:0.6 blue:1.0 alpha:1.0]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -11,8 +11,13 @@
 @interface History : NSObject
 
 @property (nonatomic, strong) NSArray *quotes;
-@property (nonatomic, assign) float priceLow;
-@property (nonatomic, assign) float priceHigh;
+@property (nonatomic, assign) float lowPrice;
+@property (nonatomic, assign) float highPrice;
+
+@property (nonatomic, assign, readonly) NSDate *startDate;
+@property (nonatomic, assign, readonly) NSDate *endDate;
+@property (nonatomic, assign, readonly) float startPrice;
+@property (nonatomic, assign, readonly) float endPrice;
 
 + (History *)fromJSONDictionary:(NSDictionary *)dictionary;
 

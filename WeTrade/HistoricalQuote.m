@@ -14,6 +14,12 @@
     return [self.data objectForKey:@"Symbol"];
 }
 
+- (NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    return [dateFormatter dateFromString:[self.data objectForKey:@"Date"]];
+}
+
 - (float)close {
     return [[self.data objectForKey:@"Close"] floatValue];
 }

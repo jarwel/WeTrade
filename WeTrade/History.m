@@ -11,6 +11,26 @@
 
 @implementation History
 
+- (NSDate *)startDate {
+    HistoricalQuote *quote = [self.quotes objectAtIndex:0];
+    return quote.date;
+}
+
+- (NSDate *)endDate {
+    HistoricalQuote *quote = [self.quotes lastObject];
+    return quote.date;
+}
+
+- (float)startPrice {
+    HistoricalQuote *quote = [self.quotes objectAtIndex:0];
+    return quote.close;
+}
+
+- (float)endPrice {
+    HistoricalQuote *quote = [self.quotes lastObject];
+    return quote.close;
+}
+
 + (History *)fromJSONDictionary:(NSDictionary *)dictionary {
     History *history = [[History alloc] init];
     
@@ -32,11 +52,11 @@
                 high = historicalQuote.close;
             }
             [quotes addObject:historicalQuote];
-            }
         }
+    }
     history.quotes = [[quotes reverseObjectEnumerator] allObjects];
-    history.priceLow = low;
-    history.priceHigh = high;
+    history.lowPrice = low;
+    history.highPrice = high;
     return history;
 }
 

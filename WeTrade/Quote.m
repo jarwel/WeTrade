@@ -14,6 +14,10 @@
     return [self.data objectForKey:@"symbol"];
 }
 
+- (NSString *)name {
+    return [self.data objectForKey:@"Name"];
+}
+
 - (float)price {
     return [[self.data objectForKey:@"LastTradePriceOnly"] floatValue];
 }

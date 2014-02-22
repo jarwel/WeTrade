@@ -23,16 +23,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
+
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
+
+- (IBAction)onDoneButton:(id)sender;
 
 - (void)initTable;
 - (void)initChart;
 - (void)loadPositions;
 - (void)loadQuotes;
 - (void)refreshViews;
-- (IBAction)onDoneButton:(id)sender;
 - (UIColor *)getChangeColor:(float)change;
 
 @end
@@ -43,7 +45,7 @@
     [super viewDidLoad];
 
     if (self.forUser) {
-        [self setTitle:self.forUser.username];
+        [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.forUser.username]];
         [self.followBarButton initForUser:self.forUser];
     }
     else {
@@ -173,12 +175,11 @@
 }
 
 - (void)refreshViews {
-    //NSArray *sorted = [_positions sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-    //    float first = [(Position*)a costBasis];
-    //    float second = [(Position*)b costBasis];
-    //    return first < second;
-    //}];
-    
+    NSArray *sorted = [_positions sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        float first = [(Position*)a costBasis];
+        float second = [(Position*)b costBasis];
+        return first < second;
+    }];
     float currentValue = 0;
     float costBasis = 0;
     for (Position *position in self.positions) {
@@ -225,16 +226,6 @@
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowStock"]) {
-        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
-        Position *position = [self.positions objectAtIndex:indexPath.row];
-        
-        StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.forPosition = position;
-    }
-}
-
 - (IBAction)onDoneButton:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -247,6 +238,22 @@
         return [UIColor redColor];
     }
     return [UIColor blueColor];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowStock"]) {
+        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
+        Position *position = [self.positions objectAtIndex:indexPath.row];
+        Quote *quote = [self.quotes objectForKey:position.symbol];
+        
+        StockViewController *stockViewController = segue.destinationViewController;
+        stockViewController.forPosition = position;
+        stockViewController.quote = quote;
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 @end

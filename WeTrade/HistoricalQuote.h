@@ -12,6 +12,7 @@
 @interface HistoricalQuote : RestObject
 
 @property (nonatomic, strong, readonly) NSString *symbol;
+@property (nonatomic, strong, readonly) NSDate *date;
 @property (nonatomic, assign, readonly) float close;
 
 @end

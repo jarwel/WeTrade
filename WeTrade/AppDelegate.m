@@ -11,7 +11,6 @@
 #import "IIViewDeckController.h"
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
-#import "HomeViewController.h"
 
 @interface AppDelegate ()
 
@@ -112,9 +111,9 @@
     if (!_mainNavigationController) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
-        UIViewController* leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
-        UIViewController* rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
+        UIViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
+        UIViewController *leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
+        UIViewController *rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
         
         UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
         
