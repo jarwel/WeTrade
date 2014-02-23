@@ -38,6 +38,7 @@
     [super viewDidLoad];
 
     _percentChanges = [[NSMutableDictionary alloc] init];
+    [[FollowingService instance] loadFromServer];
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
     

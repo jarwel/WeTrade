@@ -12,13 +12,6 @@
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
 
-@interface AppDelegate ()
-
-@property (nonatomic, strong) SignInViewController *signInViewController;
-@property (nonatomic, strong) IIViewDeckController *mainNavigationController;
-
-@end
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -84,8 +77,7 @@
 
 - (void)signOut {
     [PFUser logOut];
-    _mainNavigationController = nil;
-    self.window.rootViewController = self.currentViewController;
+    self.window.rootViewController = self.signInViewController;
 }
 
 - (UIViewController *)currentViewController {
@@ -96,30 +88,25 @@
 }
 
 - (UIViewController *)signInViewController {
-    if (!_signInViewController) {
-        SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
-        [signUpViewController setDelegate:self];
+    SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
+    [signUpViewController setDelegate:self];
         
-        _signInViewController = [[SignInViewController alloc] init];
-        [_signInViewController setDelegate:self];
-        [_signInViewController setSignUpController:signUpViewController];
-    }
-    return _signInViewController;
+    SignInViewController *signInViewController = [[SignInViewController alloc] init];
+    [signInViewController setDelegate:self];
+    [signInViewController setSignUpController:signUpViewController];
+    return signInViewController;
 }
 
 - (UIViewController *)homeNavigationController {
-    if (!_mainNavigationController) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        UIViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
-        UIViewController *leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
-        UIViewController *rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
+    UIViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
+    UIViewController *leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
+    UIViewController *rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
         
-        UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
         
-        _mainNavigationController = [[IIViewDeckController alloc] initWithCenterViewController:centerViewController leftViewController:leftViewController rightViewController:rightViewController];
-    }
-    return _mainNavigationController;
+    return [[IIViewDeckController alloc] initWithCenterViewController:centerViewController leftViewController:leftViewController rightViewController:rightViewController];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
