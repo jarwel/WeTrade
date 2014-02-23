@@ -11,11 +11,14 @@
 @implementation Comment
 
 - (PFUser *)user {
-    return [self.data objectForKey:@"user"];
+    if (!_user) {
+        _user = [self.data objectForKey:@"user"];
+    }
+    return _user;
 }
 
 - (NSString *)username {
-    if ( !_username) {
+    if (!_username) {
         PFUser *user = [self.data objectForKey:@"user"];
         return user.username;
     }
@@ -23,14 +26,14 @@
 }
 
 - (NSString *)text {
-    if ( !_text) {
+    if (!_text) {
         return [self.data objectForKey:@"text"];
     }
     return _text;
 }
 
 - (NSDate *)createdAt {
-    if ( !_createdAt) {
+    if (!_createdAt) {
         return self.data.createdAt;
     }
     return _createdAt;

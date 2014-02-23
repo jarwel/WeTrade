@@ -18,6 +18,9 @@
 @interface StockViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *oneYearButton;
+@property (weak, nonatomic) IBOutlet UIButton *sixMonthButton;
+@property (weak, nonatomic) IBOutlet UIButton *threeMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
@@ -29,11 +32,15 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) History *history;
 
-- (IBAction)onShowCommentTextField:(id)sender;
-- (IBAction)onAddComment:(id)sender;
+- (IBAction)onThreeMonthButton:(id)sender;
+- (IBAction)onSixMonthButton:(id)sender;
+- (IBAction)onOneYearButton:(id)sender;
+- (IBAction)onCommentButton:(id)sender;
+- (IBAction)onAddCommentButton:(id)sender;
 - (IBAction)onEditingChanged:(id)sender;
 - (IBAction)onTap:(id)sender;
 
+- (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 - (void)refreshChart;
 - (void)refreshTable;
 
@@ -62,20 +69,7 @@
         }
     }];
     
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.year = - 1;
-    NSDate *endDate = [NSDate date];
-    NSDate *startDate = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] dateByAddingComponents:components toDate:endDate options:0];
-    
-    [[FinanceClient instance] fetchHistoryForSymbol:self.forPosition.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (!error) {
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            _history = [History fromJSONDictionary:dictionary];
-            [self refreshChart];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
+    [self onOneYearButton:self];
 }
 
 - (void)initTable {
@@ -256,15 +250,67 @@
     [self.tableView reloadData];
 }
 
-- (IBAction)onShowCommentTextField:(id)sender {
+- (IBAction)onThreeMonthButton:(id)sender {
+    self.oneYearButton.selected = NO;
+    self.sixMonthButton.selected = NO;
+    self.threeMonthButton.selected = YES;
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.month = -3;
+    NSDate *endDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
+    [self fetchHistoryForStartDate:startDate endDate:endDate];
+}
+
+- (IBAction)onSixMonthButton:(id)sender {
+    self.oneYearButton.selected = NO;
+    self.sixMonthButton.selected = YES;
+    self.threeMonthButton.selected = NO;
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.month = -6;
+    NSDate *endDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
+    [self fetchHistoryForStartDate:startDate endDate:endDate];
+}
+
+- (IBAction)onOneYearButton:(id)sender {
+    self.oneYearButton.selected = YES;
+    self.sixMonthButton.selected = NO;
+    self.threeMonthButton.selected = NO;
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.year = -1;
+    NSDate *endDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
+    [self fetchHistoryForStartDate:startDate endDate:endDate];
+}
+
+- (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
+    [[FinanceClient instance] fetchHistoryForSymbol:self.forPosition.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            _history = [History fromJSONDictionary:dictionary];
+            [self refreshChart];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+- (IBAction)onCommentButton:(id)sender {
     [self.commentButton setHidden:YES];
     [self.addButton setHidden:NO];
     [self.addButton setEnabled:NO];
     [self.commentTextField setHidden:NO];
     [self.commentTextField setTextColor:[UIColor blackColor]];
+    [self.commentTextField becomeFirstResponder];
 }
 
-- (IBAction)onAddComment:(id)sender {
+- (IBAction)onAddCommentButton:(id)sender {
     [self.commentTextField setHidden:YES];
     [self.addButton setHidden:YES];
     [self.commentButton setHidden:NO];
@@ -272,7 +318,7 @@
     if (commentText) {
         [[ParseClient instance] addCommentWithSymbol:self.forPosition.symbol text:commentText];
         Comment *comment = [[Comment alloc] init];
-        comment.username = [PFUser currentUser].username;
+        comment.user = [PFUser currentUser];
         comment.text = commentText;
         comment.createdAt = [NSDate date];
         [self.comments insertObject:comment atIndex:0];
