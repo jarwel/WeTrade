@@ -30,7 +30,7 @@
     [logo addSubview:label];
 
     [self.logInView setLogo:logo];
-    [self.logInView setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+    [self.logInView setBackgroundColor:[UIColor lightGrayColor]];
     [self.logInView.dismissButton setHidden:YES];
     [self.logInView.usernameField setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.usernameField setBorderStyle:UITextBorderStyleBezel];

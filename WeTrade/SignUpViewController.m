@@ -30,7 +30,7 @@
     [logo addSubview:label];
     
     [self.signUpView setLogo:logo];
-    [self.signUpView setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+    [self.signUpView setBackgroundColor:[UIColor lightGrayColor]];
     [self.signUpView.usernameField setBackgroundColor:[UIColor darkGrayColor]];
     [self.signUpView.usernameField setBorderStyle:UITextBorderStyleBezel];
     [self.signUpView.passwordField setBackgroundColor:[UIColor darkGrayColor]];
