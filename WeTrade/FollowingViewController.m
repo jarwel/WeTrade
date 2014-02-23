@@ -136,7 +136,7 @@
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
     [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSArray *positions = [Position fromPFObjectArray:objects];
+            NSArray *positions = [Position fromObjects:objects];
             NSMutableArray *symbols = [[NSMutableArray alloc] init];
             for (Position *position in positions) {
                 [symbols addObject:position.symbol];
@@ -144,7 +144,7 @@
             [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
-                    
+        
                     NSNumber *percentChange = [PortfolioService getChangeForPositions:positions quotes:quotes];
                     if (percentChange) {
                         [self.percentChanges setObject:percentChange forKey:user.objectId];

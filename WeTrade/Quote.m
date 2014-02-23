@@ -28,7 +28,6 @@
 
 + (NSMutableDictionary *)fromData:(NSData *)data {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    
     NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
     NSDictionary *query = [dictionary objectForKey:@"query"];
     

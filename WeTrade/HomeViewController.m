@@ -175,12 +175,6 @@
 }
 
 - (void)refreshViews {
-    NSArray *sorted = [_positions sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        float first = [(Position*)a costBasis];
-        float second = [(Position*)b costBasis];
-        return first < second;
-    }];
-    
     NSNumber *percentChange = [PortfolioService getChangeForPositions:self.positions quotes:self.quotes];
     self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
     self.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
@@ -192,8 +186,32 @@
 - (void)loadPositions {
     [[ParseClient instance] fetchLotsForUserId:self.forUser.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _positions = [Position fromPFObjectArray:objects];
-            [self loadQuotes];
+            _positions = [Position fromObjects:objects];
+            NSMutableArray * symbols = [[NSMutableArray alloc] init];
+            for (Position *position in self.positions) {
+                [symbols addObject:position.symbol];
+            }
+            [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+                if (!error) {
+                    _quotes = [Quote fromData:data];
+                    _positions = [self.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+                            
+                        Position *firstPosition = (Position*)first;
+                        Quote *firstQuote = [self.quotes objectForKey:firstPosition.symbol];
+                        float firstValue = [firstPosition valueForQuote:firstQuote];
+                            
+                        Position *secondPosition = (Position*)second;
+                        Quote *secondQuote = [self.quotes objectForKey:secondPosition.symbol];
+                        float secondValue = [secondPosition valueForQuote:secondQuote];
+                            
+                        return firstValue < secondValue;
+                    }];
+                    [self refreshViews];
+                } else {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
+
             [self refreshViews];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

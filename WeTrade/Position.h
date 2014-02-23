@@ -17,6 +17,6 @@
 @property (nonatomic, assign, readonly) float costBasis;
 
 - (float)valueForQuote:(Quote *)quote;
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
++ (NSMutableArray *)fromObjects:(NSArray *)objects;
 
 @end

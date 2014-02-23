@@ -26,7 +26,7 @@
     return [[self.data objectForKey:@"costBasis"] floatValue];
 }
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
++ (NSMutableArray *)fromObjects:(NSArray *)objects {
     NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
     for (PFObject *object in objects) {
         [lots addObject:[[Lot alloc] initWithData:object]];

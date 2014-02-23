@@ -60,7 +60,7 @@
     return 0;
 }
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
++ (NSMutableArray *)fromObjects:(NSArray *)objects {
     NSMutableDictionary *positions = [NSMutableDictionary dictionary];
     for (PFObject *object in objects) {
         NSString *symbol = [object objectForKey:@"symbol"];

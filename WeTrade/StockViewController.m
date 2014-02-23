@@ -292,8 +292,7 @@
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
     [[FinanceClient instance] fetchHistoryForSymbol:self.forPosition.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            _history = [History fromJSONDictionary:dictionary];
+            _history = [History fromData:data];
             [self refreshChart];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

@@ -19,6 +19,6 @@
 @property (nonatomic, assign, readonly) float startPrice;
 @property (nonatomic, assign, readonly) float endPrice;
 
-+ (History *)fromJSONDictionary:(NSDictionary *)dictionary;
++ (History *)fromData:(NSData *)data;
 
 @end

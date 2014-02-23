@@ -16,6 +16,6 @@
 @property (nonatomic, assign, readonly) float price;
 @property (nonatomic, assign, readonly) float costBasis;
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
++ (NSMutableArray *)fromObjects:(NSArray *)objects;
 
 @end

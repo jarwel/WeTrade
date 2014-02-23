@@ -31,13 +31,14 @@
     return quote.close;
 }
 
-+ (History *)fromJSONDictionary:(NSDictionary *)dictionary {
++ (History *)fromData:(NSData *)data {
     History *history = [[History alloc] init];
     
     NSMutableArray *quotes = [[NSMutableArray alloc] init];
     float low = FLT_MAX;
     float high = FLT_MIN;
-        
+    
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     NSDictionary *query = [dictionary objectForKey:@"query"];
     int count = [[query objectForKey:@"count"] intValue];
     if (count != 0) {

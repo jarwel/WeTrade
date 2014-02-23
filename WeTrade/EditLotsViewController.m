@@ -31,7 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _lots = [Lot fromPFObjectArray:objects];
+            _lots = [Lot fromObjects:objects];
             [self.tableView reloadData];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
