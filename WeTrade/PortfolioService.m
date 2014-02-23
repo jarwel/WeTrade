@@ -12,7 +12,7 @@
 
 @implementation PortfolioService
 
-+ (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
++ (NSNumber *)getTotalChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
     float currentValue = 0;
     float costBasis = 0;
     

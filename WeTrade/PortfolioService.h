@@ -10,7 +10,7 @@
 
 @interface PortfolioService : NSObject
 
-+ (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
++ (NSNumber *)getTotalChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
 + (UIColor *)getColorForChange:(float)change;
 
 @end

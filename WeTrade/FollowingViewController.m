@@ -145,7 +145,7 @@
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
         
-                    NSNumber *percentChange = [PortfolioService getChangeForPositions:positions quotes:quotes];
+                    NSNumber *percentChange = [PortfolioService getTotalChangeForPositions:positions quotes:quotes];
                     if (percentChange) {
                         [self.percentChanges setObject:percentChange forKey:user.objectId];
                         UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];

@@ -118,8 +118,6 @@
     float high = self.history.highPrice;
     for (int i = 0; i < 4; i++) {
         float price = (high - low) / 4 * (i + 1) + low;
-        NSLog(@"tick: %.2f", price);
-        
         [customTickLocations addObject:[NSNumber numberWithFloat:price]];
         
         NSNumber *tickLocation = [customTickLocations objectAtIndex:i];

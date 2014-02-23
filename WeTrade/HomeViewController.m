@@ -175,7 +175,7 @@
 }
 
 - (void)refreshViews {
-    NSNumber *percentChange = [PortfolioService getChangeForPositions:self.positions quotes:self.quotes];
+    NSNumber *percentChange = [PortfolioService getTotalChangeForPositions:self.positions quotes:self.quotes];
     self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
     self.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
     
