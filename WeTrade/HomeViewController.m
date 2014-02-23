@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
+#import "PortfolioService.h"
 #import "FollowButton.h"
 #import "FollowBarButton.h"
 #import "PositionCell.h"
@@ -35,8 +36,6 @@
 - (void)loadPositions;
 - (void)loadQuotes;
 - (void)refreshViews;
-- (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
-- (UIColor *)getColorForChange:(float)change;
 
 @end
 
@@ -160,12 +159,12 @@
     
     if (quote) {
         positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
-        positionCell.percentChangeLabel.textColor = [self getColorForChange:quote.percentChange];
+        positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:quote.percentChange];
         
         float currentValue = [position valueForQuote:quote];
-        float percentChangeTotal = (currentValue - position.costBasis) / position.costBasis * 100;
-        positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChangeTotal];
-        positionCell.percentChangeTotalLabel.textColor = [self getColorForChange:percentChangeTotal];
+        float percentChange = (currentValue - position.costBasis) / position.costBasis * 100;
+        positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
+        positionCell.percentChangeTotalLabel.textColor = [PortfolioService getColorForChange:percentChange];
     }
     
     return positionCell;
@@ -182,9 +181,9 @@
         return first < second;
     }];
     
-    NSNumber *percentChange = [self getChangeForPositions:self.positions quotes:self.quotes];
+    NSNumber *percentChange = [PortfolioService getChangeForPositions:self.positions quotes:self.quotes];
     self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    self.percentChangeLabel.textColor = [self getColorForChange:[percentChange floatValue]];
+    self.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
     
     [self.tableView reloadData];
     [self.chartView.hostedGraph reloadData];
@@ -233,31 +232,6 @@
         stockViewController.forPosition = position;
         stockViewController.quote = quote;
     }
-}
-
-- (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
-    float currentValue = 0;
-    float costBasis = 0;
-    for (Position *position in positions) {
-        Quote *quote = [quotes objectForKey:position.symbol];
-        currentValue += [position valueForQuote:quote];
-        costBasis += position.costBasis;
-    }
-    
-    if (costBasis > 0 && currentValue > 0) {
-        return [[NSNumber alloc] initWithFloat:(currentValue - costBasis) / costBasis * 100];
-    }
-    return nil;
-}
-
-- (UIColor *)getColorForChange:(float)change {
-    if (change > 0) {
-        return [UIColor greenColor];
-    }
-    if (change < 0) {
-        return [UIColor redColor];
-    }
-    return [UIColor blueColor];
 }
 
 - (void)didReceiveMemoryWarning {

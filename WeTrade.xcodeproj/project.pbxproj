@@ -37,6 +37,7 @@
 		CA861DED18AEC65C0057D163 /* follow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = CA861DEB18AEC65C0057D163 /* follow_selected.png */; };
 		CA861DEE18AEC65C0057D163 /* follow.png in Resources */ = {isa = PBXBuildFile; fileRef = CA861DEC18AEC65C0057D163 /* follow.png */; };
 		CA861DF218AEEAFC0057D163 /* core_plot_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA861DF118AEEAFC0057D163 /* core_plot_all.a */; };
+		CA89420718B9A49A0046C1BD /* PortfolioService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA89420618B9A49A0046C1BD /* PortfolioService.m */; };
 		CA977C401896118B002AD88F /* ParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C3F1896118B002AD88F /* ParseObject.m */; };
 		CA977C431896212F002AD88F /* PositionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA977C421896212F002AD88F /* PositionCell.m */; };
 		CA977C451896214E002AD88F /* PositionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA977C441896214E002AD88F /* PositionCell.xib */; };
@@ -129,6 +130,8 @@
 		CA861DEB18AEC65C0057D163 /* follow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow_selected.png; sourceTree = "<group>"; };
 		CA861DEC18AEC65C0057D163 /* follow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow.png; sourceTree = "<group>"; };
 		CA861DF118AEEAFC0057D163 /* core_plot_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = core_plot_all.a; sourceTree = "<group>"; };
+		CA89420518B9A49A0046C1BD /* PortfolioService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortfolioService.h; sourceTree = "<group>"; };
+		CA89420618B9A49A0046C1BD /* PortfolioService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortfolioService.m; sourceTree = "<group>"; };
 		CA977C3E1896118B002AD88F /* ParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseObject.h; sourceTree = "<group>"; };
 		CA977C3F1896118B002AD88F /* ParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseObject.m; sourceTree = "<group>"; };
 		CA977C411896212F002AD88F /* PositionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionCell.h; sourceTree = "<group>"; };
@@ -405,6 +408,8 @@
 			children = (
 				CA861DDE18AEA4C00057D163 /* FollowingService.h */,
 				CA861DDF18AEA4C00057D163 /* FollowingService.m */,
+				CA89420518B9A49A0046C1BD /* PortfolioService.h */,
+				CA89420618B9A49A0046C1BD /* PortfolioService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -712,6 +717,7 @@
 				CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */,
 				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
 				CA4A1DA818AA93A1002D2DEC /* History.m in Sources */,
+				CA89420718B9A49A0046C1BD /* PortfolioService.m in Sources */,
 				CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */,
 				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,

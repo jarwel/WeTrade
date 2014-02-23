@@ -20,7 +20,7 @@
 
 + (FollowingService *)instance {
     static FollowingService *instance;
-    if (! instance) {
+    if (!instance) {
         instance = [[FollowingService alloc] init];
         [instance loadFromServer];
     }

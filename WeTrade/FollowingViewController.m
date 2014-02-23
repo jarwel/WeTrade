@@ -12,6 +12,7 @@
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "FollowingService.h"
+#import "PortfolioService.h"
 #import "UserCell.h"
 #import "Position.h"
 #import "Quote.h"
@@ -28,8 +29,6 @@
 - (NSArray *)current;
 - (void)refreshViews;
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
-- (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
-- (UIColor *)getColorForChange:(float)change;
 
 @end
 
@@ -64,7 +63,7 @@
     NSNumber *percentChange = [self.percentChanges objectForKey:user.objectId];
     if (percentChange) {
         userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-        userCell.totalChangeLabel.textColor = [self getColorForChange:[percentChange floatValue]];
+        userCell.totalChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
     }
     else {
         [self loadChangeForUser:user indexPath:indexPath];
@@ -146,13 +145,13 @@
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
                     
-                    NSNumber *percentChange = [self getChangeForPositions:positions quotes:quotes];
+                    NSNumber *percentChange = [PortfolioService getChangeForPositions:positions quotes:quotes];
                     if (percentChange) {
                         [self.percentChanges setObject:percentChange forKey:user.objectId];
                         UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                         if (userCell) {
                             userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-                            userCell.totalChangeLabel.textColor = [self getColorForChange:[percentChange floatValue]];
+                            userCell.totalChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
                         }
                     }
                 } else {
@@ -163,31 +162,6 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-}
-
-- (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
-    float currentValue = 0;
-    float costBasis = 0;
-    for (Position *position in positions) {
-        Quote *quote = [quotes objectForKey:position.symbol];
-        currentValue += [position valueForQuote:quote];
-        costBasis += position.costBasis;
-    }
-    
-    if (costBasis > 0 && currentValue > 0) {
-        return [[NSNumber alloc] initWithFloat:(currentValue - costBasis) / costBasis * 100];
-    }
-    return nil;
-}
-
-- (UIColor *)getColorForChange:(float)change {
-    if (change > 0) {
-        return [UIColor greenColor];
-    }
-    if (change < 0) {
-        return [UIColor redColor];
-    }
-    return [UIColor blueColor];
 }
 
 - (void)didReceiveMemoryWarning {
