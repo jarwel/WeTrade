@@ -1,5 +1,5 @@
 //
-//  Following.h
+//  FollowingService.h
 //  WeTrade
 //
 //  Created by Jason Wells on 2/14/14.
@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface Following : NSObject
+@interface FollowingService : NSObject
 
-+ (Following *)instance;
++ (FollowingService *)instance;
 - (NSArray *)asArray;
 - (BOOL)contains:(NSString *)userId;
 - (void)followUser:(PFUser *)user;

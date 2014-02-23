@@ -7,7 +7,7 @@
 //
 
 #import "FollowButton.h"
-#import "Following.h"
+#import "FollowingService.h"
 
 @interface FollowButton ()
 
@@ -32,12 +32,16 @@
         [self setHidden:YES];
     }
     _user = user;
-    _isFollowing = [[Following instance] contains:user.objectId];
+    _isFollowing = [[FollowingService instance] contains:user.objectId];
     [self setSelected:self.isFollowing];
 }
 
 - (IBAction)didTouchButton:(id)sender {
-    self.isFollowing ? [[Following instance] unfollowUser:self.user] : [[Following instance] followUser:self.user];
+    if (self.isFollowing) {
+        [[FollowingService instance] unfollowUser:self.user];
+    } else {
+        [[FollowingService instance] followUser:self.user];
+    }
     _isFollowing = !self.isFollowing;
     [self setSelected:self.isFollowing];
 }

@@ -7,7 +7,7 @@
 //
 
 #import "FollowBarButton.h"
-#import "Following.h"
+#import "FollowingService.h"
 
 @interface FollowBarButton ()
 
@@ -28,12 +28,17 @@
 
 - (void)initForUser:(PFUser *)user {
     _user = user;
-    _isFollowing = [[Following instance] contains:user.objectId];
+    _isFollowing = [[FollowingService instance] contains:user.objectId];
     [self updateTintColor];
 }
 
 - (IBAction)didTouchButton:(id)sender {
-    self.isFollowing ? [[Following instance] unfollowUser:self.user] : [[Following instance] followUser:self.user];
+    if (self.isFollowing) {
+        [[FollowingService instance] unfollowUser:self.user];
+    }
+    else {
+        [[FollowingService instance] followUser:self.user];
+    }
     _isFollowing = !self.isFollowing;
     [self updateTintColor];
 }

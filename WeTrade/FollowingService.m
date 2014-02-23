@@ -1,27 +1,27 @@
 //
-//  Following.m
+//  FollowingService.m
 //  WeTrade
 //
 //  Created by Jason Wells on 2/14/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "Following.h"
+#import "FollowingService.h"
 #import "Constants.h"
 #import "ParseClient.h"
 
-@interface Following ()
+@interface FollowingService ()
 
 @property (nonatomic, strong) NSMutableDictionary *dictionary;
 
 @end
 
-@implementation Following
+@implementation FollowingService
 
-+ (Following *)instance {
-    static Following *instance;
++ (FollowingService *)instance {
+    static FollowingService *instance;
     if (! instance) {
-        instance = [[Following alloc] init];
+        instance = [[FollowingService alloc] init];
         [instance loadFromServer];
     }
     return instance;

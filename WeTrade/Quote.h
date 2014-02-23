@@ -16,6 +16,6 @@
 @property (nonatomic, assign, readonly) float price;
 @property (nonatomic, assign, readonly) float percentChange;
 
-+ (NSMutableDictionary *)fromJSONDictionary:(NSDictionary *)dictionary;
++ (NSMutableDictionary *)fromData:(NSData *)data;
 
 @end

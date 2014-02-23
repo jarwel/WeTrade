@@ -10,19 +10,26 @@
 #import "HomeViewController.h"
 #import "Constants.h"
 #import "ParseClient.h"
-#import "Following.h"
+#import "FinanceClient.h"
+#import "FollowingService.h"
 #import "UserCell.h"
+#import "Position.h"
+#import "Quote.h"
 
 @interface FollowingViewController ()
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic, strong) NSMutableDictionary *percentChanges;
 @property (nonatomic, strong) NSArray *search;
 @property (nonatomic, assign) BOOL searchMode;
 
-- (void)refreshViews;
 - (NSArray *)current;
+- (void)refreshViews;
+- (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
+- (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
+- (UIColor *)getColorForChange:(float)change;
 
 @end
 
@@ -31,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    _percentChanges = [[NSMutableDictionary alloc] init];
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
     
@@ -52,6 +60,15 @@
     PFUser *user = [self.current objectAtIndex:indexPath.row];
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
+    
+    NSNumber *percentChange = [self.percentChanges objectForKey:user.objectId];
+    if (percentChange) {
+        userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+        userCell.totalChangeLabel.textColor = [self getColorForChange:[percentChange floatValue]];
+    }
+    else {
+        [self loadChangeForUser:user indexPath:indexPath];
+    }
     
     [userCell.followButton initForUser:user];
     return userCell;
@@ -114,7 +131,63 @@
     if (self.searchMode) {
         return self.search;
     }
-    return [[Following instance] asArray];
+    return [[FollowingService instance] asArray];
+}
+
+- (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
+    [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSArray *positions = [Position fromPFObjectArray:objects];
+            NSMutableArray *symbols = [[NSMutableArray alloc] init];
+            for (Position *position in positions) {
+                [symbols addObject:position.symbol];
+            }
+            [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+                if (!error) {
+                    NSDictionary *quotes = [Quote fromData:data];
+                    
+                    NSNumber *percentChange = [self getChangeForPositions:positions quotes:quotes];
+                    if (percentChange) {
+                        [self.percentChanges setObject:percentChange forKey:user.objectId];
+                        UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                        if (userCell) {
+                            userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+                            userCell.totalChangeLabel.textColor = [self getColorForChange:[percentChange floatValue]];
+                        }
+                    }
+                } else {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+- (NSNumber *)getChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
+    float currentValue = 0;
+    float costBasis = 0;
+    for (Position *position in positions) {
+        Quote *quote = [quotes objectForKey:position.symbol];
+        currentValue += [position valueForQuote:quote];
+        costBasis += position.costBasis;
+    }
+    
+    if (costBasis > 0 && currentValue > 0) {
+        return [[NSNumber alloc] initWithFloat:(currentValue - costBasis) / costBasis * 100];
+    }
+    return nil;
+}
+
+- (UIColor *)getColorForChange:(float)change {
+    if (change > 0) {
+        return [UIColor greenColor];
+    }
+    if (change < 0) {
+        return [UIColor redColor];
+    }
+    return [UIColor blueColor];
 }
 
 - (void)didReceiveMemoryWarning {

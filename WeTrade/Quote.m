@@ -26,7 +26,9 @@
     return [[self.data objectForKey:@"ChangeinPercent"] floatValue];
 }
 
-+ (NSMutableDictionary *)fromJSONDictionary:(NSDictionary *)dictionary {
++ (NSMutableDictionary *)fromData:(NSData *)data {
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    
     NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
     NSDictionary *query = [dictionary objectForKey:@"query"];
     
