@@ -25,16 +25,16 @@
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.font = font;
     label.text = title;
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor darkGrayColor];
     UIImageView *logo = [[UIImageView alloc] initWithFrame:label.frame];
     [logo addSubview:label];
 
     [self.logInView setLogo:logo];
-    [self.logInView setBackgroundColor:[UIColor darkGrayColor]];
+    [self.logInView setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
     [self.logInView.dismissButton setHidden:YES];
-    [self.logInView.usernameField setBackgroundColor:[UIColor blackColor]];
+    [self.logInView.usernameField setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.usernameField setBorderStyle:UITextBorderStyleBezel];
-    [self.logInView.passwordField setBackgroundColor:[UIColor blackColor]];
+    [self.logInView.passwordField setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.passwordField setBorderStyle:UITextBorderStyleBezel];
     [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
     [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
