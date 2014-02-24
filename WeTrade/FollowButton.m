@@ -23,7 +23,7 @@
     [super awakeFromNib];
     [self setImage:[UIImage imageNamed:@"follow.png"] forState:UIControlStateNormal];
     [self setImage:[UIImage imageNamed:@"follow_selected.png"] forState:UIControlStateSelected];
-    [self addTarget:self action:@selector(didTouchButton:) forControlEvents:UIControlEventTouchDown];
+    [self addTarget:self action:@selector(didTouchButton:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)initForUser:(PFUser *)user {
