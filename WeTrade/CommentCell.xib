@@ -20,7 +20,6 @@
                             <constraint firstAttribute="height" constant="21" id="al1-ng-nz2"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15 hours ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfJ-dz-K2Y">
@@ -37,6 +36,7 @@
                         <rect key="frame" x="10" y="47" width="300" height="41"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_default.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="rUB-Sa-Qzd">
@@ -76,6 +76,7 @@
                     <constraint firstItem="sfJ-dz-K2Y" firstAttribute="top" secondItem="Xpd-wh-V9A" secondAttribute="top" constant="25" id="uLb-ih-G31"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="followButton" destination="JwZ-3d-8Ur" id="k1i-Kh-goo"/>
                 <outlet property="textLabel" destination="knk-3k-Dyc" id="AYw-H7-5XB"/>

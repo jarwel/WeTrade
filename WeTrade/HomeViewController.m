@@ -43,7 +43,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self.view setBackgroundColor:[UIColor lightGrayColor]];
+    
     if (self.forUser) {
         [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.forUser.username]];
         [self.followBarButton initForUser:self.forUser];
@@ -79,6 +80,7 @@
 
 - (void)initChart {
     self.chartView.allowPinchScaling = NO;
+    [self.chartView setBackgroundColor:[UIColor clearColor]];
     [self configureGraph];
     [self configureChart];
 }
@@ -87,7 +89,7 @@
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.chartView.bounds];
     self.chartView.hostedGraph = graph;
     graph.paddingLeft = 0.0f;
-    graph.paddingTop = 0.0f;
+    graph.paddingTop = 20.0f;
     graph.paddingRight = 0.0f;
     graph.paddingBottom = 0.0f;
     graph.axisSet = nil;
@@ -130,7 +132,7 @@
     static CPTMutableTextStyle *style = nil;
     if (!style) {
         style= [[CPTMutableTextStyle alloc] init];
-        style.color = [CPTColor grayColor];
+        style.color = [CPTColor darkGrayColor];
         style.fontSize = 11.0f;
     }
     

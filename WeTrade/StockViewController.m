@@ -50,7 +50,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self.view setBackgroundColor:[UIColor lightGrayColor]];
+    
     [self setTitle:self.forPosition.symbol];
     self.nameLabel.text = self.quote.name;
     [self initChart];
