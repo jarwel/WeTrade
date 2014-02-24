@@ -25,20 +25,23 @@
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.font = font;
     label.text = title;
-    label.textColor = [UIColor darkGrayColor];
+    label.textColor = [UIColor whiteColor];
     UIImageView *logo = [[UIImageView alloc] initWithFrame:label.frame];
     [logo addSubview:label];
 
     [self.logInView setLogo:logo];
-    [self.logInView setBackgroundColor:[UIColor whiteColor]];
+    [self.logInView setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.dismissButton setHidden:YES];
     [self.logInView.usernameField setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.usernameField setBorderStyle:UITextBorderStyleBezel];
     [self.logInView.passwordField setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.passwordField setBorderStyle:UITextBorderStyleBezel];
+    [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateNormal];
+    [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [self.logInView.logInButton setBackgroundColor:[UIColor blueColor]];
     [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
     [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self.logInView.signUpButton setBackgroundColor:[UIColor colorWithRed:0.25 green:0.6 blue:1.0 alpha:1.0]];
+    [self.logInView.signUpButton setBackgroundColor:[UIColor lightGrayColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

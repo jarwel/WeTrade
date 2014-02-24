@@ -123,6 +123,7 @@
                     </view>
                     <connections>
                         <outlet property="emailLabel" destination="zOJ-hM-HoM" id="Ddl-ET-OlP"/>
+                        <outlet property="tableView" destination="b5w-cT-NUw" id="XCA-bo-acF"/>
                         <outlet property="usernameLabel" destination="LvJ-YW-DQZ" id="IY5-YS-LSj"/>
                     </connections>
                 </viewController>

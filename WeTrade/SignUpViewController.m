@@ -25,12 +25,12 @@
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.font = font;
     label.text = title;
-    label.textColor = [UIColor darkGrayColor];
+    label.textColor = [UIColor whiteColor];
     UIImageView *logo = [[UIImageView alloc] initWithFrame:label.frame];
     [logo addSubview:label];
     
     [self.signUpView setLogo:logo];
-    [self.signUpView setBackgroundColor:[UIColor whiteColor]];
+    [self.signUpView setBackgroundColor:[UIColor darkGrayColor]];
     [self.signUpView.usernameField setBackgroundColor:[UIColor darkGrayColor]];
     [self.signUpView.usernameField setBorderStyle:UITextBorderStyleBezel];
     [self.signUpView.passwordField setBackgroundColor:[UIColor darkGrayColor]];
@@ -39,7 +39,7 @@
     [self.signUpView.emailField setBorderStyle:UITextBorderStyleBezel];
     [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
     [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self.signUpView.signUpButton setBackgroundColor:[UIColor colorWithRed:0.25 green:0.6 blue:1.0 alpha:1.0]];
+    [self.signUpView.signUpButton setBackgroundColor:[UIColor blueColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
