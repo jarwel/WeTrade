@@ -135,7 +135,7 @@
 - (CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
     static CPTMutableTextStyle *style = nil;
     if (!style) {
-        style= [[CPTMutableTextStyle alloc] init];
+        style = [[CPTMutableTextStyle alloc] init];
         style.color = [CPTColor darkGrayColor];
         style.fontSize = 11.0f;
     }

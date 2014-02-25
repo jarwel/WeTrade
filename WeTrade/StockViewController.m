@@ -108,14 +108,16 @@
 }
 
 -(void)configureVerticalAxis {
+    static CPTMutableTextStyle *style = nil;
+    if (!style) {
+        style = [[CPTMutableTextStyle alloc] init];
+        style.color = [CPTColor darkGrayColor];
+        style.fontSize = 11.0f;
+    }
+    
     CPTXYAxis *y = [(CPTXYAxisSet *)self.chartView.hostedGraph.axisSet yAxis];
     y.orthogonalCoordinateDecimal = CPTDecimalFromFloat(self.history.quotes.count);
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
-    
-    CPTMutableTextStyle *textStyle = [[CPTMutableTextStyle alloc] init];
-    textStyle.fontSize = 11;
-    textStyle.color = [CPTColor darkGrayColor];
-    y.labelTextStyle = textStyle;
     
     NSMutableArray *customTickLocations = [[NSMutableArray alloc] init];
     NSMutableArray *customLabels = [[NSMutableArray alloc] init];
@@ -129,7 +131,7 @@
         NSNumber *tickLocation = [customTickLocations objectAtIndex:i];
         NSString* formattedNumber = [NSString stringWithFormat:@"%.2f", [tickLocation floatValue]];
         
-        CPTAxisLabel *axisLabel = [[CPTAxisLabel alloc] initWithText:formattedNumber textStyle:y.labelTextStyle];
+        CPTAxisLabel *axisLabel = [[CPTAxisLabel alloc] initWithText:formattedNumber textStyle:style];
         axisLabel.tickLocation = [tickLocation decimalValue];
         axisLabel.offset = y.labelOffset + y.majorTickLength;
         [customLabels addObject:axisLabel];
@@ -139,14 +141,16 @@
 }
 
 - (void)configureHorizontalAxis {
+    static CPTMutableTextStyle *style = nil;
+    if (!style) {
+        style = [[CPTMutableTextStyle alloc] init];
+        style.color = [CPTColor darkGrayColor];
+        style.fontSize = 11.0f;
+    }
+    
     CPTXYAxis *x = [(CPTXYAxisSet *)self.chartView.hostedGraph.axisSet xAxis];
     x.orthogonalCoordinateDecimal = CPTDecimalFromFloat(self.history.lowPrice);
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
-    
-    CPTMutableTextStyle *textStyle = [[CPTMutableTextStyle alloc] init];
-    textStyle.fontSize = 11;
-    textStyle.color = [CPTColor darkGrayColor];
-    x.labelTextStyle = textStyle;
     
     NSMutableArray *customTickLocations = [[NSMutableArray alloc] initWithCapacity:self.history.quotes.count];
     NSMutableArray *customLabels = [[NSMutableArray alloc] initWithCapacity: customTickLocations.count];
@@ -164,7 +168,7 @@
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateFormat:@"MMM"];
     
-                CPTAxisLabel *axisLabel = [[CPTAxisLabel alloc] initWithText:[dateFormatter stringFromDate:quote.date] textStyle:x.labelTextStyle];
+                CPTAxisLabel *axisLabel = [[CPTAxisLabel alloc] initWithText:[dateFormatter stringFromDate:quote.date] textStyle:style];
                 axisLabel.tickLocation = [[NSNumber numberWithInt:i] decimalValue];
                 axisLabel.offset = x.labelOffset + x.majorTickLength;
                 axisLabel.rotation = M_PI / 4;
@@ -350,13 +354,13 @@
             int hours = minutes / 60;
             if (hours > 24) {
                 int days = hours / 24;
-                return [NSString stringWithFormat:@"%d day%@ ago", days, days == 1 ? @"s" : @"" ];
+                return [NSString stringWithFormat:@"%d day%@ ago", days, days == 1 ? @"" : @"s" ];
             }
-            return [NSString stringWithFormat:@"%d hour%@ ago", hours, hours == 1 ? @"s" : @""];
+            return [NSString stringWithFormat:@"%d hour%@ ago", hours, hours == 1 ? @"" : @"s"];
         }
-        return [NSString stringWithFormat:@"%d minute%@ ago", minutes, minutes == 1 ? @"s" : @""];
+        return [NSString stringWithFormat:@"%d minute%@ ago", minutes, minutes == 1 ? @"" : @"s"];
     }
-    return [NSString stringWithFormat:@"%d second%@ ago", seconds, seconds == 1 ? @"s" : @""];
+    return [NSString stringWithFormat:@"%d second%@ ago", seconds, seconds == 1 ? @"" : @"s"];
 }
 
 - (void)didReceiveMemoryWarning {

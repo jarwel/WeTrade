@@ -33,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="text" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="knk-3k-Dyc">
-                        <rect key="frame" x="10" y="47" width="300" height="41"/>
+                        <rect key="frame" x="10" y="47" width="300" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -71,7 +71,7 @@
                     <constraint firstItem="sfJ-dz-K2Y" firstAttribute="leading" secondItem="rUB-Sa-Qzd" secondAttribute="trailing" constant="7" id="Yul-rj-ok2"/>
                     <constraint firstItem="JwZ-3d-8Ur" firstAttribute="leading" secondItem="xZ9-1K-a78" secondAttribute="trailing" constant="6" id="ZDn-RX-TXN"/>
                     <constraint firstItem="rUB-Sa-Qzd" firstAttribute="top" secondItem="Xpd-wh-V9A" secondAttribute="top" constant="10" id="bWO-gX-TE3"/>
-                    <constraint firstAttribute="bottom" secondItem="knk-3k-Dyc" secondAttribute="bottom" constant="8" id="gLh-lN-xpF"/>
+                    <constraint firstAttribute="bottom" secondItem="knk-3k-Dyc" secondAttribute="bottom" constant="9" id="gLh-lN-xpF"/>
                     <constraint firstItem="knk-3k-Dyc" firstAttribute="top" secondItem="sfJ-dz-K2Y" secondAttribute="bottom" constant="1" id="mqG-ve-oR3"/>
                     <constraint firstItem="sfJ-dz-K2Y" firstAttribute="top" secondItem="Xpd-wh-V9A" secondAttribute="top" constant="25" id="uLb-ih-G31"/>
                 </constraints>
