@@ -19,7 +19,7 @@
 
 - (NSString *)username {
     if (!_username) {
-        PFUser *user = [self.data objectForKey:@"user"];
+        PFUser *user = [self user];
         return user.username;
     }
     return _username;
@@ -27,14 +27,14 @@
 
 - (NSString *)text {
     if (!_text) {
-        return [self.data objectForKey:@"text"];
+        _text = [self.data objectForKey:@"text"];
     }
     return _text;
 }
 
 - (NSDate *)createdAt {
     if (!_createdAt) {
-        return self.data.createdAt;
+        _createdAt = self.data.createdAt;
     }
     return _createdAt;
 }

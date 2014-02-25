@@ -36,6 +36,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UITextField *searchField = [self.searchBar valueForKey:@"_searchField"];
+    [searchField setTextColor:[UIColor whiteColor]];
 
     _percentChanges = [[NSMutableDictionary alloc] init];
     [[FollowingService instance] loadFromServer];

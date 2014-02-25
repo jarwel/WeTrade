@@ -17,20 +17,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor lightGrayColor] CGColor], (id)[[UIColor darkGrayColor] CGColor], nil];
+    [self.view.layer insertSublayer:gradient atIndex:0];
+    
     NSString *title = @"WeTrade";
-    UIFont *font = [UIFont systemFontOfSize:36];
+    UIFont *font = [UIFont systemFontOfSize:29];
     CGSize size = [title sizeWithAttributes:@{NSFontAttributeName:font}];
-    CGRect frame = CGRectMake(0, 0, size.width, size.height);
+    CGRect frame = CGRectMake(5, 85, size.width, size.height);
     
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.font = font;
     label.text = title;
-    label.textColor = [UIColor whiteColor];
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:label.frame];
+    label.textColor = [UIColor lightGrayColor];
+    
+    UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon.png"]];
     [logo addSubview:label];
 
     [self.logInView setLogo:logo];
-    [self.logInView setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.dismissButton setHidden:YES];
     [self.logInView.usernameField setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.usernameField setBorderStyle:UITextBorderStyleBezel];
@@ -38,10 +43,10 @@
     [self.logInView.passwordField setBorderStyle:UITextBorderStyleBezel];
     [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateNormal];
     [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self.logInView.logInButton setBackgroundColor:[UIColor blueColor]];
+    [self.logInView.logInButton setBackgroundColor:[UIColor darkGrayColor]];
     [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
     [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self.logInView.signUpButton setBackgroundColor:[UIColor lightGrayColor]];
+    [self.logInView.signUpButton setBackgroundColor:[UIColor blueColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -50,7 +50,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor lightGrayColor]];
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor lightGrayColor] CGColor], nil];
+    [self.view.layer insertSublayer:gradient atIndex:0];
     
     [self setTitle:self.forPosition.symbol];
     self.nameLabel.text = self.quote.name;
@@ -80,6 +84,7 @@
 
 - (void)initChart {
     self.chartView.allowPinchScaling = NO;
+    [self.chartView setBackgroundColor:[UIColor clearColor]];
     [self configureGraph];
     [self configureChart];
 }
@@ -345,13 +350,13 @@
             int hours = minutes / 60;
             if (hours > 24) {
                 int days = hours / 24;
-                return [NSString stringWithFormat:@"%d days ago", days];
+                return [NSString stringWithFormat:@"%d day%@ ago", days, days == 1 ? @"s" : @"" ];
             }
-            return [NSString stringWithFormat:@"%d hours ago", hours];
+            return [NSString stringWithFormat:@"%d hour%@ ago", hours, hours == 1 ? @"s" : @""];
         }
-        return [NSString stringWithFormat:@"%d minutes ago", minutes];
+        return [NSString stringWithFormat:@"%d minute%@ ago", minutes, minutes == 1 ? @"s" : @""];
     }
-    return [NSString stringWithFormat:@"%d seconds ago", seconds];
+    return [NSString stringWithFormat:@"%d second%@ ago", seconds, seconds == 1 ? @"s" : @""];
 }
 
 - (void)didReceiveMemoryWarning {

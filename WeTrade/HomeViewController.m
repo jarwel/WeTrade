@@ -43,7 +43,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view setBackgroundColor:[UIColor lightGrayColor]];
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor lightGrayColor] CGColor], nil];
+    [self.view.layer insertSublayer:gradient atIndex:0];
     
     if (self.forUser) {
         [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.forUser.username]];

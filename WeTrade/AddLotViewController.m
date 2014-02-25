@@ -26,6 +26,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor lightGrayColor] CGColor], (id)[[UIColor darkGrayColor] CGColor], nil];
+    [self.view.layer insertSublayer:gradient atIndex:0];
 }
 
 - (IBAction)onSubmitButton:(id)sender {
@@ -34,8 +39,10 @@
     int shares = [_sharesTextField.text intValue];
     float costBasis = price * shares;
     
-    [[ParseClient instance] addLotWithSymbol:symbol price:price shares:shares costBasis:costBasis];
-    [[NSNotificationCenter defaultCenter] postNotificationName:LotsChangedNotification object:nil];
+    if (symbol && price > 0 && shares > 0) {
+        [[ParseClient instance] addLotWithSymbol:symbol price:price shares:shares costBasis:costBasis];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LotsChangedNotification object:nil];
+    }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -31,7 +31,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _lots = [Lot fromObjects:objects];
+            _lots = [[Lot fromObjects:objects] sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+                NSString *firstSymbol = ((Lot*)first).symbol;
+                NSString *secondSymbol= ((Lot*)second).symbol;
+                return [firstSymbol compare:secondSymbol];
+            }];
+
             [self.tableView reloadData];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
