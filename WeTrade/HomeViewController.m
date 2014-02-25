@@ -89,9 +89,9 @@
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.chartView.bounds];
     self.chartView.hostedGraph = graph;
     graph.paddingLeft = 0.0f;
-    graph.paddingTop = 20.0f;
+    graph.paddingTop = 15.0f;
     graph.paddingRight = 0.0f;
-    graph.paddingBottom = 0.0f;
+    graph.paddingBottom = 5.0f;
     graph.axisSet = nil;
 }
 

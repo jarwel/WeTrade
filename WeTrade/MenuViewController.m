@@ -40,9 +40,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0 :
-            return [tableView dequeueReusableCellWithIdentifier:@"BuySharesCell" forIndexPath:indexPath];
+            return [tableView dequeueReusableCellWithIdentifier:@"AddLotsCell" forIndexPath:indexPath];
         case 1 :
-            return [tableView dequeueReusableCellWithIdentifier:@"SellSharesCell" forIndexPath:indexPath];
+            return [tableView dequeueReusableCellWithIdentifier:@"ViewLotsCell" forIndexPath:indexPath];
         case 2 :
             return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
     }

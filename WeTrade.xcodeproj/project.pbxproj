@@ -359,8 +359,8 @@
 				CA1008AC1890647B0031CF68 /* AppDelegate.m */,
 				CA7B32FA1898988B001C14AF /* Constants.h */,
 				CA7B32FB1898988B001C14AF /* Constants.m */,
-				CA1008B41890647B0031CF68 /* Images.xcassets */,
 				CA829EFE18AC62C300AEA465 /* Assets */,
+				CA1008B41890647B0031CF68 /* Images.xcassets */,
 				CA1008A31890647B0031CF68 /* Supporting Files */,
 			);
 			path = WeTrade;
