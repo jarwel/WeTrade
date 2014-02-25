@@ -22,13 +22,19 @@
 }
 
 - (float)startPrice {
-    HistoricalQuote *quote = [self.quotes objectAtIndex:0];
-    return quote.close;
+    if (self.quotes.count > 0) {
+        HistoricalQuote *quote = [self.quotes objectAtIndex:0];
+        return quote.close;
+    }
+    return 0;
 }
 
 - (float)endPrice {
-    HistoricalQuote *quote = [self.quotes lastObject];
-    return quote.close;
+    if (self.quotes.count > 0) {
+        HistoricalQuote *quote = [self.quotes lastObject];
+        return quote.close;
+    }
+    return 0;
 }
 
 + (History *)fromData:(NSData *)data {

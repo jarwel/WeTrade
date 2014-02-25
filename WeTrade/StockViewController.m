@@ -233,25 +233,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CommentCell";
     CommentCell *commentCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    commentCell.contentView.bounds = CGRectMake(0, 0, 99999, 99999);
     
     Comment *comment = [self.comments objectAtIndex:indexPath.row];
     commentCell.usernameLabel.text = comment.username;
     commentCell.timeLabel.text = [self getTimeSince:comment.createdAt];
-    [commentCell.followButton initForUser:comment.user];
-    
     commentCell.textLabel.text = comment.text;
     commentCell.textLabel.numberOfLines = 0;
-    [commentCell.textLabel sizeToFit];
+    commentCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
+    [commentCell.followButton initForUser:comment.user];
+
     return commentCell;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Comment *comment = [self.comments objectAtIndex:indexPath.row];
     UIFont *font = [UIFont systemFontOfSize:13];
-    CGSize size = {self.tableView.frame.size.width - 100 , 1000};
+    CGSize size = {self.tableView.frame.size.width , 1000};
     CGFloat height = [comment.text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping].height;
-    return 65 + height;
+    return 60 + height;
+
 }
 
 - (void)refreshTable {
