@@ -11,19 +11,35 @@
 @implementation Quote
 
 - (NSString *)symbol {
-    return [self.data objectForKey:@"symbol"];
+    return [self objectForKey:@"symbol"];
 }
 
 - (NSString *)name {
-    return [self.data objectForKey:@"Name"];
+    return [self objectForKey:@"Name"];
 }
 
 - (float)price {
-    return [[self.data objectForKey:@"LastTradePriceOnly"] floatValue];
+    NSString *price = [self objectForKey:@"LastTradePriceOnly"];
+    if (price ) {
+        return [price floatValue] <= 0.01 ? 1 : [price floatValue];
+    }
+    return 1;
+}
+
+- (float)priceChange {
+    NSString *priceChange = [self objectForKey:@"Change"];
+    if (priceChange) {
+        return [priceChange floatValue];
+    }
+    return 0;
 }
 
 - (float)percentChange {
-    return [[self.data objectForKey:@"ChangeinPercent"] floatValue];
+    NSString *percentChange = [self objectForKey:@"ChangeinPercent"];
+    if (percentChange) {
+        return [percentChange floatValue];
+    }
+    return 0;
 }
 
 + (NSMutableDictionary *)fromData:(NSData *)data {

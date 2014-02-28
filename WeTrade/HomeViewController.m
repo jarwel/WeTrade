@@ -161,9 +161,9 @@
     Quote *quote = [self.quotes valueForKey:position.symbol];
     
     positionCell.symbolLabel.text = position.symbol;
-    positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     
     if (quote) {
+        positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
         positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
         positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:quote.percentChange];
         
@@ -181,7 +181,7 @@
 }
 
 - (void)refreshViews {
-    NSNumber *percentChange = [PortfolioService getTotalChangeForPositions:self.positions quotes:self.quotes];
+    NSNumber *percentChange = [PortfolioService getDayChangeForPositions:self.positions quotes:self.quotes];
     self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
     self.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
     

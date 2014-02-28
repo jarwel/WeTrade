@@ -57,7 +57,7 @@
     if (quote) {
         return self.shares * quote.price;
     }
-    return 0;
+    return self.shares;
 }
 
 + (NSMutableArray *)fromObjects:(NSArray *)objects {

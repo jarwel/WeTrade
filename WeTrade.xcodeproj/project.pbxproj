@@ -69,7 +69,7 @@
 		CACD596D1891D246006FD228 /* LotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD596C1891D246006FD228 /* LotCell.m */; };
 		CACD59731891E67D006FD228 /* LotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACD59721891E67D006FD228 /* LotCell.xib */; };
 		CACD597C1891EA35006FD228 /* Lot.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597B1891EA35006FD228 /* Lot.m */; };
-		CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597E1891F779006FD228 /* AddLotViewController.m */; };
+		CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */; };
 		CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */; };
 /* End PBXBuildFile section */
 
@@ -256,8 +256,8 @@
 		CACD59721891E67D006FD228 /* LotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LotCell.xib; sourceTree = "<group>"; };
 		CACD597A1891EA35006FD228 /* Lot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lot.h; sourceTree = "<group>"; };
 		CACD597B1891EA35006FD228 /* Lot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lot.m; sourceTree = "<group>"; };
-		CACD597D1891F779006FD228 /* AddLotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLotViewController.h; sourceTree = "<group>"; };
-		CACD597E1891F779006FD228 /* AddLotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLotViewController.m; sourceTree = "<group>"; };
+		CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportViewController.h; sourceTree = "<group>"; };
+		CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImportViewController.m; sourceTree = "<group>"; };
 		CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowBarButton.h; sourceTree = "<group>"; };
 		CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowBarButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -538,12 +538,12 @@
 				CA0F62AC18A73D61001FAA1A /* StockViewController.m */,
 				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
-				CACD597D1891F779006FD228 /* AddLotViewController.h */,
-				CACD597E1891F779006FD228 /* AddLotViewController.m */,
 				CA60662618982BFE00A55D3F /* SignInViewController.h */,
 				CA60662718982BFE00A55D3F /* SignInViewController.m */,
 				CA60662918982CC600A55D3F /* SignUpViewController.h */,
 				CA60662A18982CC600A55D3F /* SignUpViewController.m */,
+				CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */,
+				CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -705,12 +705,12 @@
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */,
 				CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */,
-				CACD597F1891F779006FD228 /* AddLotViewController.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
 				CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */,
 				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
 				CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */,
+				CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
 				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
 				CA6B5C0918AB0870006CB919 /* FollowButton.m in Sources */,

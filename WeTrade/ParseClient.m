@@ -7,6 +7,7 @@
 //
 
 #import "ParseClient.h"
+#import "Lot.h"
 
 @implementation ParseClient
 
@@ -58,16 +59,16 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)addLotWithSymbol:(NSString *)symbol price:(float) price shares:(int)shares costBasis:(float)costBasis {
-    NSLog(@"createLotWithSymbol: %@ price: %f.00 shares: %d costBasis: %f.00", symbol, price, shares, costBasis);
+- (void)addLotWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis source:(NSString *)source {
+    NSLog(@"addLotWithSymbol: %@ shares: %0.3f costBasis: %0.3f source: %@", symbol, shares, costBasis, source);
     
     NSString *userId = [PFUser currentUser].objectId;
     PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
     lotObject[@"userId"] = userId;
     lotObject[@"symbol"] = symbol;
-    lotObject[@"price"] = [@(price) stringValue];
     lotObject[@"shares"] = [@(shares) stringValue];
     lotObject[@"costBasis"] = [@(costBasis) stringValue];
+    lotObject[@"source"] = source;
     [lotObject saveInBackground];
 }
 
@@ -97,6 +98,28 @@
     PFRelation *relation = [currentUser relationforKey:@"following"];
     [relation removeObject:user];
     [currentUser saveInBackground];
+}
+
+- (void)updateLots:(NSArray *)lots fromSource:(NSString *)source {
+    NSLog(@"updateLots: %ld source: %@", lots.count, source);
+
+    PFUser *currentUser = [PFUser currentUser];
+    PFQuery *query = [PFQuery queryWithClassName:@"Lot"];
+    [query whereKey:@"userId" equalTo:currentUser.objectId];
+    [query whereKey:@"source" equalTo:source];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (! error) {
+            for (PFObject *object in objects) {
+                [object deleteInBackground];
+            }
+            for (Lot *lot in lots) {
+                [self addLotWithSymbol:lot.symbol shares:lot.shares costBasis:lot.costBasis source:source];
+            }
+        }
+        else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 @end

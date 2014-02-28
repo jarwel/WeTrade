@@ -34,13 +34,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0 :
-            return [tableView dequeueReusableCellWithIdentifier:@"AddLotsCell" forIndexPath:indexPath];
+            return [tableView dequeueReusableCellWithIdentifier:@"ImportCell" forIndexPath:indexPath];
         case 1 :
             return [tableView dequeueReusableCellWithIdentifier:@"ViewLotsCell" forIndexPath:indexPath];
         case 2 :

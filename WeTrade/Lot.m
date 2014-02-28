@@ -11,19 +11,24 @@
 @implementation Lot
 
 - (NSString *)symbol {
-    return [self.data objectForKey:@"symbol"];
+    if (!_symbol) {
+        _symbol = [self.data objectForKey:@"symbol"];
+    }
+    return _symbol;
 }
 
-- (float)price {
-    return [[self.data objectForKey:@"price"] floatValue];
-}
-
-- (int)shares {
-    return [[self.data objectForKey:@"shares"] intValue];
+- (float)shares {
+    if (!_shares) {
+        _shares = [[self.data objectForKey:@"shares"] floatValue];
+    }
+    return _shares;
 }
 
 - (float)costBasis {
-    return [[self.data objectForKey:@"costBasis"] floatValue];
+    if (!_costBasis) {
+        _costBasis = [[self.data objectForKey:@"costBasis"] floatValue];
+    }
+    return _costBasis;
 }
 
 + (NSMutableArray *)fromObjects:(NSArray *)objects {

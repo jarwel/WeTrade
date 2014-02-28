@@ -17,4 +17,11 @@
     return self;
 }
 
+- (id)objectForKey:(NSString *)key {
+    if ([self.data objectForKey:key] == [NSNull null]) {
+        return nil;
+    }
+    return [self.data objectForKey:key];
+}
+
 @end

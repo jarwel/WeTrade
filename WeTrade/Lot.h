@@ -11,10 +11,9 @@
 
 @interface Lot : ParseObject
 
-@property (nonatomic, strong, readonly) NSString *symbol;
-@property (nonatomic, assign, readonly) int shares;
-@property (nonatomic, assign, readonly) float price;
-@property (nonatomic, assign, readonly) float costBasis;
+@property (nonatomic, strong) NSString *symbol;
+@property (nonatomic, assign) float shares;
+@property (nonatomic, assign) float costBasis;
 
 + (NSMutableArray *)fromObjects:(NSArray *)objects;
 
