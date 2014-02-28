@@ -45,8 +45,8 @@
                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             </tableViewCellContentView>
             <connections>
-                <outlet property="percentChangeLabel" destination="et3-TO-jLM" id="ZCk-3a-Thw"/>
-                <outlet property="percentChangeTotalLabel" destination="aWW-Ao-eVT" id="brG-cM-ZrC"/>
+                <outlet property="allocationLable" destination="aWW-Ao-eVT" id="pxU-N4-aug"/>
+                <outlet property="percentChangeLabel" destination="et3-TO-jLM" id="T3W-Fl-QmD"/>
                 <outlet property="priceLabel" destination="WYc-HM-jGD" id="inX-Co-Uly"/>
                 <outlet property="symbolLabel" destination="6Sd-1C-NJb" id="rAH-Hv-Lqe"/>
             </connections>

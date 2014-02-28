@@ -13,6 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *symbolLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *percentChangeTotalLabel;
+@property (weak, nonatomic) IBOutlet UILabel *allocationLable;
 
 @end

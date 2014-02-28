@@ -21,7 +21,8 @@
 @interface HomeViewController ()
 
 @property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
-@property (weak, nonatomic) IBOutlet UILabel *percentChangeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *changeButton;
+@property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 
@@ -29,6 +30,7 @@
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
 
+- (IBAction)onChangeButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
 
 - (void)initTable;
@@ -93,7 +95,7 @@
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.chartView.bounds];
     self.chartView.hostedGraph = graph;
     graph.paddingLeft = 0.0f;
-    graph.paddingTop = 15.0f;
+    graph.paddingTop = 0.0f;
     graph.paddingRight = 0.0f;
     graph.paddingBottom = 5.0f;
     graph.axisSet = nil;
@@ -105,7 +107,7 @@
     CPTPieChart *pieChart = [[CPTPieChart alloc] init];
     pieChart.dataSource = self;
     pieChart.delegate = self;
-    pieChart.pieRadius = (self.chartView.bounds.size.height * 0.7) / 2;
+    pieChart.pieRadius = (self.chartView.bounds.size.height * 0.75) / 2;
     pieChart.identifier = graph.title;
     pieChart.startAngle = M_PI_4;
     pieChart.sliceDirection = CPTPieDirectionCounterClockwise;
@@ -161,16 +163,19 @@
     Quote *quote = [self.quotes valueForKey:position.symbol];
     
     positionCell.symbolLabel.text = position.symbol;
+    positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     
     if (quote) {
-        positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
-        positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
-        positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:quote.percentChange];
-        
-        float currentValue = [position valueForQuote:quote];
-        float percentChange = (currentValue - position.costBasis) / position.costBasis * 100;
-        positionCell.percentChangeTotalLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
-        positionCell.percentChangeTotalLabel.textColor = [PortfolioService getColorForChange:percentChange];
+        if (self.changeButton.selected) {
+            float currentValue = [position valueForQuote:quote];
+            float percentChange = (currentValue - position.costBasis) / position.costBasis * 100;
+            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
+            positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:percentChange];
+        }
+        else {
+            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
+            positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:quote.percentChange];
+        }
     }
     
     return positionCell;
@@ -181,9 +186,17 @@
 }
 
 - (void)refreshViews {
-    NSNumber *percentChange = [PortfolioService getDayChangeForPositions:self.positions quotes:self.quotes];
-    self.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    self.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
+    
+    NSNumber *percentChange;
+    if (self.changeButton.selected) {
+        percentChange = [PortfolioService getTotalChangeForPositions:self.positions quotes:self.quotes];
+    }
+    else {
+        percentChange = [PortfolioService getDayChangeForPositions:self.positions quotes:self.quotes];
+    }
+    
+    self.changeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+    self.changeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
     
     [self.tableView reloadData];
     [self.chartView.hostedGraph reloadData];
@@ -240,6 +253,11 @@
             }
         }];
     }
+}
+
+- (IBAction)onChangeButton:(id)sender {
+    [self.changeButton setSelected:!self.changeButton.selected];
+    [self refreshViews];
 }
 
 - (IBAction)onDoneButton:(id)sender {
