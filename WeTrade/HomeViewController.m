@@ -178,6 +178,13 @@
         }
     }
     
+    float totalValue = 0;
+    for (Position *position in self.positions) {
+        totalValue += [position valueForQuote:quote];
+    }
+    float positionValue = [position valueForQuote:quote];
+    positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.2f%%", positionValue / totalValue * 100];
+    
     return positionCell;
 }
 
