@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
+@property (nonatomic, assign) float totalValue;
 
 - (IBAction)onChangeButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
@@ -162,29 +163,24 @@
     Position *position = [self.positions objectAtIndex:indexPath.row];
     Quote *quote = [self.quotes valueForKey:position.symbol];
     
+    NSNumber *percentChange;
+    if (self.changeButton.selected) {
+        if (position.costBasis > 0) {
+            float totalChange = ([position valueForQuote:quote] - position.costBasis) / position.costBasis;
+            percentChange = [NSNumber numberWithFloat:totalChange * 100];
+        }
+    }
+    else {
+        if (quote) {
+            percentChange = [NSNumber numberWithFloat:quote.percentChange];
+        }
+    }
+    
     positionCell.symbolLabel.text = position.symbol;
     positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
-    
-    if (quote) {
-        if (self.changeButton.selected) {
-            float currentValue = [position valueForQuote:quote];
-            float percentChange = (currentValue - position.costBasis) / position.costBasis * 100;
-            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", percentChange];
-            positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:percentChange];
-        }
-        else {
-            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
-            positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:quote.percentChange];
-        }
-    }
-    
-    float totalValue = 0;
-    for (Position *position in self.positions ) {
-        totalValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
-    }
-    float positionValue = [position valueForQuote:quote];
-    positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", positionValue / totalValue * 100];
-    
+    positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+    positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
+    positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
     return positionCell;
 }
 
@@ -193,6 +189,12 @@
 }
 
 - (void)refreshViews {
+    
+    float totalValue = 0;
+    for (Position *position in self.positions ) {
+        totalValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
+    }
+    self.totalValue = totalValue;
     
     NSNumber *percentChange;
     if (self.changeButton.selected) {
