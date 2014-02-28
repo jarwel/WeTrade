@@ -42,6 +42,14 @@
     return 0;
 }
 
+- (float)previousClose {
+    NSString *previousClose = [self objectForKey:@"PreviousClose"];
+    if (previousClose) {
+        return [previousClose floatValue];
+    }
+    return 0;
+}
+
 + (NSMutableDictionary *)fromData:(NSData *)data {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];

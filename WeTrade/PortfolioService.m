@@ -13,17 +13,17 @@
 @implementation PortfolioService
 
 + (NSNumber *)getDayChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
-    float currentValue = 0;
-    float costBasis = 0;
+    float priceChange = 0;
+    float previousClose = 0;
     
     for (Position *position in positions) {
         Quote *quote = [quotes objectForKey:position.symbol];
-        currentValue += position.shares * quote.priceChange;
-        costBasis += position.costBasis;
+        priceChange += position.shares * quote.priceChange;
+        previousClose += position.shares * quote.previousClose;
     }
     
-    if (costBasis > 0 && currentValue > 0) {
-        return [[NSNumber alloc] initWithFloat:currentValue / costBasis * 100];
+    if (previousClose > 0) {
+        return [[NSNumber alloc] initWithFloat:(float)priceChange / previousClose * 100];
     }
     return nil;
 }

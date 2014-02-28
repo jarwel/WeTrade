@@ -16,6 +16,7 @@
 @property (nonatomic, assign, readonly) float price;
 @property (nonatomic, assign, readonly) float priceChange;
 @property (nonatomic, assign, readonly) float percentChange;
+@property (nonatomic, assign, readonly) float previousClose;
 
 + (NSMutableDictionary *)fromData:(NSData *)data;
 
