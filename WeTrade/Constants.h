@@ -13,3 +13,5 @@ extern NSString *const LogoutNotification;
 extern NSString *const LotsChangedNotification;
 extern NSString *const FollowingChangedNotification;
 
+extern NSString *const CashSymbol;
+

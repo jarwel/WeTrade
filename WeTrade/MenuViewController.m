@@ -7,6 +7,7 @@
 //
 
 #import "MenuViewController.h"
+#import "EditLotsViewController.h"
 #import "Constants.h"
 
 @interface MenuViewController ()
@@ -52,6 +53,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 2) {
         [[NSNotificationCenter defaultCenter] postNotificationName:LogoutNotification object:nil];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"EditLotsSegue"]) {
+        UINavigationController *navigationViewController = segue.destinationViewController;
+        EditLotsViewController *editLotsViewController = [[navigationViewController viewControllers] lastObject];
+        editLotsViewController.navigationItem.rightBarButtonItem = nil;
     }
 }
 

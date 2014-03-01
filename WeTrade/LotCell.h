@@ -11,8 +11,8 @@
 @interface LotCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *symbolLabel;
-@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *sharesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *costBasisLabel;
+@property (weak, nonatomic) IBOutlet UIButton *cashButton;
 
 @end

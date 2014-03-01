@@ -10,6 +10,15 @@
 
 @implementation Lot
 
+- (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis {
+    if (self = [super init]) {
+        _symbol = symbol;
+        _shares = shares;
+        _costBasis = costBasis;
+    }
+    return self;
+}
+
 - (NSString *)symbol {
     if (!_symbol) {
         _symbol = [self.data objectForKey:@"symbol"];
@@ -29,6 +38,20 @@
         _costBasis = [[self.data objectForKey:@"costBasis"] floatValue];
     }
     return _costBasis;
+}
+
+- (NSString *)cash {
+    if (!_cash) {
+        _cash = [self.data objectForKey:@"cash"];
+    }
+    return _cash;
+}
+
+- (BOOL)mightBeCash {
+    if ([self.cash boolValue] || self.costBasis == 0) {
+        return YES;
+    }
+    return NO;
 }
 
 + (NSMutableArray *)fromObjects:(NSArray *)objects {

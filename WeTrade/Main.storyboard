@@ -43,7 +43,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="hIl-4k-J3V" kind="modal" id="a8y-SW-amh"/>
+                                            <segue destination="hIl-4k-J3V" kind="modal" identifier="" id="a8y-SW-amh"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ViewLotsCell" id="bPR-je-jdL">
@@ -64,7 +64,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="NJ6-vU-gFH" kind="modal" id="uFQ-FL-4gM"/>
+                                            <segue destination="NJ6-vU-gFH" kind="modal" identifier="EditLotsSegue" id="uFQ-FL-4gM"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SignOutCell" id="scf-b9-P5o">
@@ -203,7 +203,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wh3-qu-aaj" customClass="CPTGraphHostingView">
                                 <rect key="frame" x="0.0" y="90" width="320" height="220"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="btk-Qo-I3U">
                                 <rect key="frame" x="0.0" y="310" width="320" height="20"/>
@@ -252,12 +252,12 @@
                         <outlet property="chartView" destination="Wh3-qu-aaj" id="la5-TZ-bvJ"/>
                         <outlet property="followBarButton" destination="nUG-Sb-nV5" id="dxI-uX-T6k"/>
                         <outlet property="tableView" destination="qxG-xH-eGj" id="CiW-q6-eS9"/>
-                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowStock" id="fcC-fv-hjr"/>
+                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowStockSegue" id="fcC-fv-hjr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap9-Dj-fCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3847" y="-3182"/>
+            <point key="canvasLocation" x="-3867" y="-3182"/>
         </scene>
         <!--Stock View Controller-->
         <scene sceneID="m8s-hr-bHq">
@@ -426,7 +426,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-3321" y="-3182"/>
+            <point key="canvasLocation" x="-3341" y="-3182"/>
         </scene>
         <!--Following View Controller-->
         <scene sceneID="NCn-lS-VCh">
@@ -470,7 +470,7 @@
                     <connections>
                         <outlet property="searchBar" destination="TSa-mq-AWK" id="zE2-S2-IJm"/>
                         <outlet property="tableView" destination="paz-4p-P2p" id="9bC-Zt-QIe"/>
-                        <segue destination="beF-9p-xZS" kind="modal" identifier="ShowPortfolio" id="NOv-V4-Msk"/>
+                        <segue destination="beF-9p-xZS" kind="modal" identifier="ShowPortfolioSeque" id="NOv-V4-Msk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7rh-81-x8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -490,13 +490,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5YD-2G-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3863" y="-2427"/>
+            <point key="canvasLocation" x="-2799" y="-2427"/>
         </scene>
-        <!--Edit Lots View Controller - View Lots-->
+        <!--Edit Lots View Controller - Edit Lots-->
         <scene sceneID="ZKx-hJ-9xU">
             <objects>
                 <tableViewController id="uRJ-UM-ELb" customClass="EditLotsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="a8s-V8-yH3">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="a8s-V8-yH3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -508,17 +508,22 @@
                             <outlet property="delegate" destination="uRJ-UM-ELb" id="xiq-ea-Zxr"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="View Lots" id="deT-gu-Ari">
+                    <navigationItem key="navigationItem" title="Edit Lots" id="deT-gu-Ari">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Gwo-E8-KQl">
                             <connections>
                                 <action selector="onDoneButton:" destination="uRJ-UM-ELb" id="SxX-2Z-yD4"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Import" id="U9t-Rl-tP9">
+                            <connections>
+                                <action selector="onImportButton:" destination="uRJ-UM-ELb" id="LJ3-IN-K28"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v03-BO-XZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3321" y="-2427"/>
+            <point key="canvasLocation" x="-2249" y="-2427"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="o0g-0e-f9E">
@@ -533,7 +538,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="saA-mb-NTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3863" y="-1683"/>
+            <point key="canvasLocation" x="-3867" y="-2035"/>
         </scene>
         <!--Import View Controller - Import-->
         <scene sceneID="L51-AP-XwF">
@@ -563,7 +568,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Import" id="xN3-Yq-39t">
                             <connections>
-                                <action selector="onImportButton:" destination="lTi-Sj-5ne" id="N4I-tV-cdx"/>
+                                <segue destination="NJ6-vU-gFH" kind="modal" identifier="EditLotsSegue" id="T22-1a-XiM"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -573,35 +578,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L9J-ba-Ds9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3321" y="-1683"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="5DW-jm-8Hp">
-            <objects>
-                <tableViewController id="b8s-RA-ehy" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tVH-oN-ak7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="nn9-8t-wfs">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nn9-8t-wfs" id="8Hy-6I-OjI">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="b8s-RA-ehy" id="9u1-Gg-EyH"/>
-                            <outlet property="delegate" destination="b8s-RA-ehy" id="LWH-xU-cl8"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kYn-ZJ-HF9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2477" y="-2071"/>
+            <point key="canvasLocation" x="-3341" y="-2035"/>
         </scene>
     </scenes>
     <resources>
@@ -613,4 +590,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="T22-1a-XiM"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -20,10 +20,10 @@
 
 - (float)price {
     NSString *price = [self objectForKey:@"LastTradePriceOnly"];
-    if (price ) {
-        return [price floatValue] <= 0.01 ? 1 : [price floatValue];
+    if (price) {
+        return [price floatValue];
     }
-    return 1;
+    return 0;
 }
 
 - (float)priceChange {

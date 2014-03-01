@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Position.h"
 
 @interface FinanceClient : NSObject
 
 + (FinanceClient *)instance;
-- (void)fetchQuotesForSymbols:(NSArray *)array callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
+- (void)fetchQuotesForPositions:(NSArray *)position callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
 - (void)fetchHistoryForSymbol:(NSString *)string startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
 
 @end

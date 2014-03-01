@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "Lot.h"
 
 @interface ParseClient : NSObject
 
@@ -18,6 +19,7 @@
 - (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)addCommentWithSymbol:(NSString *)symbol text:(NSString *) text;
+- (void)updateLot:(Lot *)lot withCash:(NSString *)cash;
 - (void)updateLots:(NSArray *)lots fromSource:(NSString *)source;
 - (void)followUser:(PFUser *)user;
 - (void)unfollowUser:(PFUser *)user;

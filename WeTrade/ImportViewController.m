@@ -7,6 +7,7 @@
 //
 
 #import "ImportViewController.h"
+#import "EditLotsViewController.h"
 #import "ParseClient.h"
 #import "Lot.h"
 
@@ -14,32 +15,25 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
-- (IBAction)onImportButton:(id)sender;
+@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) NSMutableArray *lots;
+
 - (IBAction)onCancelButton:(id)sender;
 
 @end
 
 @implementation ImportViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSURL *url = [NSURL URLWithString:@"http://fidelity.com"];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    _url = [NSURL URLWithString:@"https://oltx.fidelity.com/ftgw/fbc/ofpositions/portfolioPositions"];
+    //_url = [NSURL URLWithString:@"https:www.etrade.com"];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
 }
 
-- (IBAction)onImportButton:(id)sender {
+- (NSMutableArray* )extractLots {
     NSMutableArray *lots = [[NSMutableArray alloc] init];
-    
     NSString *string = [self.webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('positionsTable').outerHTML"];
     string = [string stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
@@ -52,15 +46,12 @@
         NSNumber *shares = [self extractNumberFrom:position withPattern:@"<td class=\"right\" nowrap=\"nowrap\">.*?</td>" withStyle:NSNumberFormatterDecimalStyle];
         NSNumber *costBasis = [self extractNumberFrom:position withPattern:@"<td nowrap=\"nowrap\"><span class=\"right-float right.*?</span><span class=\"layout-clear-both\"></span></td>" withStyle:NSNumberFormatterCurrencyStyle];
         
-        Lot *lot = [[Lot alloc] init];
-        lot.symbol = symbol;
-        lot.shares = [shares floatValue];
-        lot.costBasis = [costBasis floatValue];
+        Lot *lot = [[Lot alloc] initWithSymbol:symbol shares:[shares floatValue] costBasis:[costBasis floatValue]];
         [lots addObject:lot];
         
         NSLog(@"Symbol: %@ Shares: %0.3f Cost Basis: %0.3f", lot.symbol, lot.shares, lot.costBasis);
     }
-     [[ParseClient instance] updateLots:lots fromSource:@"fidelity"];
+    return lots;
 }
 
 - (IBAction)onCancelButton:(id)sender {
@@ -87,6 +78,18 @@
     while ((range = [string rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
         string = [string stringByReplacingCharactersInRange:range withString:@""];
     return string;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"EditLotsSegue"]) {
+        UINavigationController *navigationViewController = segue.destinationViewController;
+        navigationViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
+        EditLotsViewController *editLotsViewController = [[navigationViewController viewControllers] lastObject];
+        editLotsViewController.source = @"fidelity";
+        editLotsViewController.lots  = [self extractLots];
+        [editLotsViewController setTitle:@"Confirm Lots"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

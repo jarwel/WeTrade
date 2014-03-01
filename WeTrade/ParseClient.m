@@ -7,7 +7,6 @@
 //
 
 #import "ParseClient.h"
-#import "Lot.h"
 
 @implementation ParseClient
 
@@ -59,19 +58,6 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)addLotWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis source:(NSString *)source {
-    NSLog(@"addLotWithSymbol: %@ shares: %0.3f costBasis: %0.3f source: %@", symbol, shares, costBasis, source);
-    
-    NSString *userId = [PFUser currentUser].objectId;
-    PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
-    lotObject[@"userId"] = userId;
-    lotObject[@"symbol"] = symbol;
-    lotObject[@"shares"] = [@(shares) stringValue];
-    lotObject[@"costBasis"] = [@(costBasis) stringValue];
-    lotObject[@"source"] = source;
-    [lotObject saveInBackground];
-}
-
 - (void)addCommentWithSymbol:(NSString *)symbol text:(NSString *)text {
     NSLog(@"addCommentWithSymbol: %@ text: %@", symbol, text);
     
@@ -100,6 +86,12 @@
     [currentUser saveInBackground];
 }
 
+- (void)updateLot:(Lot *)lot withCash:(NSString *)cash {
+    PFObject *lotObject = lot.data;
+    lotObject[@"cash"] = cash;
+    [lotObject saveInBackground];
+}
+
 - (void)updateLots:(NSArray *)lots fromSource:(NSString *)source {
     NSLog(@"updateLots: %ld source: %@", lots.count, source);
 
@@ -113,7 +105,15 @@
                 [object deleteInBackground];
             }
             for (Lot *lot in lots) {
-                [self addLotWithSymbol:lot.symbol shares:lot.shares costBasis:lot.costBasis source:source];
+                NSString *userId = [PFUser currentUser].objectId;
+                PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
+                lotObject[@"userId"] = userId;
+                lotObject[@"source"] = source;
+                lotObject[@"symbol"] = lot.symbol;
+                lotObject[@"shares"] = [@(lot.shares) stringValue];
+                lotObject[@"costBasis"] = [@(lot.costBasis) stringValue];
+                lotObject[@"cash"] = lot.cash ? lot.cash : @"No" ;
+                [lotObject saveInBackground];
             }
         }
         else {

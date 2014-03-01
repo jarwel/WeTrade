@@ -10,4 +10,7 @@
 
 @interface EditLotsViewController : UITableViewController
 
+@property (nonatomic, strong) NSString *source;
+@property (nonatomic, strong) NSArray *lots;
+
 @end

@@ -181,11 +181,17 @@
     positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
     positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
     positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
+    
+    if ([CashSymbol isEqualToString:position.symbol]) {
+        positionCell.priceLabel.text = nil;
+        positionCell.percentChangeLabel.text = nil;
+    }
+    
     return positionCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"ShowStock" sender:self];
+    [self performSegueWithIdentifier:@"ShowStockSegue" sender:self];
 }
 
 - (void)refreshViews {
@@ -215,11 +221,7 @@
     [[ParseClient instance] fetchLotsForUserId:self.forUser.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromObjects:objects];
-            NSMutableArray * symbols = [[NSMutableArray alloc] init];
-            for (Position *position in self.positions) {
-                [symbols addObject:position.symbol];
-            }
-            [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+            [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
                 if (!error) {
                     _quotes = [Quote fromData:data];
                     _positions = [self.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
@@ -248,20 +250,15 @@
 }
 
 - (void)loadQuotes {
-    NSMutableArray * symbols = [[NSMutableArray alloc] init];
-    for (Position *position in self.positions) {
-        [symbols addObject:position.symbol];
-    }
-    if (symbols.count > 0) {
-        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-            if (!error) {
-                _quotes = [Quote fromData:data];
-                [self refreshViews];
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-    }
+    [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            _quotes = [Quote fromData:data];
+            [self refreshViews];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+
 }
 
 - (IBAction)onChangeButton:(id)sender {
@@ -274,7 +271,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowStock"]) {
+    if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
         Position *position = [self.positions objectAtIndex:indexPath.row];
         Quote *quote = [self.quotes objectForKey:position.symbol];

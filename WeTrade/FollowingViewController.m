@@ -84,20 +84,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"ShowPortfolio" sender:self];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowPortfolio"]) {
-        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
-        PFUser *user = [self.current objectAtIndex:indexPath.row];
-        
-        UINavigationController *navigationViewController = segue.destinationViewController;
-        navigationViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        
-        HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
-        homeViewController.forUser = user;
-    }
+    [self performSegueWithIdentifier:@"ShowPortfolioSeque" sender:self];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -147,11 +134,7 @@
     [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSArray *positions = [Position fromObjects:objects];
-            NSMutableArray *symbols = [[NSMutableArray alloc] init];
-            for (Position *position in positions) {
-                [symbols addObject:position.symbol];
-            }
-            [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+            [[FinanceClient instance] fetchQuotesForPositions:positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
         
@@ -172,6 +155,19 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowPortfolioSegue"]) {
+        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
+        PFUser *user = [self.current objectAtIndex:indexPath.row];
+        
+        UINavigationController *navigationViewController = segue.destinationViewController;
+        navigationViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+
+        HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
+        homeViewController.forUser = user;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

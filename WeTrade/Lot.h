@@ -14,7 +14,10 @@
 @property (nonatomic, strong) NSString *symbol;
 @property (nonatomic, assign) float shares;
 @property (nonatomic, assign) float costBasis;
+@property (nonatomic, assign) NSString *cash;
 
+- (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis;
+- (BOOL)mightBeCash;
 + (NSMutableArray *)fromObjects:(NSArray *)objects;
 
 @end
