@@ -166,7 +166,7 @@
         navigationViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 
         HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
-        homeViewController.forUser = user;
+        homeViewController.user = user;
     }
 }
 

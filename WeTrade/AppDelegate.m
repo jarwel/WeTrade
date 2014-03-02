@@ -11,6 +11,7 @@
 #import "IIViewDeckController.h"
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
+#import "HomeViewController.h"
 
 @implementation AppDelegate
 
@@ -20,6 +21,7 @@
     
     self.window.rootViewController = self.currentViewController;
     
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signIn) name:LoginNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signOut) name:LogoutNotification object:nil];
     return YES;
@@ -99,14 +101,18 @@
 
 - (UIViewController *)homeNavigationController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
         
-    UIViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
-    UIViewController *leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
-    UIViewController *rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
-        
-    UINavigationController *centerViewController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
-        
-    return [[IIViewDeckController alloc] initWithCenterViewController:centerViewController leftViewController:leftViewController rightViewController:rightViewController];
+    UINavigationController *center = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    UIViewController *left = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
+    UIViewController *right = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
+    
+    IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:center];
+    [viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
+    [viewDeckController setLeftController:left];
+    [viewDeckController setRightController:right];
+    homeViewController.viewDeckController = viewDeckController;
+    return viewDeckController;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

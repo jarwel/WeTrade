@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
+@property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 
@@ -43,7 +44,7 @@
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 - (void)refreshChart;
 - (void)refreshTable;
-
+- (void)onOrientationChange;
 @end
 
 @implementation StockViewController
@@ -52,20 +53,21 @@
     [super viewDidLoad];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = self.view.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor lightGrayColor] CGColor], nil];
+    gradient.frame = CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.height);
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
     [self.view.layer insertSublayer:gradient atIndex:0];
     
-    [self setTitle:self.forPosition.symbol];
+    [self setTitle:self.quote.symbol];
     self.nameLabel.text = self.quote.name;
     [self initChart];
     [self initTable];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [[ParseClient instance] fetchCommentsForSymbol:self.forPosition.symbol callback:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchCommentsForSymbol:self.quote.symbol callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _comments = [Comment fromPFObjectArray:objects];
             [self.tableView reloadData];
@@ -260,6 +262,13 @@
     [self.tableView reloadData];
 }
 
+- (void)onOrientationChange {
+    UIDevice *device = [UIDevice currentDevice];
+    [self.navigationController setNavigationBarHidden:!(device.orientation == UIDeviceOrientationPortrait)];
+    [self.tableView setHidden:!(device.orientation == UIDeviceOrientationPortrait)];
+    [self.commentView setHidden:!(device.orientation == UIDeviceOrientationPortrait)];
+}
+
 - (IBAction)onThreeMonthButton:(id)sender {
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = NO;
@@ -300,7 +309,7 @@
 }
 
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
-    [[FinanceClient instance] fetchHistoryForSymbol:self.forPosition.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[FinanceClient instance] fetchHistoryForSymbol:self.quote.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _history = [History fromData:data];
             [self refreshChart];
@@ -325,7 +334,7 @@
     [self.commentButton setHidden:NO];
     NSString *commentText = self.commentTextField.text;
     if (commentText) {
-        [[ParseClient instance] addCommentWithSymbol:self.forPosition.symbol text:commentText];
+        [[ParseClient instance] addCommentWithSymbol:self.quote.symbol text:commentText];
         Comment *comment = [[Comment alloc] init];
         comment.user = [PFUser currentUser];
         comment.text = commentText;

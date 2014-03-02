@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "IIViewDeckController.h"
 #import "CorePlot-CocoaTouch.h"
 
 @interface HomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
-@property (nonatomic, strong) PFUser *forUser;
+@property (nonatomic, strong) IIViewDeckController *viewDeckController;
+@property (nonatomic, strong) PFUser *user;
 
 @end

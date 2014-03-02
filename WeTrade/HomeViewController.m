@@ -20,11 +20,11 @@
 
 @interface HomeViewController ()
 
-@property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *changeButton;
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
+@property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
 
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
@@ -39,6 +39,7 @@
 - (void)loadPositions;
 - (void)loadQuotes;
 - (void)refreshViews;
+- (void)onOrientationChange;
 
 @end
 
@@ -49,15 +50,15 @@
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.view.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor lightGrayColor] CGColor], nil];
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
     [self.view.layer insertSublayer:gradient atIndex:0];
     
-    if (self.forUser) {
-        [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.forUser.username]];
-        [self.followBarButton setUser:self.forUser];
+    if (self.user) {
+        [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.user.username]];
+        [self.followBarButton setUser:self.user];
     }
     else {
-        _forUser = [PFUser currentUser];
+        _user = [PFUser currentUser];
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationItem.rightBarButtonItem = nil;
     }
@@ -65,18 +66,25 @@
     [self initTable];
     [self initChart];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:LotsChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self loadPositions];
     _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
+    if (self.viewDeckController) {
+        [self.viewDeckController setEnabled:YES];
+    }
+    [self loadPositions];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     if (self.quoteTimer) {
         [self.quoteTimer invalidate];
         _quoteTimer = nil;
+    }
+    if (self.viewDeckController) {
+        [self.viewDeckController setEnabled:NO];
     }
 }
 
@@ -220,7 +228,7 @@
 }
 
 - (void)loadPositions {
-    [[ParseClient instance] fetchLotsForUserId:self.forUser.objectId callback:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchLotsForUserId:self.user.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _positions = [Position fromObjects:objects];
             [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -263,6 +271,11 @@
 
 }
 
+- (void)onOrientationChange {
+    UIDevice *device = [UIDevice currentDevice];
+    [self.viewDeckController setEnabled:(device.orientation == UIDeviceOrientationPortrait)];
+}
+
 - (IBAction)onChangeButton:(id)sender {
     [self.changeButton setSelected:!self.changeButton.selected];
     [self refreshViews];
@@ -279,7 +292,6 @@
         Quote *quote = [self.quotes objectForKey:position.symbol];
         
         StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.forPosition = position;
         stockViewController.quote = quote;
     }
 }

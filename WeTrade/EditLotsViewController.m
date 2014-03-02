@@ -24,7 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     UINib *lotCell = [UINib nibWithNibName:@"LotCell" bundle:nil];
     [self.tableView registerNib:lotCell forCellReuseIdentifier:@"LotCell"];
     

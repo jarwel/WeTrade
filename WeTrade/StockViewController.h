@@ -12,7 +12,6 @@
 
 @interface StockViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
-@property (nonatomic, strong) Position *forPosition;
 @property (nonatomic, strong) Quote *quote;
 
 @end
