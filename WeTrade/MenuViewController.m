@@ -43,7 +43,7 @@
         case 0 :
             return [tableView dequeueReusableCellWithIdentifier:@"ImportCell" forIndexPath:indexPath];
         case 1 :
-            return [tableView dequeueReusableCellWithIdentifier:@"ViewLotsCell" forIndexPath:indexPath];
+            return [tableView dequeueReusableCellWithIdentifier:@"ManageLotsCell" forIndexPath:indexPath];
         case 2 :
             return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
     }

@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _scraper = [FidelityScraper instance];
+    _scraper = [EtradeScraper instance];
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.scraper.url]];
 }
 

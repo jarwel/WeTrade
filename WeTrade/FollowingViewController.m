@@ -84,7 +84,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"ShowPortfolioSeque" sender:self];
+    [self performSegueWithIdentifier:@"ShowPortfolioSegue" sender:self];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
