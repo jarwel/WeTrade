@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) NSDate *createdAt;
+@property (nonatomic, strong) NSString *timeElapsedText;
 
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
 

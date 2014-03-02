@@ -39,6 +39,23 @@
     return _createdAt;
 }
 
+- (NSString *)timeElapsedText {
+    int time = [[NSDate date] timeIntervalSinceDate:self.createdAt];
+    if (time > 60) {
+        time = time / 60;
+        if (time > 60) {
+            time = time / 60;
+            if (time > 24) {
+                time = time / 24;
+                return [NSString stringWithFormat:@"%d day%@ ago", time, time == 1 ? @"" : @"s" ];
+            }
+            return [NSString stringWithFormat:@"%d hour%@ ago", time, time == 1 ? @"" : @"s"];
+        }
+        return [NSString stringWithFormat:@"%d minute%@ ago", time, time == 1 ? @"" : @"s"];
+    }
+    return [NSString stringWithFormat:@"%d second%@ ago", time, time == 1 ? @"" : @"s"];
+}
+
 + (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
     NSMutableArray *comments = [[NSMutableArray alloc] initWithCapacity:objects.count];
     for (PFObject *object in objects) {

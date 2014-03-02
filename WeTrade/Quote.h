@@ -18,18 +18,6 @@
 @property (nonatomic, assign, readonly) float percentChange;
 @property (nonatomic, assign, readonly) float open;
 @property (nonatomic, assign, readonly) float previousClose;
-@property (nonatomic, assign, readonly) float low;
-@property (nonatomic, assign, readonly) float high;
-@property (nonatomic, assign, readonly) float oneYearTarget;
-@property (nonatomic, assign, readonly) float volume;
-@property (nonatomic, strong, readonly) NSString *marketCapitalization;
-@property (nonatomic, strong, readonly) NSString *ebitda;
-@property (nonatomic, assign, readonly) float pricePerEarnings;
-@property (nonatomic, assign, readonly) float earningsPerShare;
-@property (nonatomic, assign, readonly) float dividend;
-@property (nonatomic, assign, readonly) float yield;
-@property (nonatomic, strong, readonly) NSString *exDividendDate;
-@property (nonatomic, strong, readonly) NSString *dividendDate;
 
 + (NSMutableDictionary *)fromData:(NSData *)data;
 

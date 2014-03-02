@@ -13,6 +13,7 @@
 
 + (FinanceClient *)instance;
 - (void)fetchQuotesForPositions:(NSArray *)position callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
+- (void)fetchFullQuoteForSymbol:(NSString *)symbol callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
 - (void)fetchHistoryForSymbol:(NSString *)string startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback;
 
 @end

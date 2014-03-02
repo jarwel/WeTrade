@@ -12,8 +12,9 @@
 #import "FinanceClient.h"
 #import "CommentCell.h"
 #import "Comment.h"
-#import "History.h"
+#import "FullQuote.h"
 #import "HistoricalQuote.h"
+#import "History.h"
 
 @interface StockViewController ()
 
@@ -51,6 +52,7 @@
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) CPTScatterPlot *pricePlot;
 @property (nonatomic, strong) NSMutableArray *comments;
+@property (nonatomic, strong) FullQuote *fullQuote;
 @property (nonatomic, strong) History *history;
 
 - (IBAction)onViewButton:(id)sender;
@@ -81,19 +83,16 @@
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
     [self.view.layer insertSublayer:gradient atIndex:0];
     
-    [self setTitle:self.quote.symbol];
-    self.nameLabel.text = self.quote.name;
-    [self initChart];
-    [self initTable];
-    [self onOneMonthButton:self];
-    [self refreshView];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FollowingChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [[ParseClient instance] fetchCommentsForSymbol:self.quote.symbol callback:^(NSArray *objects, NSError *error) {
+    [self setTitle:self.symbol];
+    [[FinanceClient instance] fetchFullQuoteForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            _fullQuote = [FullQuote fromData:data];
+            [self refreshView];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    [[ParseClient instance] fetchCommentsForSymbol:self.symbol callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _comments = [Comment fromPFObjectArray:objects];
             [self.tableView reloadData];
@@ -101,6 +100,14 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+    [self onOneMonthButton:nil];
+    
+    [self initChart];
+    [self initTable];
+
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)initTable {
@@ -263,7 +270,7 @@
     
     Comment *comment = [self.comments objectAtIndex:indexPath.row];
     commentCell.usernameLabel.text = comment.username;
-    commentCell.timeLabel.text = [self getTimeSince:comment.createdAt];
+    commentCell.timeLabel.text = comment.timeElapsedText;
     commentCell.textLabel.text = comment.text;
     commentCell.textLabel.numberOfLines = 0;
     commentCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -285,21 +292,25 @@
 - (void)refreshTable {
     [self.tableView reloadData];
 }
+
 - (void)refreshView{
-    self.openLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.open];
-    self.previousCloseLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.previousClose];
-    self.highLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.high];
-    self.lowLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.low];
-    self.volumeLabel.text = [NSString stringWithFormat:@"%f", self.quote.volume];
-    self.oneYearTargetLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.oneYearTarget];
-    self.marketCapitalizationLabel.text = self.quote.marketCapitalization;
-    self.ebitdaLabel.text = self.quote.ebitda;
-    self.pricePerEarnings.text = [NSString stringWithFormat:@"%0.2f", self.quote.pricePerEarnings];
-    self.earningsPerShareLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.earningsPerShare];
-    self.dividendLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.dividend];
-    self.yieldLabel.text = [NSString stringWithFormat:@"%0.2f%%", self.quote.yield];
-    self.exDividendDateLabel.text = self.quote.exDividendDate;
-    self.dividendDateLabel.text = self.quote.dividendDate;
+    self.nameLabel.text = self.fullQuote.name;
+    self.openLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.open];
+    self.previousCloseLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.previousClose];
+    self.highLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.high];
+    self.lowLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.low];
+    self.volumeLabel.text = self.fullQuote.volumeText;
+    self.oneYearTargetLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.oneYearTarget];
+    self.marketCapitalizationLabel.text = self.fullQuote.marketCapitalization;
+    self.ebitdaLabel.text = self.fullQuote.ebitda;
+    self.pricePerEarnings.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.pricePerEarnings];
+    self.earningsPerShareLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.earningsPerShare];
+    if (self.fullQuote.dividend > 0) {
+        self.dividendLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.dividend];
+        self.yieldLabel.text = [NSString stringWithFormat:@"%0.2f%%", self.fullQuote.yield];
+        self.exDividendDateLabel.text = self.fullQuote.exDividendDate;
+        self.dividendDateLabel.text = self.fullQuote.dividendDate;
+    }
 }
 
 - (void)onOrientationChange {
@@ -312,7 +323,7 @@
     [self.commentView setHidden:(device.orientation != UIDeviceOrientationPortrait)];
     [self.navigationController setNavigationBarHidden:(device.orientation != UIDeviceOrientationPortrait)];
     if (device.orientation == UIDeviceOrientationPortrait) {
-        [self onOneMonthButton:self];
+        [self onOneMonthButton:nil];
     }
 }
 
@@ -398,7 +409,7 @@
 }
 
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
-    [[FinanceClient instance] fetchHistoryForSymbol:self.quote.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[FinanceClient instance] fetchHistoryForSymbol:self.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _history = [History fromData:data];
             [self refreshChart];
@@ -423,7 +434,7 @@
     [self.commentButton setHidden:NO];
     NSString *commentText = self.commentTextField.text;
     if (commentText) {
-        [[ParseClient instance] addCommentWithSymbol:self.quote.symbol text:commentText];
+        [[ParseClient instance] addCommentWithSymbol:self.symbol text:commentText];
         Comment *comment = [[Comment alloc] init];
         comment.user = [PFUser currentUser];
         comment.text = commentText;
@@ -444,23 +455,6 @@
     [self.addButton setHidden:YES];
     [self.commentButton setHidden:NO];
     [self.view endEditing:YES];
-}
-
-- (NSString *)getTimeSince:(NSDate *)date {
-    int seconds = [[NSDate date] timeIntervalSinceDate:date];
-    if (seconds > 60) {
-        int minutes = seconds / 60;
-        if (minutes > 60) {
-            int hours = minutes / 60;
-            if (hours > 24) {
-                int days = hours / 24;
-                return [NSString stringWithFormat:@"%d day%@ ago", days, days == 1 ? @"" : @"s" ];
-            }
-            return [NSString stringWithFormat:@"%d hour%@ ago", hours, hours == 1 ? @"" : @"s"];
-        }
-        return [NSString stringWithFormat:@"%d minute%@ ago", minutes, minutes == 1 ? @"" : @"s"];
-    }
-    return [NSString stringWithFormat:@"%d second%@ ago", seconds, seconds == 1 ? @"" : @"s"];
 }
 
 - (void)didReceiveMemoryWarning {

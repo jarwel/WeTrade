@@ -291,7 +291,7 @@
         Quote *quote = [self.quotes objectForKey:position.symbol];
         
         StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.quote = quote;
+        stockViewController.symbol = quote.symbol;
     }
 }
 

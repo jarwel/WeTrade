@@ -32,39 +32,54 @@
     if (symbols.length > 0) {
         NSLog(@"fetchQuotesForSymbols: %@", symbols);
         
-        NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.quotes where symbol in (%@)", [symbols substringToIndex:symbols.length - 1]];
+        NSString *query = [NSString stringWithFormat:@"select symbol, Name, LastTradePriceOnly, Change, ChangeinPercent, PreviousClose from yahoo.finance.quotes where symbol in (%@)", [symbols substringToIndex:symbols.length - 1]];
         NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
         NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSData *cached = [defaults objectForKey:url];
-        if (cached) {
-            callback(nil, cached, nil);
-        }
-    
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            [defaults setObject:data forKey:url];
-            [defaults synchronize];
-            callback(response, data, connectionError);
-        }];
+
+        [self staleWhileRevalidate:url callback:callback];
     }
 }
 
-- (void)fetchHistoryForSymbol:(NSString *)string startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+- (void)fetchFullQuoteForSymbol:(NSString *)symbol callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    NSLog(@"fetchFullQuoteForSymbol: %@", symbol);
+    
+    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.quotes where symbol = '%@'", symbol];
+    NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
+    
+    [self staleWhileRevalidate:url callback:callback];
+}
+
+- (void)fetchHistoryForSymbol:(NSString *)symbol startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    NSString *symbol = [NSString stringWithFormat:@"'%@'", string];
     NSString *start = [dateFormatter stringFromDate:startDate];
     NSString *end = [dateFormatter stringFromDate:endDate];
     NSLog(@"fetchHistoryForSymbol: %@ start: %@ end: %@", symbol, start, end);
     
-    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.historicaldata where symbol in (%@) and startDate = '%@' and endDate = '%@'", symbol, start, end];
+    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.historicaldata where symbol = '%@' and startDate = '%@' and endDate = '%@'", symbol, start, end];
     NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
+}
+
+- (void)staleWhileRevalidate:(NSString *)url callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *cached = [defaults objectForKey:url];
+    if (cached) {
+        callback(nil, cached, nil);
+    }
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        [defaults setObject:data forKey:url];
+        [defaults synchronize];
+        callback(response, data, connectionError);
+    }];
 }
 
 

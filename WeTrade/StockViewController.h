@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
-#import "Position.h"
 
 @interface StockViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
-@property (nonatomic, strong) Quote *quote;
+@property (nonatomic, strong) NSString *symbol;
 
 @end

@@ -10,18 +10,18 @@
 
 @implementation RestObject
 
-- (id)initWithData:(NSDictionary *)data {
+- (id)initWithDictionary:(NSDictionary *)dictionary {
     if (self = [super init]) {
-        _data = data;
+        _dictionary = dictionary;
     }
     return self;
 }
 
 - (id)objectForKey:(NSString *)key {
-    if ([self.data objectForKey:key] == [NSNull null]) {
+    if ([self.dictionary objectForKey:key] == [NSNull null]) {
         return nil;
     }
-    return [self.data objectForKey:key];
+    return [self.dictionary objectForKey:key];
 }
 
 @end

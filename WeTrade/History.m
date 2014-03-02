@@ -50,8 +50,8 @@
     if (count != 0) {
         NSDictionary *results = [query objectForKey:@"results"];
         NSArray *array = [results objectForKey:@"quote"];
-        for (NSDictionary *data in array) {
-            HistoricalQuote *historicalQuote = [[HistoricalQuote alloc] initWithData:data];
+        for (NSDictionary *quoteDictionary in array) {
+            HistoricalQuote *historicalQuote = [[HistoricalQuote alloc] initWithDictionary:quoteDictionary];
             if(historicalQuote.close < low) {
                 low = historicalQuote.close;
             }

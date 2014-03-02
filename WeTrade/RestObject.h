@@ -10,9 +10,9 @@
 
 @interface RestObject : NSObject
 
-@property (nonatomic, strong) NSDictionary *data;
+@property (nonatomic, strong) NSDictionary *dictionary;
 
-- (id)initWithData:(NSDictionary *)data;
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 - (id)objectForKey:(NSString *)key;
 
 @end
