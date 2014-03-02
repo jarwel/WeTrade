@@ -18,12 +18,32 @@
 @interface StockViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *openLabel;
+@property (weak, nonatomic) IBOutlet UILabel *previousCloseLabel;
+@property (weak, nonatomic) IBOutlet UILabel *highLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *volumeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *oneYearTargetLabel;
+@property (weak, nonatomic) IBOutlet UILabel *marketCapitalizationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ebitdaLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pricePerEarnings;
+@property (weak, nonatomic) IBOutlet UILabel *earningsPerShareLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dividendLabel;
+@property (weak, nonatomic) IBOutlet UILabel *yieldLabel;
+@property (weak, nonatomic) IBOutlet UILabel *exDividendDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dividendDateLabel;
+
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
+@property (weak, nonatomic) IBOutlet UIButton *commentButton;
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
+@property (weak, nonatomic) IBOutlet UIButton *viewButton;
+@property (weak, nonatomic) IBOutlet UIButton *fiveYearButton;
 @property (weak, nonatomic) IBOutlet UIButton *oneYearButton;
 @property (weak, nonatomic) IBOutlet UIButton *sixMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *threeMonthButton;
-@property (weak, nonatomic) IBOutlet UIButton *commentButton;
-@property (weak, nonatomic) IBOutlet UIButton *addButton;
-@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
+@property (weak, nonatomic) IBOutlet UIButton *oneMonthButton;
+@property (weak, nonatomic) IBOutlet UIView *timeView;
+@property (weak, nonatomic) IBOutlet UIView *dataView;
 @property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
@@ -33,9 +53,12 @@
 @property (nonatomic, strong) NSMutableArray *comments;
 @property (nonatomic, strong) History *history;
 
+- (IBAction)onViewButton:(id)sender;
+- (IBAction)onOneMonthButton:(id)sender;
 - (IBAction)onThreeMonthButton:(id)sender;
 - (IBAction)onSixMonthButton:(id)sender;
 - (IBAction)onOneYearButton:(id)sender;
+- (IBAction)onFiveYearButton:(id)sender;
 - (IBAction)onCommentButton:(id)sender;
 - (IBAction)onAddCommentButton:(id)sender;
 - (IBAction)onEditingChanged:(id)sender;
@@ -44,6 +67,7 @@
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 - (void)refreshChart;
 - (void)refreshTable;
+- (void)refreshView;
 - (void)onOrientationChange;
 @end
 
@@ -61,6 +85,8 @@
     self.nameLabel.text = self.quote.name;
     [self initChart];
     [self initTable];
+    [self onOneMonthButton:self];
+    [self refreshView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FollowingChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -75,8 +101,6 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    
-    [self onOneYearButton:self];
 }
 
 - (void)initTable {
@@ -261,18 +285,64 @@
 - (void)refreshTable {
     [self.tableView reloadData];
 }
+- (void)refreshView{
+    self.openLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.open];
+    self.previousCloseLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.previousClose];
+    self.highLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.high];
+    self.lowLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.low];
+    self.volumeLabel.text = [NSString stringWithFormat:@"%f", self.quote.volume];
+    self.oneYearTargetLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.oneYearTarget];
+    self.marketCapitalizationLabel.text = self.quote.marketCapitalization;
+    self.ebitdaLabel.text = self.quote.ebitda;
+    self.pricePerEarnings.text = [NSString stringWithFormat:@"%0.2f", self.quote.pricePerEarnings];
+    self.earningsPerShareLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.earningsPerShare];
+    self.dividendLabel.text = [NSString stringWithFormat:@"%0.2f", self.quote.dividend];
+    self.yieldLabel.text = [NSString stringWithFormat:@"%0.2f%%", self.quote.yield];
+    self.exDividendDateLabel.text = self.quote.exDividendDate;
+    self.dividendDateLabel.text = self.quote.dividendDate;
+}
 
 - (void)onOrientationChange {
     UIDevice *device = [UIDevice currentDevice];
-    [self.navigationController setNavigationBarHidden:!(device.orientation == UIDeviceOrientationPortrait)];
-    [self.tableView setHidden:!(device.orientation == UIDeviceOrientationPortrait)];
-    [self.commentView setHidden:!(device.orientation == UIDeviceOrientationPortrait)];
+    [self.dataView setHidden:YES];
+    [self.chartView setHidden:NO];
+    [self.timeView setHidden:(device.orientation == UIDeviceOrientationPortrait)];
+    [self.viewButton setHidden:(device.orientation != UIDeviceOrientationPortrait)];
+    [self.tableView setHidden:(device.orientation != UIDeviceOrientationPortrait)];
+    [self.commentView setHidden:(device.orientation != UIDeviceOrientationPortrait)];
+    [self.navigationController setNavigationBarHidden:(device.orientation != UIDeviceOrientationPortrait)];
+    if (device.orientation == UIDeviceOrientationPortrait) {
+        [self onOneMonthButton:self];
+    }
+}
+
+- (IBAction)onViewButton:(id)sender {
+    [self.viewButton setSelected:!self.viewButton.selected];
+    [self.chartView setHidden:!self.chartView.hidden];
+    [self.dataView setHidden:!self.chartView.hidden];
+}
+
+- (IBAction)onOneMonthButton:(id)sender {
+    self.fiveYearButton.selected = NO;
+    self.oneYearButton.selected = NO;
+    self.sixMonthButton.selected = NO;
+    self.threeMonthButton.selected = NO;
+    self.oneMonthButton.selected = YES;
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.month = -1;
+    NSDate *endDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
+    [self fetchHistoryForStartDate:startDate endDate:endDate];
 }
 
 - (IBAction)onThreeMonthButton:(id)sender {
+    self.fiveYearButton.selected = NO;
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = NO;
     self.threeMonthButton.selected = YES;
+    self.oneMonthButton.selected = NO;
     
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components.month = -3;
@@ -283,9 +353,11 @@
 }
 
 - (IBAction)onSixMonthButton:(id)sender {
+    self.fiveYearButton.selected = NO;
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = YES;
     self.threeMonthButton.selected = NO;
+    self.oneMonthButton.selected = NO;
     
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components.month = -6;
@@ -296,12 +368,29 @@
 }
 
 - (IBAction)onOneYearButton:(id)sender {
+    self.fiveYearButton.selected = NO;
     self.oneYearButton.selected = YES;
     self.sixMonthButton.selected = NO;
     self.threeMonthButton.selected = NO;
+    self.oneMonthButton.selected = NO;
     
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components.year = -1;
+    NSDate *endDate = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
+    [self fetchHistoryForStartDate:startDate endDate:endDate];
+}
+
+- (IBAction)onFiveYearButton:(id)sender {
+    self.fiveYearButton.selected = YES;
+    self.oneYearButton.selected = NO;
+    self.sixMonthButton.selected = NO;
+    self.threeMonthButton.selected = NO;
+    self.oneMonthButton.selected = NO;
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.year = -5;
     NSDate *endDate = [NSDate date];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];

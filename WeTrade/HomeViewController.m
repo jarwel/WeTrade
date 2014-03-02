@@ -12,7 +12,6 @@
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "PortfolioService.h"
-#import "FollowButton.h"
 #import "FollowBarButton.h"
 #import "PositionCell.h"
 #import "Position.h"
