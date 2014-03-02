@@ -53,7 +53,7 @@
     NSLog(@"fetchUsersForSearch: %@", search);
     
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-    [query whereKey:@"username" hasPrefix:search];
+    [query whereKey:@"canonicalUsername" hasPrefix:[search lowercaseString]];
     [query whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
     [query findObjectsInBackgroundWithBlock:callback];
 }

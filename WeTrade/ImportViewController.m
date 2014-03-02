@@ -46,7 +46,7 @@
         navigationViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         
         EditLotsViewController *editLotsViewController = [[navigationViewController viewControllers] lastObject];
-        editLotsViewController.source = @"fidelity";
+        editLotsViewController.source = self.scraper.source;
         editLotsViewController.lots  = lots;
         [editLotsViewController setTitle:@"Confirm Lots"];
     }

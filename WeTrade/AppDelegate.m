@@ -65,6 +65,8 @@
 
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
     [[NSNotificationCenter defaultCenter] postNotificationName:LoginNotification object:nil];
+    [user setObject:[user.username lowercaseString] forKey:@"canonicalUsername"];
+    [user saveInBackground];
 }
 
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
@@ -78,8 +80,8 @@
 }
 
 - (void)signOut {
-    [PFUser logOut];
     self.window.rootViewController = self.signInViewController;
+    [PFUser logOut];
 }
 
 - (UIViewController *)currentViewController {
