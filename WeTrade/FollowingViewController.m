@@ -79,7 +79,7 @@
         [self loadChangeForUser:user indexPath:indexPath];
     }
     
-    [userCell.followButton initForUser:user];
+    [userCell.followButton setUser:user];
     return userCell;
 }
 

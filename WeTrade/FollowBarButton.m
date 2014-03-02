@@ -26,7 +26,7 @@
     [self setAction:@selector(didTouchButton:)];
 }
 
-- (void)initForUser:(PFUser *)user {
+- (void)setUser:(PFUser *)user {
     _user = user;
     _isFollowing = [[FollowingService instance] contains:user.objectId];
     [self updateTintColor];

@@ -242,7 +242,7 @@
     commentCell.textLabel.numberOfLines = 0;
     commentCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
-    [commentCell.followButton initForUser:comment.user];
+    [commentCell.followButton setUser:comment.user];
 
     return commentCell;
 }

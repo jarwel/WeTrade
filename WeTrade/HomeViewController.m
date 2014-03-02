@@ -54,7 +54,7 @@
     
     if (self.forUser) {
         [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.forUser.username]];
-        [self.followBarButton initForUser:self.forUser];
+        [self.followBarButton setUser:self.forUser];
     }
     else {
         _forUser = [PFUser currentUser];
@@ -176,6 +176,7 @@
         }
     }
     
+    positionCell.userInteractionEnabled = YES;
     positionCell.symbolLabel.text = position.symbol;
     positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
@@ -185,6 +186,7 @@
     if ([CashSymbol isEqualToString:position.symbol]) {
         positionCell.priceLabel.text = nil;
         positionCell.percentChangeLabel.text = nil;
+        positionCell.userInteractionEnabled = NO;
     }
     
     return positionCell;
