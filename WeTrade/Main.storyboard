@@ -790,7 +790,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Manage Lots" id="deT-gu-Ari">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Gwo-E8-KQl">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Gwo-E8-KQl">
                             <connections>
                                 <action selector="onDoneButton:" destination="uRJ-UM-ELb" id="SxX-2Z-yD4"/>
                             </connections>

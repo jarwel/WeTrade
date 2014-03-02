@@ -65,6 +65,7 @@
     [lotCell.cashButton setSelected:[lot.cash boolValue]];
     [lotCell.cashButton setHidden:!lot.mightBeCash];
     [lotCell.cashButton addTarget:self action:@selector(onCashButton:) forControlEvents:UIControlEventTouchUpInside];
+    [lotCell.cashButton  setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
  
     return lotCell;
 }

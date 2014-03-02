@@ -60,6 +60,7 @@
     if ([[segue identifier] isEqualToString:@"EditLotsSegue"]) {
         UINavigationController *navigationViewController = segue.destinationViewController;
         EditLotsViewController *editLotsViewController = [[navigationViewController viewControllers] lastObject];
+        editLotsViewController.navigationItem.leftBarButtonItem.title = @"Done";
         editLotsViewController.navigationItem.rightBarButtonItem = nil;
     }
 }
