@@ -10,16 +10,6 @@
 #import "Lot.h"
 #import "Constants.h"
 
-@interface Position ()
-
-@property (nonatomic, strong) NSString *symbol;
-@property (nonatomic, assign) int shares;
-@property (nonatomic, assign) float costBasis;
-@property (nonatomic, assign) BOOL isCash;
-@property (nonatomic, strong) NSMutableArray *lots;
-
-@end
-
 @implementation Position
 
 - (id)init {

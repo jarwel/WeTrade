@@ -13,7 +13,6 @@
 @interface FollowingService ()
 
 @property (nonatomic, strong) NSMutableDictionary *data;
-- (void)synchronize;
 
 @end
 

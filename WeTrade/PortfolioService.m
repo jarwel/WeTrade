@@ -15,7 +15,6 @@
 @interface PortfolioService ()
 
 @property (nonatomic, strong) NSArray *data;
-- (void)synchronize;
 
 @end
 

@@ -12,9 +12,10 @@
 
 @interface Position : NSObject
 
-@property (nonatomic, strong, readonly) NSString *symbol;
-@property (nonatomic, assign, readonly) int shares;
-@property (nonatomic, assign, readonly) float costBasis;
+@property (nonatomic, strong) NSString *symbol;
+@property (nonatomic, assign) int shares;
+@property (nonatomic, assign) float costBasis;
+@property (nonatomic, strong) NSMutableArray *lots;
 
 - (float)valueForQuote:(Quote *)quote;
 + (NSMutableArray *)fromObjects:(NSArray *)objects;

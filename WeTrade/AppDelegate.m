@@ -81,6 +81,7 @@
 
 - (void)signOut {
     self.window.rootViewController = self.signInViewController;
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [PFUser logOut];
 }
 

@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
 
 @property (nonatomic, strong) PortfolioService *porfolioService;
-@property (nonatomic, strong) NSArray *sortedPositions;
+@property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
 @property (nonatomic, assign) float totalValue;
@@ -37,7 +37,7 @@
 - (void)initTable;
 - (void)initChart;
 - (void)loadQuotes;
-- (void)sortPositions;
+- (void)loadPositions;
 - (void)refreshViews;
 - (void)onOrientationChange;
 
@@ -64,23 +64,22 @@
     }
     
     _porfolioService = [PortfolioService instance];
+    [self loadPositions];
     
     [self initTable];
     [self initChart];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sortPositions) name:PortfolioChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:PortfolioChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
     if (self.viewDeckController) {
         [self.viewDeckController setEnabled:YES];
     }
-    
-    [self sortPositions];
-    
-    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
-    }
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
     if (self.quoteTimer) {
@@ -135,12 +134,12 @@
 }
 
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return self.sortedPositions.count;
+    return self.positions.count;
 }
 
 - (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
     if (CPTPieChartFieldSliceWidth == fieldEnum) {
-        Position *position = [self.sortedPositions objectAtIndex:index];
+        Position *position = [self.positions objectAtIndex:index];
         Quote *quote = [self.quotes objectForKey:position.symbol];
         return [NSNumber numberWithFloat:[position valueForQuote:quote]];
     }
@@ -155,12 +154,12 @@
         style.fontSize = 11.0f;
     }
     
-    Position *position = [self.sortedPositions objectAtIndex:index];
+    Position *position = [self.positions objectAtIndex:index];
     return [[CPTTextLayer alloc] initWithText:position.symbol style:style];
 }
 
 -(CPTFill *)sliceFillForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)index {
-    float alpha = ((float)self.sortedPositions.count - index) / self.sortedPositions.count;
+    float alpha = ((float)self.positions.count - index) / self.positions.count;
     return [CPTFill fillWithColor:[[CPTColor blueColor] colorWithAlphaComponent:alpha]];
 }
 
@@ -172,7 +171,7 @@
     static NSString *CellIdentifier = @"PositionCell";
     PositionCell *positionCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    Position *position = [self.sortedPositions objectAtIndex:indexPath.row];
+    Position *position = [self.positions objectAtIndex:indexPath.row];
     Quote *quote = [self.quotes valueForKey:position.symbol];
     
     NSNumber *percentChange;
@@ -226,11 +225,11 @@
     [self.chartView.hostedGraph reloadData];
 }
 
-- (void)sortPositions {
+- (void)loadPositions {
     [[FinanceClient instance] fetchQuotesForPositions:self.porfolioService.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _quotes = [Quote fromData:data];
-            _sortedPositions = [self.porfolioService.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+            _positions = [self.porfolioService.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
                 
                 Position *firstPosition = (Position*)first;
                 Quote *firstQuote = [self.quotes objectForKey:firstPosition.symbol];

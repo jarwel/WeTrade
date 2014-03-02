@@ -67,7 +67,6 @@
 
 - (void)staleWhileRevalidate:(NSString *)url callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *cached = [defaults objectForKey:url];

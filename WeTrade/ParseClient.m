@@ -7,6 +7,9 @@
 //
 
 #import "ParseClient.h"
+#import "PortfolioService.h"
+#import "Position.h"
+#import "Lot.h"
 
 @implementation ParseClient
 
@@ -95,26 +98,37 @@
 - (void)updateLots:(NSArray *)lots fromSource:(NSString *)source {
     NSLog(@"updateLots: %ld source: %@", lots.count, source);
 
-    PFUser *currentUser = [PFUser currentUser];
-    PFQuery *query = [PFQuery queryWithClassName:@"Lot"];
-    [query whereKey:@"userId" equalTo:currentUser.objectId];
-    [query whereKey:@"source" equalTo:source];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (! error) {
-            for (PFObject *object in objects) {
-                [object deleteInBackground];
+    NSMutableArray *saves = [[NSMutableArray alloc] init];
+    for (Lot *lot in lots) {
+        PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
+        lotObject[@"userId"] = [PFUser currentUser].objectId;
+        lotObject[@"source"] = source;
+        lotObject[@"symbol"] = lot.symbol;
+        lotObject[@"shares"] = [@(lot.shares) stringValue];
+        lotObject[@"costBasis"] = [@(lot.costBasis) stringValue];
+        lotObject[@"cash"] = lot.cash ? lot.cash : @"No" ;
+        [saves addObject:lotObject];
+    }
+    
+    NSMutableArray *deletes = [[NSMutableArray alloc] init];
+    for (Position *position in [[PortfolioService instance] positions]) {
+        for(Lot *lot in position.lots) {
+            if ([lot.source isEqualToString:source]) {
+                [deletes addObject:lot.data];
             }
-            for (Lot *lot in lots) {
-                NSString *userId = [PFUser currentUser].objectId;
-                PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
-                lotObject[@"userId"] = userId;
-                lotObject[@"source"] = source;
-                lotObject[@"symbol"] = lot.symbol;
-                lotObject[@"shares"] = [@(lot.shares) stringValue];
-                lotObject[@"costBasis"] = [@(lot.costBasis) stringValue];
-                lotObject[@"cash"] = lot.cash ? lot.cash : @"No" ;
-                [lotObject saveInBackground];
-            }
+        }
+    }
+    
+    [PFObject deleteAllInBackground:deletes block:^(BOOL succeeded, NSError *error) {
+        if (!error){
+            [PFObject saveAllInBackground:saves block:^(BOOL succeeded, NSError *error) {
+                if (!error){
+                    [[PortfolioService instance] synchronize];
+                }
+                else {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
         }
         else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

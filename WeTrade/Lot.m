@@ -40,6 +40,13 @@
     return _costBasis;
 }
 
+- (NSString *)source {
+    if (!_source) {
+        _source = [self.data objectForKey:@"source"];
+    }
+    return _source;
+}
+
 - (NSString *)cash {
     if (!_cash) {
         _cash = [self.data objectForKey:@"cash"];
