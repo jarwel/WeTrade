@@ -7,32 +7,57 @@
 //
 
 #import "PortfolioService.h"
+#import "Constants.h"
+#import "ParseClient.h"
 #import "Position.h"
 #import "Quote.h"
 
+@interface PortfolioService ()
+
+@property (nonatomic, strong) NSArray *data;
+- (void)synchronize;
+
+@end
+
 @implementation PortfolioService
 
-+ (NSNumber *)getDayChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
-    float priceChange = 0;
-    float previousClose = 0;
-    
-    for (Position *position in positions) {
-        Quote *quote = [quotes objectForKey:position.symbol];
-        priceChange += position.shares * quote.priceChange;
-        previousClose += position.shares * quote.previousClose;
++ (PortfolioService *)instance {
+    static PortfolioService *instance;
+    if (!instance) {
+        instance = [[PortfolioService alloc] init];
+        [instance synchronize];
     }
-    
-    if (previousClose > 0) {
-        return [[NSNumber alloc] initWithFloat:(float)priceChange / previousClose * 100];
-    }
-    return nil;
+    return instance;
 }
 
-+ (NSNumber *)getTotalChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes {
+- (id)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchronize) name:LoginNotification object:nil];
+    }
+    return self;
+}
+
+- (NSArray *)positions {
+    return self.data;
+}
+
+- (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes {
+    float total = 0;
+    for (Position *position in self.positions ) {
+        total += [position valueForQuote:[quotes objectForKey:position.symbol]];
+    }
+    return [NSNumber numberWithFloat:total];
+}
+
+- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes {
+    return [self totalChangeForQuotes:quotes positions:self.positions];
+}
+
+- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
     float currentValue = 0;
     float costBasis = 0;
     
-    for (Position *position in positions) {
+    for (Position *position in self.data) {
         Quote *quote = [quotes objectForKey:position.symbol];
         currentValue += [position valueForQuote:quote];
         costBasis += position.costBasis;
@@ -44,7 +69,27 @@
     return nil;
 }
 
-+ (UIColor *)getColorForChange:(float)change {
+- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes {
+    return [self dayChangeForQuotes:quotes positions:self.positions];
+}
+
+- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
+    float priceChange = 0;
+    float previousClose = 0;
+    
+    for (Position *position in self.data) {
+        Quote *quote = [quotes objectForKey:position.symbol];
+        priceChange += position.shares * quote.priceChange;
+        previousClose += position.shares * quote.previousClose;
+    }
+    
+    if (previousClose > 0) {
+        return [[NSNumber alloc] initWithFloat:(float)priceChange / previousClose * 100];
+    }
+    return nil;
+}
+
+- (UIColor *)colorForChange:(float)change {
     if (change > 0) {
         return [UIColor greenColor];
     }
@@ -52,6 +97,17 @@
         return [UIColor redColor];
     }
     return [UIColor blueColor];
+}
+
+- (void)synchronize {
+    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _data = [Position fromObjects:objects];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 @end

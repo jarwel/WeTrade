@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic, strong) FollowingService *followingService;
 @property (nonatomic, strong) NSMutableDictionary *percentChanges;
 @property (nonatomic, strong) NSArray *search;
 @property (nonatomic, assign) BOOL searchMode;
@@ -40,8 +41,9 @@
     UITextField *searchField = [self.searchBar valueForKey:@"_searchField"];
     [searchField setTextColor:[UIColor whiteColor]];
 
+    _followingService =[FollowingService instance];
     _percentChanges = [[NSMutableDictionary alloc] init];
-    [[FollowingService instance] loadFromServer];
+
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
     
@@ -73,7 +75,7 @@
     NSNumber *percentChange = [self.percentChanges objectForKey:user.objectId];
     if (percentChange) {
         userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-        userCell.totalChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
+        userCell.totalChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
     }
     else {
         [self loadChangeForUser:user indexPath:indexPath];
@@ -127,7 +129,7 @@
     if (self.searchMode) {
         return self.search;
     }
-    return [[FollowingService instance] asArray];
+    return self.followingService.following;
 }
 
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
@@ -138,13 +140,13 @@
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
         
-                    NSNumber *percentChange = [PortfolioService getTotalChangeForPositions:positions quotes:quotes];
+                    NSNumber *percentChange = [[PortfolioService instance] dayChangeForQuotes:quotes positions:positions];
                     if (percentChange) {
                         [self.percentChanges setObject:percentChange forKey:user.objectId];
                         UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                         if (userCell) {
                             userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-                            userCell.totalChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
+                            userCell.totalChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
                         }
                     }
                 } else {

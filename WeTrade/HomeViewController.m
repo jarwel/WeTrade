@@ -25,7 +25,8 @@
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
 
-@property (nonatomic, strong) NSArray *positions;
+@property (nonatomic, strong) PortfolioService *porfolioService;
+@property (nonatomic, strong) NSArray *sortedPositions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
 @property (nonatomic, assign) float totalValue;
@@ -35,8 +36,8 @@
 
 - (void)initTable;
 - (void)initChart;
-- (void)loadPositions;
 - (void)loadQuotes;
+- (void)sortPositions;
 - (void)refreshViews;
 - (void)onOrientationChange;
 
@@ -62,20 +63,24 @@
         self.navigationItem.rightBarButtonItem = nil;
     }
     
+    _porfolioService = [PortfolioService instance];
+    
     [self initTable];
     [self initChart];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:LotsChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sortPositions) name:PortfolioChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
     if (self.viewDeckController) {
         [self.viewDeckController setEnabled:YES];
     }
-    [self loadPositions];
-}
+    
+    [self sortPositions];
+    
+    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
+    }
 
 - (void)viewWillDisappear:(BOOL)animated {
     if (self.quoteTimer) {
@@ -130,12 +135,12 @@
 }
 
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return self.positions.count;
+    return self.sortedPositions.count;
 }
 
 - (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
     if (CPTPieChartFieldSliceWidth == fieldEnum) {
-        Position *position = [self.positions objectAtIndex:index];
+        Position *position = [self.sortedPositions objectAtIndex:index];
         Quote *quote = [self.quotes objectForKey:position.symbol];
         return [NSNumber numberWithFloat:[position valueForQuote:quote]];
     }
@@ -150,24 +155,24 @@
         style.fontSize = 11.0f;
     }
     
-    Position *position = [self.positions objectAtIndex:index];
+    Position *position = [self.sortedPositions objectAtIndex:index];
     return [[CPTTextLayer alloc] initWithText:position.symbol style:style];
 }
 
 -(CPTFill *)sliceFillForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)index {
-    float alpha = ((float)self.positions.count - index) / self.positions.count;
+    float alpha = ((float)self.sortedPositions.count - index) / self.sortedPositions.count;
     return [CPTFill fillWithColor:[[CPTColor blueColor] colorWithAlphaComponent:alpha]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.positions.count;
+    return self.porfolioService.positions.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"PositionCell";
     PositionCell *positionCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    Position *position = [self.positions objectAtIndex:indexPath.row];
+    Position *position = [self.sortedPositions objectAtIndex:indexPath.row];
     Quote *quote = [self.quotes valueForKey:position.symbol];
     
     NSNumber *percentChange;
@@ -187,7 +192,7 @@
     positionCell.symbolLabel.text = position.symbol;
     positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    positionCell.percentChangeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
+    positionCell.percentChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
     positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
     
     if ([CashSymbol isEqualToString:position.symbol]) {
@@ -204,53 +209,39 @@
 }
 
 - (void)refreshViews {
-    
-    float totalValue = 0;
-    for (Position *position in self.positions ) {
-        totalValue += [position valueForQuote:[self.quotes objectForKey:position.symbol]];
-    }
-    self.totalValue = totalValue;
+    self.totalValue = [[self.porfolioService totalValueForQuotes:self.quotes] floatValue];
     
     NSNumber *percentChange;
     if (self.changeButton.selected) {
-        percentChange = [PortfolioService getTotalChangeForPositions:self.positions quotes:self.quotes];
+        percentChange = [self.porfolioService totalChangeForQuotes:self.quotes];
     }
     else {
-        percentChange = [PortfolioService getDayChangeForPositions:self.positions quotes:self.quotes];
+        percentChange = [self.porfolioService dayChangeForQuotes:self.quotes];
     }
     
     self.changeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    self.changeLabel.textColor = [PortfolioService getColorForChange:[percentChange floatValue]];
+    self.changeLabel.textColor = [self.porfolioService colorForChange:[percentChange floatValue]];
     
     [self.tableView reloadData];
     [self.chartView.hostedGraph reloadData];
 }
 
-- (void)loadPositions {
-    [[ParseClient instance] fetchLotsForUserId:self.user.objectId callback:^(NSArray *objects, NSError *error) {
+- (void)sortPositions {
+    [[FinanceClient instance] fetchQuotesForPositions:self.porfolioService.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
-            _positions = [Position fromObjects:objects];
-            [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-                if (!error) {
-                    _quotes = [Quote fromData:data];
-                    _positions = [self.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
-                            
-                        Position *firstPosition = (Position*)first;
-                        Quote *firstQuote = [self.quotes objectForKey:firstPosition.symbol];
-                        float firstValue = [firstPosition valueForQuote:firstQuote];
-                            
-                        Position *secondPosition = (Position*)second;
-                        Quote *secondQuote = [self.quotes objectForKey:secondPosition.symbol];
-                        float secondValue = [secondPosition valueForQuote:secondQuote];
-                            
-                        return firstValue < secondValue;
-                    }];
-                    [self refreshViews];
-                } else {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
+            _quotes = [Quote fromData:data];
+            _sortedPositions = [self.porfolioService.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+                
+                Position *firstPosition = (Position*)first;
+                Quote *firstQuote = [self.quotes objectForKey:firstPosition.symbol];
+                float firstValue = [firstPosition valueForQuote:firstQuote];
+                
+                Position *secondPosition = (Position*)second;
+                Quote *secondQuote = [self.quotes objectForKey:secondPosition.symbol];
+                float secondValue = [secondPosition valueForQuote:secondQuote];
+                
+                return firstValue < secondValue;
             }];
-
             [self refreshViews];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -259,7 +250,7 @@
 }
 
 - (void)loadQuotes {
-    [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[FinanceClient instance] fetchQuotesForPositions:self.porfolioService.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _quotes = [Quote fromData:data];
             [self refreshViews];
@@ -267,7 +258,6 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-
 }
 
 - (void)onOrientationChange {
@@ -287,7 +277,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
-        Position *position = [self.positions objectAtIndex:indexPath.row];
+        Position *position = [self.porfolioService.positions objectAtIndex:indexPath.row];
         Quote *quote = [self.quotes objectForKey:position.symbol];
         
         StockViewController *stockViewController = segue.destinationViewController;

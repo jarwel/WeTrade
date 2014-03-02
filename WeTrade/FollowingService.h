@@ -11,11 +11,12 @@
 
 @interface FollowingService : NSObject
 
+@property (nonatomic, strong) NSArray *following;
+
 + (FollowingService *)instance;
-- (NSArray *)asArray;
 - (BOOL)contains:(NSString *)userId;
 - (void)followUser:(PFUser *)user;
 - (void)unfollowUser:(PFUser *)user;
-- (void)loadFromServer;
+- (void)synchronize;
 
 @end

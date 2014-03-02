@@ -12,7 +12,8 @@
 
 @interface FollowingService ()
 
-@property (nonatomic, strong) NSMutableDictionary *dictionary;
+@property (nonatomic, strong) NSMutableDictionary *data;
+- (void)synchronize;
 
 @end
 
@@ -22,39 +23,45 @@
     static FollowingService *instance;
     if (!instance) {
         instance = [[FollowingService alloc] init];
-        [instance loadFromServer];
+        [instance synchronize];
     }
     return instance;
 }
 
-- (NSArray *)asArray {
-    return [self.dictionary allValues];
+- (id)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchronize) name:LoginNotification object:nil];
+    }
+    return self;
+}
+
+- (NSArray *)following {
+    return [self.data allValues];
 }
 
 -(BOOL)contains:(NSString *)userId {
-    return [self.dictionary objectForKey:userId] != nil;
+    return [self.data objectForKey:userId] != nil;
 }
 
 - (void)followUser:(PFUser *)user {
-    [self.dictionary setObject:user forKey:user.objectId];
+    [self.data setObject:user forKey:user.objectId];
     [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
     [[ParseClient instance] followUser:user];
 }
 
 - (void)unfollowUser:(PFUser *)user {
-    [self.dictionary removeObjectForKey:user.objectId];
+    [self.data removeObjectForKey:user.objectId];
     [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
     [[ParseClient instance] unfollowUser:user];
 }
 
-- (void)loadFromServer {
+- (void)synchronize {
     [[ParseClient instance] fetchFollowing:^(NSArray *objects, NSError *error) {
         if (!error) {
-            NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+            _data = [[NSMutableDictionary alloc] init];
             for (PFUser *user in objects) {
-                [dictionary setObject:user forKey:user.objectId];
+                [self.data setObject:user forKey:user.objectId];
             }
-            _dictionary = dictionary;
             [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

@@ -10,8 +10,15 @@
 
 @interface PortfolioService : NSObject
 
-+ (NSNumber *)getDayChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
-+ (NSNumber *)getTotalChangeForPositions:(NSArray *)positions quotes:(NSDictionary *)quotes;
-+ (UIColor *)getColorForChange:(float)change;
+@property (nonatomic, strong) NSArray *positions;
+
++ (PortfolioService *)instance;
+- (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes;
+- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes;
+- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
+- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes;
+- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
+- (UIColor *)colorForChange:(float)change;
+- (void)synchronize;
 
 @end

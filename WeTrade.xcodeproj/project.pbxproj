@@ -435,10 +435,10 @@
 		CA89420418B984F80046C1BD /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CA861DDE18AEA4C00057D163 /* FollowingService.h */,
-				CA861DDF18AEA4C00057D163 /* FollowingService.m */,
 				CA89420518B9A49A0046C1BD /* PortfolioService.h */,
 				CA89420618B9A49A0046C1BD /* PortfolioService.m */,
+				CA861DDE18AEA4C00057D163 /* FollowingService.h */,
+				CA861DDF18AEA4C00057D163 /* FollowingService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
