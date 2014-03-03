@@ -76,7 +76,6 @@
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         [defaults setObject:data forKey:url];
-        [defaults synchronize];
         callback(response, data, connectionError);
     }];
 }
