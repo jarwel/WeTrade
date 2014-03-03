@@ -73,20 +73,19 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
-    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
     if (self.viewDeckController) {
+        [self.viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
         [self.viewDeckController setEnabled:YES];
     }
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
+    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     if (self.quoteTimer) {
         [self.quoteTimer invalidate];
         _quoteTimer = nil;
-    }
-    if (self.viewDeckController) {
-        [self.viewDeckController setEnabled:NO];
     }
 }
 
@@ -297,6 +296,10 @@
         
         StockViewController *stockViewController = segue.destinationViewController;
         stockViewController.symbol = quote.symbol;
+        
+        if (self.viewDeckController) {
+            [self.viewDeckController setEnabled:NO];
+        }
     }
 }
 

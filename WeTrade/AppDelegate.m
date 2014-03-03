@@ -110,10 +110,7 @@
     UIViewController *left = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
     UIViewController *right = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
     
-    IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:center];
-    [viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
-    [viewDeckController setLeftController:left];
-    [viewDeckController setRightController:right];
+    IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:center leftViewController:left rightViewController:right];
     homeViewController.viewDeckController = viewDeckController;
     return viewDeckController;
 }

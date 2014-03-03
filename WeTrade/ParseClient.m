@@ -41,6 +41,7 @@
     [query whereKey:@"symbol" equalTo:symbol];
     [query includeKey:@"user"];
     [query orderByDescending:@"createdAt"];
+    [query setLimit:100];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
@@ -49,6 +50,7 @@
     
     PFRelation *relation = [[PFUser currentUser] relationforKey:@"following"];
     PFQuery *query = [relation query];
+    [query setLimit:100];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
@@ -58,6 +60,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"_User"];
     [query whereKey:@"canonicalUsername" hasPrefix:[search lowercaseString]];
     [query whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
+    [query setLimit:100];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
