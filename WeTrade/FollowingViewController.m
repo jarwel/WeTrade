@@ -23,13 +23,15 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) FollowingService *followingService;
-@property (nonatomic, strong) NSMutableDictionary *percentChanges;
+@property (nonatomic, strong) NSMutableDictionary *userChanges;
+@property (nonatomic, strong) NSMutableSet *processing;
 @property (nonatomic, strong) NSArray *search;
 @property (nonatomic, assign) BOOL searchMode;
 
 - (NSArray *)current;
 - (void)refreshViews;
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
+- (void)expireChangeForTimer:(NSTimer *)timer;
 
 @end
 
@@ -41,8 +43,9 @@
     UITextField *searchField = [self.searchBar valueForKey:@"_searchField"];
     [searchField setTextColor:[UIColor whiteColor]];
 
-    _followingService =[FollowingService instance];
-    _percentChanges = [[NSMutableDictionary alloc] init];
+    _followingService = [FollowingService instance];
+    _userChanges = [[NSMutableDictionary alloc] init];
+    _processing = [[NSMutableSet alloc] init];
 
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
@@ -71,7 +74,7 @@
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
     
-    NSNumber *percentChange = [self.percentChanges objectForKey:user.objectId];
+    NSNumber *percentChange = [self.userChanges objectForKey:user.objectId];
     if (percentChange) {
         userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
         userCell.totalChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
@@ -132,21 +135,28 @@
 }
 
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
+    if ([self.processing containsObject:user.objectId]) {
+        NSLog(@"already loading userId: %@", user.objectId);
+        return;
+    }
+    [self.processing addObject:user.objectId];
     [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSArray *positions = [Position fromObjects:objects];
             [[FinanceClient instance] fetchQuotesForPositions:positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
-        
-                    NSNumber *percentChange = [[PortfolioService instance] dayChangeForQuotes:quotes positions:positions];
+                    NSNumber *percentChange = [[PortfolioService instance] totalChangeForQuotes:quotes positions:positions];
                     if (percentChange) {
-                        [self.percentChanges setObject:percentChange forKey:user.objectId];
                         UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                         if (userCell) {
                             userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
                             userCell.totalChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
                         }
+                        [self.userChanges setObject:percentChange forKey:user.objectId];
+                        [self.processing removeObject:user.objectId];
+                        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:user.objectId, @"userId", nil];
+                        [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(expireChangeForTimer:) userInfo:userInfo repeats:NO];
                     }
                 } else {
                     NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -156,6 +166,12 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+- (void)expireChangeForTimer:(NSTimer *)timer {
+    NSString *userId = [[timer userInfo] objectForKey:@"userId"];
+    [self.userChanges removeObjectForKey:userId];
+    NSLog(@"Expired change for userId: %@", userId);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -40,16 +40,12 @@
     return self.data;
 }
 
-- (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes {
+- (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
     float total = 0;
-    for (Position *position in self.positions ) {
+    for (Position *position in positions ) {
         total += [position valueForQuote:[quotes objectForKey:position.symbol]];
     }
     return [NSNumber numberWithFloat:total];
-}
-
-- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes {
-    return [self totalChangeForQuotes:quotes positions:self.positions];
 }
 
 - (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
@@ -66,10 +62,6 @@
         return [[NSNumber alloc] initWithFloat:(currentValue - costBasis) / costBasis * 100];
     }
     return nil;
-}
-
-- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes {
-    return [self dayChangeForQuotes:quotes positions:self.positions];
 }
 
 - (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
