@@ -40,7 +40,7 @@
     return self.data;
 }
 
-- (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
++ (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
     float total = 0;
     for (Position *position in positions ) {
         total += [position valueForQuote:[quotes objectForKey:position.symbol]];
@@ -48,11 +48,11 @@
     return [NSNumber numberWithFloat:total];
 }
 
-- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
++ (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
     float currentValue = 0;
     float costBasis = 0;
     
-    for (Position *position in self.data) {
+    for (Position *position in positions) {
         Quote *quote = [quotes objectForKey:position.symbol];
         currentValue += [position valueForQuote:quote];
         costBasis += position.costBasis;
@@ -64,11 +64,11 @@
     return nil;
 }
 
-- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
++ (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
     float priceChange = 0;
     float previousClose = 0;
     
-    for (Position *position in self.data) {
+    for (Position *position in positions) {
         Quote *quote = [quotes objectForKey:position.symbol];
         priceChange += position.shares * quote.priceChange;
         previousClose += position.shares * quote.previousClose;
@@ -80,7 +80,7 @@
     return nil;
 }
 
-- (UIColor *)colorForChange:(float)change {
++ (UIColor *)colorForChange:(float)change {
     if (change > 0) {
         return [UIColor greenColor];
     }

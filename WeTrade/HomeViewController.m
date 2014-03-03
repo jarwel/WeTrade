@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
 
-@property (nonatomic, strong) PortfolioService *porfolioService;
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
 @property (nonatomic, strong) NSTimer *quoteTimer;
@@ -63,11 +62,9 @@
         self.navigationItem.rightBarButtonItem = nil;
     }
     
-    _porfolioService = [PortfolioService instance];
-    [self loadPositions];
-    
     [self initTable];
     [self initChart];
+    [self loadPositions];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:PortfolioChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -193,7 +190,7 @@
     positionCell.symbolLabel.text = position.symbol;
     positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    positionCell.percentChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
+    positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
     positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
     
     if ([CashSymbol isEqualToString:position.symbol]) {
@@ -210,18 +207,18 @@
 }
 
 - (void)refreshViews {
-    self.totalValue = [[self.porfolioService totalValueForQuotes:self.quotes positions:self.positions] floatValue];
+    self.totalValue = [[PortfolioService totalValueForQuotes:self.quotes positions:self.positions] floatValue];
     
     NSNumber *percentChange;
     if (self.changeButton.selected) {
-        percentChange = [self.porfolioService totalChangeForQuotes:self.quotes positions:self.positions];
+        percentChange = [PortfolioService totalChangeForQuotes:self.quotes positions:self.positions];
     }
     else {
-        percentChange = [self.porfolioService dayChangeForQuotes:self.quotes positions:self.positions];
+        percentChange = [PortfolioService dayChangeForQuotes:self.quotes positions:self.positions];
     }
     
     self.changeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    self.changeLabel.textColor = [self.porfolioService colorForChange:[percentChange floatValue]];
+    self.changeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
     
     [self.tableView reloadData];
     [self.chartView.hostedGraph reloadData];
@@ -239,7 +236,7 @@
         }];
     }
     else {
-        _positions = self.porfolioService.positions;
+        _positions = [[PortfolioService instance] positions];
         [self sortPositions];
     }
 }
@@ -268,7 +265,7 @@
 }
 
 - (void)loadQuotes {
-    [[FinanceClient instance] fetchQuotesForPositions:self.porfolioService.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _quotes = [Quote fromData:data];
             [self refreshViews];

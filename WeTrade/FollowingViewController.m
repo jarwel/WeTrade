@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) FollowingService *followingService;
 @property (nonatomic, strong) NSMutableDictionary *userChanges;
 @property (nonatomic, strong) NSMutableSet *processing;
 @property (nonatomic, strong) NSArray *search;
@@ -42,13 +41,12 @@
     
     UITextField *searchField = [self.searchBar valueForKey:@"_searchField"];
     [searchField setTextColor:[UIColor whiteColor]];
-
-    _followingService = [FollowingService instance];
-    _userChanges = [[NSMutableDictionary alloc] init];
-    _processing = [[NSMutableSet alloc] init];
-
+    
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
+
+    _userChanges = [[NSMutableDictionary alloc] init];
+    _processing = [[NSMutableSet alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
 }
@@ -77,9 +75,11 @@
     NSNumber *percentChange = [self.userChanges objectForKey:user.objectId];
     if (percentChange) {
         userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-        userCell.totalChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
+        userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
     }
     else {
+        userCell.totalChangeLabel.text = @"--";
+        userCell.totalChangeLabel.textColor = [UIColor lightGrayColor];
         [self loadChangeForUser:user indexPath:indexPath];
     }
     
@@ -131,7 +131,7 @@
     if (self.searchMode) {
         return self.search;
     }
-    return self.followingService.following;
+    return [[FollowingService instance] following];
 }
 
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
@@ -146,12 +146,12 @@
             [[FinanceClient instance] fetchQuotesForPositions:positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
                 if (!error) {
                     NSDictionary *quotes = [Quote fromData:data];
-                    NSNumber *percentChange = [[PortfolioService instance] totalChangeForQuotes:quotes positions:positions];
+                    NSNumber *percentChange = [PortfolioService dayChangeForQuotes:quotes positions:positions];
                     if (percentChange) {
                         UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                         if (userCell) {
                             userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-                            userCell.totalChangeLabel.textColor = [[PortfolioService instance] colorForChange:[percentChange floatValue]];
+                            userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
                         }
                         [self.userChanges setObject:percentChange forKey:user.objectId];
                         [self.processing removeObject:user.objectId];

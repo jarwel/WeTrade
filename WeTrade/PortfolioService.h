@@ -13,10 +13,10 @@
 @property (nonatomic, strong) NSArray *positions;
 
 + (PortfolioService *)instance;
-- (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;;
-- (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
-- (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
-- (UIColor *)colorForChange:(float)change;
++ (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;;
++ (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
++ (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
++ (UIColor *)colorForChange:(float)change;
 - (void)synchronize;
 
 @end
