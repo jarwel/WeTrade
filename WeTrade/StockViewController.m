@@ -38,7 +38,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UIButton *viewButton;
-@property (weak, nonatomic) IBOutlet UIButton *fiveYearButton;
 @property (weak, nonatomic) IBOutlet UIButton *oneYearButton;
 @property (weak, nonatomic) IBOutlet UIButton *sixMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *threeMonthButton;
@@ -60,7 +59,6 @@
 - (IBAction)onThreeMonthButton:(id)sender;
 - (IBAction)onSixMonthButton:(id)sender;
 - (IBAction)onOneYearButton:(id)sender;
-- (IBAction)onFiveYearButton:(id)sender;
 - (IBAction)onCommentButton:(id)sender;
 - (IBAction)onAddCommentButton:(id)sender;
 - (IBAction)onEditingChanged:(id)sender;
@@ -334,7 +332,6 @@
 }
 
 - (IBAction)onOneMonthButton:(id)sender {
-    self.fiveYearButton.selected = NO;
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = NO;
     self.threeMonthButton.selected = NO;
@@ -349,7 +346,6 @@
 }
 
 - (IBAction)onThreeMonthButton:(id)sender {
-    self.fiveYearButton.selected = NO;
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = NO;
     self.threeMonthButton.selected = YES;
@@ -364,7 +360,7 @@
 }
 
 - (IBAction)onSixMonthButton:(id)sender {
-    self.fiveYearButton.selected = NO;
+
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = YES;
     self.threeMonthButton.selected = NO;
@@ -379,7 +375,6 @@
 }
 
 - (IBAction)onOneYearButton:(id)sender {
-    self.fiveYearButton.selected = NO;
     self.oneYearButton.selected = YES;
     self.sixMonthButton.selected = NO;
     self.threeMonthButton.selected = NO;
@@ -387,21 +382,6 @@
     
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components.year = -1;
-    NSDate *endDate = [NSDate date];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
-    [self fetchHistoryForStartDate:startDate endDate:endDate];
-}
-
-- (IBAction)onFiveYearButton:(id)sender {
-    self.fiveYearButton.selected = YES;
-    self.oneYearButton.selected = NO;
-    self.sixMonthButton.selected = NO;
-    self.threeMonthButton.selected = NO;
-    self.oneMonthButton.selected = NO;
-    
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    components.year = -5;
     NSDate *endDate = [NSDate date];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *startDate = [calendar dateByAddingComponents:components toDate:endDate options:0];
