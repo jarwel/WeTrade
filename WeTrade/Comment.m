@@ -56,10 +56,10 @@
     return [NSString stringWithFormat:@"%d second%@ ago", time, time == 1 ? @"" : @"s"];
 }
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects {
-    NSMutableArray *comments = [[NSMutableArray alloc] initWithCapacity:objects.count];
-    for (PFObject *object in objects) {
-        [comments addObject:[[Comment alloc] initWithData:object]];
++ (NSMutableArray *)fromParseObjects:(NSArray *)parseObjects {
+    NSMutableArray *comments = [[NSMutableArray alloc] initWithCapacity:parseObjects.count];
+    for (PFObject *parseObject in parseObjects) {
+        [comments addObject:[[Comment alloc] initWithData:parseObject]];
     }
     return comments;
 }

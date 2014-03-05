@@ -8,6 +8,7 @@
 
 #import "ParseClient.h"
 #import "PortfolioService.h"
+#import "FollowingService.h"
 #import "Position.h"
 #import "Lot.h"
 
@@ -45,15 +46,6 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback {
-    NSLog(@"fetchFollowing");
-    
-    PFRelation *relation = [[PFUser currentUser] relationforKey:@"following"];
-    PFQuery *query = [relation query];
-    [query setLimit:100];
-    [query findObjectsInBackgroundWithBlock:callback];
-}
-
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchUsersForSearch: %@", search);
     
@@ -64,8 +56,52 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)addCommentWithSymbol:(NSString *)symbol text:(NSString *)text {
-    NSLog(@"addCommentWithSymbol: %@ text: %@", symbol, text);
+- (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchSecurityForSymbol: %@", symbol);
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Security"];
+    [query whereKey:@"symbol" equalTo:symbol];
+    [query setLimit:1];
+    [query findObjectsInBackgroundWithBlock:callback];
+}
+
+- (void)fetchSecuritiesForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchSecuritiesForSearch: %@", search);
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Security"];
+    [query whereKey:@"symbol" hasPrefix:[search uppercaseString]];
+    [query setLimit:100];
+    [query findObjectsInBackgroundWithBlock:callback];
+}
+
+- (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchFollowing");
+    
+    PFRelation *relation = [[PFUser currentUser] relationforKey:@"following"];
+    PFQuery *query = [relation query];
+    [query setLimit:100];
+    [query findObjectsInBackgroundWithBlock:callback];
+}
+
+- (void)fetchWatching:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchWatching");
+    
+    PFRelation *relation = [[PFUser currentUser] relationforKey:@"watching"];
+    PFQuery *query = [relation query];
+    [query setLimit:100];
+    [query findObjectsInBackgroundWithBlock:callback];
+}
+
+- (void)createSecurityWithSymbol:(NSString *)symbol callback:(void (^)(BOOL succeeded, NSError *error))callback {
+    NSLog(@"createSecurityWithSymbol: %@", symbol);
+    
+    PFObject *securityObject = [PFObject objectWithClassName:@"Security"];
+    securityObject[@"symbol"] = symbol;
+    [securityObject saveInBackgroundWithBlock:callback];
+}
+
+- (void)createCommentWithSymbol:(NSString *)symbol text:(NSString *)text {
+    NSLog(@"createCommentWithSymbol: %@ text: %@", symbol, text);
     
     PFObject *commentObject = [PFObject objectWithClassName:@"Comment"];
     commentObject[@"symbol"] = symbol;
@@ -76,7 +112,7 @@
 
 - (void)followUser:(PFUser *)user {
     NSLog(@"followUser: %@", user.objectId);
-
+    
     PFUser *currentUser = [PFUser currentUser];
     PFRelation *relation = [currentUser relationforKey:@"following"];
     [relation addObject:user];
@@ -89,6 +125,24 @@
     PFUser *currentUser = [PFUser currentUser];
     PFRelation *relation = [currentUser relationforKey:@"following"];
     [relation removeObject:user];
+    [currentUser saveInBackground];
+}
+
+- (void)followSecurity:(Security *)security {
+    NSLog(@"followSecurity: %@", security.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    PFRelation *relation = [currentUser relationforKey:@"watching"];
+    [relation addObject:security.data];
+    [currentUser saveInBackground];
+}
+
+- (void)unfollowSecurity:(Security *)security {
+    NSLog(@"unfollowSecurity: %@", security.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    PFRelation *relation = [currentUser relationforKey:@"watching"];
+    [relation removeObject:security.data];
     [currentUser saveInBackground];
 }
 

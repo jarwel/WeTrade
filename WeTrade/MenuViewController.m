@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic, assign) int count;
+
 @end
 
 @implementation MenuViewController
@@ -26,6 +28,8 @@
     PFUser *user = [PFUser currentUser];
     self.usernameLabel.text = user.username;
     self.emailLabel.text = user.email;
+    
+    _count = 4;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -34,23 +38,25 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0 :
-            return [tableView dequeueReusableCellWithIdentifier:@"ImportCell" forIndexPath:indexPath];
+            return [tableView dequeueReusableCellWithIdentifier:@"WatchListCell" forIndexPath:indexPath];
         case 1 :
-            return [tableView dequeueReusableCellWithIdentifier:@"ManageLotsCell" forIndexPath:indexPath];
+            return [tableView dequeueReusableCellWithIdentifier:@"ImportCell" forIndexPath:indexPath];
         case 2 :
+            return [tableView dequeueReusableCellWithIdentifier:@"ManageLotsCell" forIndexPath:indexPath];
+        case 3 :
             return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
     }
     return [tableView dequeueReusableCellWithIdentifier:@"EmptyCell" forIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 2) {
+    if (indexPath.row == 4) {
         [[NSNotificationCenter defaultCenter] postNotificationName:LogoutNotification object:nil];
     }
 }

@@ -17,6 +17,6 @@
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *timeElapsedText;
 
-+ (NSMutableArray *)fromPFObjectArray:(NSArray *)objects;
++ (NSMutableArray *)fromParseObjects:(NSArray *)parseObjects;
 
 @end

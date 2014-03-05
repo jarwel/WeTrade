@@ -20,22 +20,32 @@
 }
 
 - (void)fetchQuotesForPositions:(NSArray *)positions callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    NSLog(@"fetchQuotesForPositions: %ld", positions.count);
-    
-    NSMutableString *symbols = [[NSMutableString alloc] initWithString:@""];
+    NSMutableSet *symbols = [[NSMutableSet alloc] init];
     for (Position *position in positions) {
         if (![CashSymbol isEqualToString:position.symbol]) {
-            [symbols appendFormat:@"'%@',", position.symbol];
+            [symbols addObject:position.symbol];
         }
     }
-    
-    if (symbols.length > 0) {
-        NSLog(@"fetchQuotesForSymbols: %@", symbols);
-        
-        NSString *query = [NSString stringWithFormat:@"select symbol, Name, LastTradePriceOnly, Change, ChangeinPercent, PreviousClose from yahoo.finance.quotes where symbol in (%@)", [symbols substringToIndex:symbols.length - 1]];
+    [self fetchQuotesForSymbols:symbols callback:callback];
+}
+
+- (void)fetchQuotesForSecurities:(NSArray *)securities callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    NSMutableSet *symbols = [[NSMutableSet alloc] init];
+    for (Security *security in securities) {
+        [symbols addObject:security.symbol];
+    }
+    [self fetchQuotesForSymbols:symbols callback:callback];
+}
+
+- (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    if (symbols.count > 0) {
+        NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
+        NSLog(@"fetchQuotesForSymbols: %@", symbolString);
+
+        NSString *query = [NSString stringWithFormat:@"select symbol, Name, LastTradePriceOnly, Change, ChangeinPercent, PreviousClose, ErrorIndicationreturnedforsymbolchangedinvalid from yahoo.finance.quotes where symbol in (%@)", symbolString];
         NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
         NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
-
+        
         [self staleWhileRevalidate:url callback:callback];
     }
 }

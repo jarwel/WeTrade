@@ -61,10 +61,10 @@
     return NO;
 }
 
-+ (NSMutableArray *)fromObjects:(NSArray *)objects {
-    NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
-    for (PFObject *object in objects) {
-        [lots addObject:[[Lot alloc] initWithData:object]];
++ (NSMutableArray *)fromParseObjects:(NSArray *)parseObjects {
+    NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:parseObjects.count];
+    for (PFObject *parseObject in parseObjects) {
+        [lots addObject:[[Lot alloc] initWithData:parseObject]];
     }
     return lots;
 }

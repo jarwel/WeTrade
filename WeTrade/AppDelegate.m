@@ -111,6 +111,7 @@
     UIViewController *right = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
     
     IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:center leftViewController:left rightViewController:right];
+    [viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
     homeViewController.viewDeckController = viewDeckController;
     return viewDeckController;
 }

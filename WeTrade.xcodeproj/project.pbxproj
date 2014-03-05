@@ -30,6 +30,8 @@
 		CA3046DA18C2BFB2004E0CD6 /* Scraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D918C2BFB2004E0CD6 /* Scraper.m */; };
 		CA3046DD18C3933F004E0CD6 /* FullQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046DC18C3933F004E0CD6 /* FullQuote.m */; };
 		CA4A1DA818AA93A1002D2DEC /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = CA4A1DA718AA93A1002D2DEC /* History.m */; };
+		CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B60C718C63879001D2647 /* WatchingViewController.m */; };
+		CA5B60CB18C63F16001D2647 /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B60CA18C63F16001D2647 /* SecurityCell.m */; };
 		CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5D112C1898CDF9006940E8 /* IIViewDeckController.m */; };
 		CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5D112F1898CFDD006940E8 /* IIWrapController.m */; };
 		CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662718982BFE00A55D3F /* SignInViewController.m */; };
@@ -74,6 +76,8 @@
 		CACD59731891E67D006FD228 /* LotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACD59721891E67D006FD228 /* LotCell.xib */; };
 		CACD597C1891EA35006FD228 /* Lot.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD597B1891EA35006FD228 /* Lot.m */; };
 		CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */; };
+		CAF11A2B18C63F76006D8889 /* SecurityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAF11A2A18C63F76006D8889 /* SecurityCell.xib */; };
+		CAF11A2E18C67372006D8889 /* Security.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF11A2D18C67372006D8889 /* Security.m */; };
 		CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +129,10 @@
 		CA3046DC18C3933F004E0CD6 /* FullQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullQuote.m; sourceTree = "<group>"; };
 		CA4A1DA618AA93A1002D2DEC /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
 		CA4A1DA718AA93A1002D2DEC /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
+		CA5B60C618C63879001D2647 /* WatchingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchingViewController.h; sourceTree = "<group>"; };
+		CA5B60C718C63879001D2647 /* WatchingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WatchingViewController.m; sourceTree = "<group>"; };
+		CA5B60C918C63F16001D2647 /* SecurityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityCell.h; sourceTree = "<group>"; };
+		CA5B60CA18C63F16001D2647 /* SecurityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityCell.m; sourceTree = "<group>"; };
 		CA5D112B1898CDF9006940E8 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		CA5D112C1898CDF9006940E8 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
 		CA5D112E1898CFDD006940E8 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
@@ -270,6 +278,9 @@
 		CACD597B1891EA35006FD228 /* Lot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lot.m; sourceTree = "<group>"; };
 		CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportViewController.h; sourceTree = "<group>"; };
 		CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImportViewController.m; sourceTree = "<group>"; };
+		CAF11A2A18C63F76006D8889 /* SecurityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityCell.xib; sourceTree = "<group>"; };
+		CAF11A2C18C67372006D8889 /* Security.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Security.h; sourceTree = "<group>"; };
+		CAF11A2D18C67372006D8889 /* Security.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Security.m; sourceTree = "<group>"; };
 		CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowBarButton.h; sourceTree = "<group>"; };
 		CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowBarButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -554,22 +565,24 @@
 			isa = PBXGroup;
 			children = (
 				CACD593318919E7E006FD228 /* Main.storyboard */,
+				CA60662618982BFE00A55D3F /* SignInViewController.h */,
+				CA60662718982BFE00A55D3F /* SignInViewController.m */,
+				CA60662918982CC600A55D3F /* SignUpViewController.h */,
+				CA60662A18982CC600A55D3F /* SignUpViewController.m */,
 				CACD593D1891C369006FD228 /* HomeViewController.h */,
 				CACD593E1891C369006FD228 /* HomeViewController.m */,
 				CACD595F1891CDB3006FD228 /* MenuViewController.h */,
 				CACD59601891CDB3006FD228 /* MenuViewController.m */,
 				CAA68943189B60F300CE7FAA /* FollowingViewController.h */,
 				CAA68944189B60F300CE7FAA /* FollowingViewController.m */,
+				CA5B60C618C63879001D2647 /* WatchingViewController.h */,
+				CA5B60C718C63879001D2647 /* WatchingViewController.m */,
 				CA0F62AB18A73D61001FAA1A /* StockViewController.h */,
 				CA0F62AC18A73D61001FAA1A /* StockViewController.m */,
 				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
 				CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */,
 				CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */,
-				CA60662618982BFE00A55D3F /* SignInViewController.h */,
-				CA60662718982BFE00A55D3F /* SignInViewController.m */,
-				CA60662918982CC600A55D3F /* SignUpViewController.h */,
-				CA60662A18982CC600A55D3F /* SignUpViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -583,6 +596,8 @@
 				CACD597B1891EA35006FD228 /* Lot.m */,
 				CA0F62B318A7464F001FAA1A /* Comment.h */,
 				CA0F62B418A7464F001FAA1A /* Comment.m */,
+				CAF11A2C18C67372006D8889 /* Security.h */,
+				CAF11A2D18C67372006D8889 /* Security.m */,
 				CA977C4D18964E8E002AD88F /* Quote.h */,
 				CA977C4E18964E8E002AD88F /* Quote.m */,
 				CA3046DB18C3933F004E0CD6 /* FullQuote.h */,
@@ -602,6 +617,10 @@
 		CACD59651891D099006FD228 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CA6B5C0718AB0870006CB919 /* FollowButton.h */,
+				CA6B5C0818AB0870006CB919 /* FollowButton.m */,
+				CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */,
+				CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */,
 				CAA68940189B5FA400CE7FAA /* UserCell.h */,
 				CAA68941189B5FA400CE7FAA /* UserCell.m */,
 				CAA6893E189B5F8100CE7FAA /* UserCell.xib */,
@@ -614,10 +633,9 @@
 				CA0F62AE18A742D2001FAA1A /* CommentCell.h */,
 				CA0F62AF18A742D2001FAA1A /* CommentCell.m */,
 				CA0F62B118A742F2001FAA1A /* CommentCell.xib */,
-				CA6B5C0718AB0870006CB919 /* FollowButton.h */,
-				CA6B5C0818AB0870006CB919 /* FollowButton.m */,
-				CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */,
-				CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */,
+				CA5B60C918C63F16001D2647 /* SecurityCell.h */,
+				CA5B60CA18C63F16001D2647 /* SecurityCell.m */,
+				CAF11A2A18C63F76006D8889 /* SecurityCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -709,6 +727,7 @@
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
 				CA829F0018AC62D600AEA465 /* profile_default.jpeg in Resources */,
 				CACD593418919E7E006FD228 /* Main.storyboard in Resources */,
+				CAF11A2B18C63F76006D8889 /* SecurityCell.xib in Resources */,
 				CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,10 +749,12 @@
 			files = (
 				CA0F62B818A7550D001FAA1A /* HistoricalQuote.m in Sources */,
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
+				CA5B60CB18C63F16001D2647 /* SecurityCell.m in Sources */,
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */,
 				CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
+				CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
 				CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */,
 				CA3046DA18C2BFB2004E0CD6 /* Scraper.m in Sources */,
@@ -753,6 +774,7 @@
 				CA4A1DA818AA93A1002D2DEC /* History.m in Sources */,
 				CA89420718B9A49A0046C1BD /* PortfolioService.m in Sources */,
 				CA3046D418C2BE55004E0CD6 /* FidelityScraper.m in Sources */,
+				CAF11A2E18C67372006D8889 /* Security.m in Sources */,
 				CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */,
 				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,

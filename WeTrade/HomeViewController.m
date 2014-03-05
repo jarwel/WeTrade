@@ -39,7 +39,7 @@
 - (void)loadPositions;
 - (void)sortPositions;
 - (void)refreshViews;
-- (void)onOrientationChange;
+- (void)orientationChanged;
 
 @end
 
@@ -54,8 +54,7 @@
     [self.view.layer insertSublayer:gradient atIndex:0];
     
     if (self.user) {
-        [self setTitle:[NSString stringWithFormat:@"%@'s Portfolio", self.user.username]];
-        [self.followBarButton setUser:self.user];
+        [self.followBarButton setupForUser:self.user];
     }
     else {
         self.navigationItem.leftBarButtonItem = nil;
@@ -67,14 +66,13 @@
     [self loadPositions];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:PortfolioChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     if (self.viewDeckController) {
-        [self.viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
         [self.viewDeckController setEnabled:YES];
     }
     
@@ -86,6 +84,13 @@
     if (self.quoteTimer) {
         [self.quoteTimer invalidate];
         _quoteTimer = nil;
+    }
+}
+
+- (void)orientationChanged {
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    if (self.viewDeckController) {
+        [self.viewDeckController setEnabled:(orientation == UIDeviceOrientationPortrait)];
     }
 }
 
@@ -243,7 +248,11 @@
 - (void)sortPositions {
     [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
-            _quotes = [Quote fromData:data];
+            NSDictionary *quotes = [Quote fromData:data];
+            if (quotes.count > 0) {
+                _quotes = [Quote fromData:data];
+            }
+            
             _positions = [self.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
                 
                 Position *firstPosition = (Position*)first;
@@ -266,17 +275,15 @@
 - (void)loadQuotes {
     [[FinanceClient instance] fetchQuotesForPositions:self.positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
-            _quotes = [Quote fromData:data];
+            NSDictionary *quotes = [Quote fromData:data];
+            if (quotes.count > 0) {
+                _quotes = [Quote fromData:data];
+            }
             [self refreshViews];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-}
-
-- (void)onOrientationChange {
-    UIDevice *device = [UIDevice currentDevice];
-    [self.viewDeckController setEnabled:(device.orientation == UIDeviceOrientationPortrait)];
 }
 
 - (IBAction)onChangeButton:(id)sender {
@@ -290,16 +297,17 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
+        
+        if (self.viewDeckController) {
+            [self.viewDeckController setEnabled:NO];
+        }
+        
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
         Position *position = [self.positions objectAtIndex:indexPath.row];
         Quote *quote = [self.quotes objectForKey:position.symbol];
         
         StockViewController *stockViewController = segue.destinationViewController;
         stockViewController.symbol = quote.symbol;
-        
-        if (self.viewDeckController) {
-            [self.viewDeckController setEnabled:NO];
-        }
     }
 }
 

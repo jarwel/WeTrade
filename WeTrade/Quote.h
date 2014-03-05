@@ -18,6 +18,7 @@
 @property (nonatomic, assign, readonly) float percentChange;
 @property (nonatomic, assign, readonly) float open;
 @property (nonatomic, assign, readonly) float previousClose;
+@property (nonatomic, assign, readonly) BOOL isValid;
 
 + (NSMutableDictionary *)fromData:(NSData *)data;
 

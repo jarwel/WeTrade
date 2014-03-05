@@ -32,7 +32,7 @@
     NSString *string = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('positionsTable').outerHTML"];
     string = [string stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
-    NSRegularExpression *rowsRegex = [NSRegularExpression regularExpressionWithPattern:@"<tr class=\"\" style=\"\">.*?</tr>" options:0 error:nil];
+    NSRegularExpression *rowsRegex = [NSRegularExpression regularExpressionWithPattern:@"<tr class=\"[A-Za-z ]*\" style=\"\">.*?</tr>" options:0 error:nil];
     NSArray *rows = [rowsRegex matchesInString:string options:0 range:NSMakeRange(0, [string length])];
     
     for (NSTextCheckingResult *rowMatch in rows) {

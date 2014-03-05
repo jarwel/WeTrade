@@ -84,7 +84,7 @@
         [self loadChangeForUser:user indexPath:indexPath];
     }
     
-    [userCell.followButton setUser:user];
+    [userCell.followButton setupForUser:user];
     return userCell;
 }
 
@@ -97,7 +97,7 @@
     if (searchText.length > 0) {
         [[ParseClient instance] fetchUsersForSearch:searchText callback:^(NSArray *objects, NSError *error) {
             if (!error) {
-                if ([searchText isEqualToString:searchText]) {
+                if ([searchText isEqualToString:searchBar.text]) {
                     _search = objects;
                     [self.tableView reloadData];
                 }
@@ -183,6 +183,7 @@
 
         HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
         homeViewController.user = user;
+        homeViewController.title = [NSString stringWithFormat:@"%@'s Portfolio", user.username];
     }
 }
 

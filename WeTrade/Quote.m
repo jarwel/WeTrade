@@ -50,6 +50,14 @@
     return 0;
 }
 
+- (BOOL)isValid {
+    if ([self objectForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]) {
+        return NO;
+    }
+    return YES;
+}
+
+
 + (NSMutableDictionary *)fromData:(NSData *)data {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];

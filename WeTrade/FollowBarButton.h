@@ -11,6 +11,6 @@
 
 @interface FollowBarButton : UIBarButtonItem
 
-- (void)setUser:(PFUser *)user;
+- (void)setupForUser:(PFUser *)user;
 
 @end

@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "Security.h"
 
 @interface FollowingService : NSObject
 
 @property (nonatomic, strong) NSArray *following;
 
 + (FollowingService *)instance;
-- (BOOL)contains:(NSString *)userId;
+- (NSArray *)following;
+- (NSArray *)watching;
 - (void)followUser:(PFUser *)user;
 - (void)unfollowUser:(PFUser *)user;
+- (void)followSecurity:(Security *)security;
+- (void)unfollowSecurity:(Security *)security;
+- (BOOL)isFollowingObjectId:(NSString *)objectId;
 - (void)synchronize;
 
 @end

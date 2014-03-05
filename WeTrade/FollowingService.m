@@ -12,7 +12,8 @@
 
 @interface FollowingService ()
 
-@property (nonatomic, strong) NSMutableDictionary *data;
+@property (nonatomic, strong) NSMutableDictionary *users;
+@property (nonatomic, strong) NSMutableDictionary *securities;
 
 @end
 
@@ -35,31 +36,88 @@
 }
 
 - (NSArray *)following {
-    return [self.data allValues];
+    return [self.users allValues];
 }
 
--(BOOL)contains:(NSString *)userId {
-    return [self.data objectForKey:userId] != nil;
+- (NSArray *)watching {
+    return [self.securities allValues];
 }
 
 - (void)followUser:(PFUser *)user {
-    [self.data setObject:user forKey:user.objectId];
+    [self.users setObject:user forKey:user.objectId];
     [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
     [[ParseClient instance] followUser:user];
 }
 
 - (void)unfollowUser:(PFUser *)user {
-    [self.data removeObjectForKey:user.objectId];
+    [self.users removeObjectForKey:user.objectId];
     [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
     [[ParseClient instance] unfollowUser:user];
+}
+
+- (void)followSecurity:(Security *)security {
+    if (security.objectId) {
+        [self.securities setObject:security forKey:security.objectId];
+        [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+        [[ParseClient instance] followSecurity:security];
+    }
+    else {
+        [[ParseClient instance] createSecurityWithSymbol:security.symbol callback:^(BOOL succeeded, NSError *error) {
+            if (!error) {
+                [[ParseClient instance] fetchSecurityForSymbol:security.symbol callback:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        Security *security = [Security fromParseObjects:objects].firstObject;
+                        [self.securities setObject:security forKey:security.objectId];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+                        [[ParseClient instance] followSecurity:security];
+                    }
+                    else {
+                        NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    }
+                }];
+            }
+            else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+}
+
+
+- (void)unfollowSecurity:(Security *)security {
+    [self.securities removeObjectForKey:security.objectId];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+    [[ParseClient instance] unfollowSecurity:security];
+}
+
+-(BOOL)isFollowingObjectId:(NSString *)objectId {
+    if (objectId && [self.users objectForKey:objectId] != nil) {
+        return YES;
+    }
+    if (objectId && [self.securities objectForKey:objectId] != nil) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)synchronize {
     [[ParseClient instance] fetchFollowing:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _data = [[NSMutableDictionary alloc] init];
+            _users = [[NSMutableDictionary alloc] init];
             for (PFUser *user in objects) {
-                [self.data setObject:user forKey:user.objectId];
+                [self.users setObject:user forKey:user.objectId];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    [[ParseClient instance] fetchWatching:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _securities = [[NSMutableDictionary alloc] init];
+            for (PFObject *object in objects) {
+                Security *security = [[Security alloc] initWithData:object];
+                [self.securities setObject:security forKey:security.objectId];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
         } else {

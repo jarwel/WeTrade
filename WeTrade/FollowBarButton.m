@@ -11,8 +11,9 @@
 
 @interface FollowBarButton ()
 
-@property (nonatomic, strong) PFUser *user;
-@property (nonatomic, assign) BOOL isFollowing;
+@property (assign, nonatomic) BOOL isFollowing;
+@property (strong, nonatomic) PFUser *user;
+
 - (IBAction)didTouchButton:(id)sender;
 
 @end
@@ -26,9 +27,9 @@
     [self setAction:@selector(didTouchButton:)];
 }
 
-- (void)setUser:(PFUser *)user {
+- (void)setupForUser:(PFUser *)user {
     _user = user;
-    _isFollowing = [[FollowingService instance] contains:user.objectId];
+    _isFollowing = [[FollowingService instance] isFollowingObjectId:user.objectId];
     [self updateTintColor];
 }
 

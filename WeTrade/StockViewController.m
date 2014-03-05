@@ -68,7 +68,7 @@
 - (void)refreshChart;
 - (void)refreshTable;
 - (void)refreshView;
-- (void)onOrientationChange;
+- (void)orientationChanged;
 @end
 
 @implementation StockViewController
@@ -92,7 +92,7 @@
     }];
     [[ParseClient instance] fetchCommentsForSymbol:self.symbol callback:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _comments = [Comment fromPFObjectArray:objects];
+            _comments = [Comment fromParseObjects:objects];
             [self.tableView reloadData];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -105,7 +105,23 @@
 
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FollowingChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)orientationChanged {
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    BOOL isPortrait = orientation == UIDeviceOrientationPortrait;
+    if (isPortrait) {
+        [self onOneMonthButton:nil];
+    }
+    
+    [self.timeView setHidden:isPortrait];
+    [self.viewButton setHidden:!isPortrait];
+    [self.tableView setHidden:!isPortrait];
+    [self.commentView setHidden:!isPortrait];
+    [self.navigationController setNavigationBarHidden:!isPortrait];
+    [self.dataView setHidden:YES];
+    [self.chartView setHidden:NO];
 }
 
 - (void)initTable {
@@ -273,7 +289,7 @@
     commentCell.textLabel.numberOfLines = 0;
     commentCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
-    [commentCell.followButton setUser:comment.user];
+    [commentCell.followButton setupForUser:comment.user];
 
     return commentCell;
 }
@@ -308,20 +324,6 @@
         self.yieldLabel.text = [NSString stringWithFormat:@"%0.2f%%", self.fullQuote.yield];
         self.exDividendDateLabel.text = self.fullQuote.exDividendDate;
         self.dividendDateLabel.text = self.fullQuote.dividendDate;
-    }
-}
-
-- (void)onOrientationChange {
-    UIDevice *device = [UIDevice currentDevice];
-    [self.dataView setHidden:YES];
-    [self.chartView setHidden:NO];
-    [self.timeView setHidden:(device.orientation == UIDeviceOrientationPortrait)];
-    [self.viewButton setHidden:(device.orientation != UIDeviceOrientationPortrait)];
-    [self.tableView setHidden:(device.orientation != UIDeviceOrientationPortrait)];
-    [self.commentView setHidden:(device.orientation != UIDeviceOrientationPortrait)];
-    [self.navigationController setNavigationBarHidden:(device.orientation != UIDeviceOrientationPortrait)];
-    if (device.orientation == UIDeviceOrientationPortrait) {
-        [self onOneMonthButton:nil];
     }
 }
 
@@ -414,7 +416,7 @@
     [self.commentButton setHidden:NO];
     NSString *commentText = self.commentTextField.text;
     if (commentText) {
-        [[ParseClient instance] addCommentWithSymbol:self.symbol text:commentText];
+        [[ParseClient instance] createCommentWithSymbol:self.symbol text:commentText];
         Comment *comment = [[Comment alloc] init];
         comment.user = [PFUser currentUser];
         comment.text = commentText;
