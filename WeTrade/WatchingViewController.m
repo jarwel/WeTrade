@@ -7,7 +7,9 @@
 //
 
 #import "WatchingViewController.h"
+#import "StockViewController.h"
 #import "Constants.h"
+#import "PortfolioService.h"
 #import "FollowingService.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
@@ -16,6 +18,8 @@
 #import "SecurityCell.h"
 
 @interface WatchingViewController ()
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 
 @property (strong, nonatomic) NSArray *watching;
 @property (strong, nonatomic) NSArray *searchResults;
@@ -31,6 +35,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.searchDisplayController.searchResultsTableView setBackgroundColor:[UIColor lightGrayColor]];
+    
+    self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    self.searchDisplayController.navigationItem.rightBarButtonItem = self.doneBarButton;
 
     UINib *securityCell = [UINib nibWithNibName:@"SecurityCell" bundle:nil];
     [self.tableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
@@ -42,18 +51,7 @@
 
 - (void)refreshViews {
     _watching = [[FollowingService instance] watching];
-    [[FinanceClient instance] fetchQuotesForSecurities:self.watching callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-            if (!error) {
-                NSDictionary *quotes = [Quote fromData:data];
-                if (quotes.count > 0) {
-                    _quotes = [Quote fromData:data];
-                }
-                [self.tableView reloadData];
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-
+    [self loadQuotes];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -106,7 +104,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        NSLog(@"count: %ld", self.searchResults.count);
         return self.searchResults.count;
     }
     return self.watching.count;
@@ -126,14 +123,48 @@
     Quote *quote = [self.quotes valueForKey:security.symbol];
     
     cell.symbolLabel.text = security.symbol;
-    cell.companyLabel.text = quote.name;
+    cell.nameLabel.text = quote.name;
+    cell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
+    cell.changeLabel.text= [NSString stringWithFormat:@"%+0.2f (%+0.2f%%)", quote.priceChange, quote.percentChange];
+    cell.changeLabel.textColor = [PortfolioService colorForChange:quote.percentChange];
     [cell.followButton setupForSecurity:security];
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"ShowStockSegue" sender:self];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.doneBarButton.title = @"Cancel";
+}
+
+- (void)loadQuotes {
+    [[FinanceClient instance] fetchQuotesForSecurities:self.watching callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            NSDictionary *quotes = [Quote fromData:data];
+            if (quotes.count > 0) {
+                _quotes = [Quote fromData:data];
+            }
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
 - (IBAction)onDoneButton:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
+        NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
+        Security *security = [self.watching objectAtIndex:indexPath.row];
+        StockViewController *stockViewController = segue.destinationViewController;
+        stockViewController.symbol = security.symbol;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

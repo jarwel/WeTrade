@@ -99,6 +99,7 @@
             if (!error) {
                 if ([searchText isEqualToString:searchBar.text]) {
                     _search = objects;
+                    [self.tableView setAlpha:1.0f];
                     [self.tableView reloadData];
                 }
             } else {
@@ -114,11 +115,19 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:YES animated:YES];
+    [self.tableView setAlpha:0.5f];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self.tableView setAlpha:1.0f];
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [self.view endEditing:YES];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     _searchMode = NO;
     searchBar.text = nil;
+    [self.tableView setAlpha:1.0f];
     [searchBar setShowsCancelButton:NO animated:YES];
     [self.view endEditing:YES];
     [self.tableView reloadData];

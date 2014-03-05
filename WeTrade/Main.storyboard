@@ -673,6 +673,7 @@
                             <outletCollection property="gestureRecognizers" destination="nV6-qX-xBM" appends="YES" id="3yI-Qy-Yaw"/>
                         </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="TRs-IU-b8T"/>
                     <connections>
                         <outlet property="addButton" destination="Dzt-JX-idV" id="slS-XV-fTs"/>
                         <outlet property="chartView" destination="sZo-O5-LVj" id="Uqg-cW-R6A"/>
@@ -732,22 +733,14 @@
         <scene sceneID="hhk-x7-bSk">
             <objects>
                 <tableViewController id="pOS-0r-nbj" customClass="WatchingViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Lsk-be-6Ah">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="1" sectionFooterHeight="1" id="Lsk-be-6Ah">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <color key="sectionIndexTrackingBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" barStyle="black" searchBarStyle="prominent" placeholder="Search" translucent="NO" id="Scs-FP-SYB">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no"/>
-                            <connections>
-                                <outlet property="delegate" destination="pOS-0r-nbj" id="5by-ee-pHm"/>
-                            </connections>
-                        </searchBar>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="pOS-0r-nbj" id="2Vh-ah-qhD"/>
                             <outlet property="delegate" destination="pOS-0r-nbj" id="Uh3-mg-YeO"/>
@@ -761,10 +754,21 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneBarButton" destination="BaY-yn-Nym" id="8ti-Q4-ymu"/>
                         <outlet property="searchDisplayController" destination="9Pb-bv-31N" id="Sj9-vO-a1u"/>
+                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowStockSegue" id="naP-fe-8VP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u7x-Kv-6rH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" barStyle="black" searchBarStyle="prominent" placeholder="Search" translucent="NO" id="Scs-FP-SYB">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" autocorrectionType="no"/>
+                    <connections>
+                        <outlet property="delegate" destination="pOS-0r-nbj" id="5by-ee-pHm"/>
+                    </connections>
+                </searchBar>
                 <searchDisplayController id="9Pb-bv-31N">
                     <connections>
                         <outlet property="delegate" destination="pOS-0r-nbj" id="dbI-8d-Cnh"/>
@@ -941,5 +945,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="T22-1a-XiM"/>
+        <segue reference="naP-fe-8VP"/>
     </inferredMetricsTieBreakers>
 </document>

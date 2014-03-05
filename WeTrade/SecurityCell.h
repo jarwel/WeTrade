@@ -12,7 +12,9 @@
 @interface SecurityCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *symbolLabel;
-@property (weak, nonatomic) IBOutlet UILabel *companyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet FollowButton *followButton;
 
 @end

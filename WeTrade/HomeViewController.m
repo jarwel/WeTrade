@@ -297,17 +297,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
-        
         if (self.viewDeckController) {
             [self.viewDeckController setEnabled:NO];
         }
         
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
         Position *position = [self.positions objectAtIndex:indexPath.row];
-        Quote *quote = [self.quotes objectForKey:position.symbol];
-        
         StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.symbol = quote.symbol;
+        stockViewController.symbol = position.symbol;
     }
 }
 
