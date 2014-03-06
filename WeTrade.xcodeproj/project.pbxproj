@@ -384,8 +384,8 @@
 				CA7B32FB1898988B001C14AF /* Constants.m */,
 				CAC6C27C189AB193006A84BC /* ViewDeck */,
 				CA829EFE18AC62C300AEA465 /* Assets */,
-				CA1008B41890647B0031CF68 /* Images.xcassets */,
 				CA1008A31890647B0031CF68 /* Supporting Files */,
+				CA1008B41890647B0031CF68 /* Images.xcassets */,
 			);
 			path = WeTrade;
 			sourceTree = "<group>";
