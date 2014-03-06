@@ -24,8 +24,9 @@
 @property (strong, nonatomic) NSMutableArray *watching;
 @property (strong, nonatomic) NSArray *searchResults;
 @property (strong, nonatomic) NSDictionary *quotes;
-@property (nonatomic, strong) NSTimer *quoteTimer;
+@property (strong, nonatomic) NSTimer *quoteTimer;
 
+- (IBAction)onReorderButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
 
 - (void)refreshViews;
@@ -163,8 +164,22 @@
     [self performSegueWithIdentifier:@"ShowSecuritySegue" sender:self];
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self.searchDisplayController.navigationItem.rightBarButtonItem setTitle:@"Cancel"];
+}
+
+- (IBAction)onReorderButton:(id)sender {
+    [self.tableView setEditing:!self.tableView.isEditing animated:YES];
+    [sender setSelected:self.tableView.isEditing];
+    [self.doneBarButton setEnabled:!self.tableView.isEditing];
 }
 
 - (IBAction)onDoneButton:(id)sender {

@@ -142,7 +142,7 @@
     self.chartView.hostedGraph = graph;
     graph.paddingLeft = 0.0f;
     graph.paddingTop = 0.0f;
-    graph.paddingRight = 5.0f;
+    graph.paddingRight = 0.0f;
     graph.paddingBottom = 30.0f;
     graph.plotAreaFrame.masksToBorder = NO;
 }
@@ -198,7 +198,7 @@
     }
     
     CPTXYAxis *x = [(CPTXYAxisSet *)self.chartView.hostedGraph.axisSet xAxis];
-    x.orthogonalCoordinateDecimal = CPTDecimalFromFloat(self.history.lowPrice);
+    x.orthogonalCoordinateDecimal = CPTDecimalFromFloat(self.history.lowPrice * 0.99f);
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
     
     NSMutableArray *customTickLocations = [[NSMutableArray alloc] init];
@@ -262,7 +262,7 @@
     
     long adjustedLength = self.history.quotes.count > 0 ? self.history.quotes.count - 1 : 0;
     self.plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(adjustedLength)];
-    self.plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(low) length:CPTDecimalFromFloat(high - low)];
+    self.plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(low * 0.99f) length:CPTDecimalFromFloat(high - low * 0.99f)];
     
     CPTColor *plotColor = [CPTColor colorWithCGColor:[PortfolioService colorForChange:(end - start)].CGColor];
     CPTMutableLineStyle *lineStyle = [[CPTMutableLineStyle alloc] init];
@@ -272,7 +272,7 @@
     CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:plotColor endingColor:[CPTColor clearColor]];
     areaGradient.angle = -90.0f;
     self.pricePlot.areaFill = [CPTFill fillWithGradient:areaGradient];
-    self.pricePlot.areaBaseValue = CPTDecimalFromInteger(low);
+    self.pricePlot.areaBaseValue = CPTDecimalFromInteger(low *0.99f);
     
     [self.chartView.hostedGraph reloadData];
 }
