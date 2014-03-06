@@ -12,7 +12,7 @@
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "PortfolioService.h"
-#import "FollowBarButton.h"
+#import "FavoriteBarButton.h"
 #import "PositionCell.h"
 #import "Position.h"
 #import "Quote.h"
@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
-@property (weak, nonatomic) IBOutlet FollowBarButton *followBarButton;
+@property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
 @property (nonatomic, strong) NSArray *positions;
 @property (nonatomic, strong) NSDictionary *quotes;
@@ -54,7 +54,7 @@
     [self.view.layer insertSublayer:gradient atIndex:0];
     
     if (self.user) {
-        [self.followBarButton setupForUser:self.user];
+        [self.favoriteBarButton setupForUser:self.user];
     }
     else {
         self.navigationItem.leftBarButtonItem = nil;

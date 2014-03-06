@@ -36,10 +36,10 @@
 		CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5D112F1898CFDD006940E8 /* IIWrapController.m */; };
 		CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662718982BFE00A55D3F /* SignInViewController.m */; };
 		CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662A18982CC600A55D3F /* SignUpViewController.m */; };
-		CA6B5C0918AB0870006CB919 /* FollowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B5C0818AB0870006CB919 /* FollowButton.m */; };
+		CA6B5C0918AB0870006CB919 /* FavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B5C0818AB0870006CB919 /* FavoriteButton.m */; };
 		CA7B32FC1898988B001C14AF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7B32FB1898988B001C14AF /* Constants.m */; };
 		CA829F0018AC62D600AEA465 /* profile_default.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CA829EFF18AC62D600AEA465 /* profile_default.jpeg */; };
-		CA861DE018AEA4C00057D163 /* FollowingService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA861DDF18AEA4C00057D163 /* FollowingService.m */; };
+		CA861DE018AEA4C00057D163 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA861DDF18AEA4C00057D163 /* FavoriteService.m */; };
 		CA861DED18AEC65C0057D163 /* follow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = CA861DEB18AEC65C0057D163 /* follow_selected.png */; };
 		CA861DEE18AEC65C0057D163 /* follow.png in Resources */ = {isa = PBXBuildFile; fileRef = CA861DEC18AEC65C0057D163 /* follow.png */; };
 		CA861DF218AEEAFC0057D163 /* core_plot_all.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA861DF118AEEAFC0057D163 /* core_plot_all.a */; };
@@ -78,7 +78,7 @@
 		CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */; };
 		CAF11A2B18C63F76006D8889 /* SecurityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAF11A2A18C63F76006D8889 /* SecurityCell.xib */; };
 		CAF11A2E18C67372006D8889 /* Security.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF11A2D18C67372006D8889 /* Security.m */; };
-		CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */; };
+		CAFBB69F18B7D62700A8FD03 /* FavoriteBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBB69E18B7D62700A8FD03 /* FavoriteBarButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,13 +141,13 @@
 		CA60662718982BFE00A55D3F /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		CA60662918982CC600A55D3F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		CA60662A18982CC600A55D3F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
-		CA6B5C0718AB0870006CB919 /* FollowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowButton.h; sourceTree = "<group>"; };
-		CA6B5C0818AB0870006CB919 /* FollowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowButton.m; sourceTree = "<group>"; };
+		CA6B5C0718AB0870006CB919 /* FavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteButton.h; sourceTree = "<group>"; };
+		CA6B5C0818AB0870006CB919 /* FavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteButton.m; sourceTree = "<group>"; };
 		CA7B32FA1898988B001C14AF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CA7B32FB1898988B001C14AF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CA829EFF18AC62D600AEA465 /* profile_default.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile_default.jpeg; sourceTree = "<group>"; };
-		CA861DDE18AEA4C00057D163 /* FollowingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingService.h; sourceTree = "<group>"; };
-		CA861DDF18AEA4C00057D163 /* FollowingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowingService.m; sourceTree = "<group>"; };
+		CA861DDE18AEA4C00057D163 /* FavoriteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteService.h; sourceTree = "<group>"; };
+		CA861DDF18AEA4C00057D163 /* FavoriteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteService.m; sourceTree = "<group>"; };
 		CA861DEB18AEC65C0057D163 /* follow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow_selected.png; sourceTree = "<group>"; };
 		CA861DEC18AEC65C0057D163 /* follow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = follow.png; sourceTree = "<group>"; };
 		CA861DF118AEEAFC0057D163 /* core_plot_all.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = core_plot_all.a; sourceTree = "<group>"; };
@@ -281,8 +281,8 @@
 		CAF11A2A18C63F76006D8889 /* SecurityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityCell.xib; sourceTree = "<group>"; };
 		CAF11A2C18C67372006D8889 /* Security.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Security.h; sourceTree = "<group>"; };
 		CAF11A2D18C67372006D8889 /* Security.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Security.m; sourceTree = "<group>"; };
-		CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowBarButton.h; sourceTree = "<group>"; };
-		CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowBarButton.m; sourceTree = "<group>"; };
+		CAFBB69D18B7D62700A8FD03 /* FavoriteBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteBarButton.h; sourceTree = "<group>"; };
+		CAFBB69E18B7D62700A8FD03 /* FavoriteBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteBarButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,8 +448,8 @@
 			children = (
 				CA89420518B9A49A0046C1BD /* PortfolioService.h */,
 				CA89420618B9A49A0046C1BD /* PortfolioService.m */,
-				CA861DDE18AEA4C00057D163 /* FollowingService.h */,
-				CA861DDF18AEA4C00057D163 /* FollowingService.m */,
+				CA861DDE18AEA4C00057D163 /* FavoriteService.h */,
+				CA861DDF18AEA4C00057D163 /* FavoriteService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -617,10 +617,10 @@
 		CACD59651891D099006FD228 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CA6B5C0718AB0870006CB919 /* FollowButton.h */,
-				CA6B5C0818AB0870006CB919 /* FollowButton.m */,
-				CAFBB69D18B7D62700A8FD03 /* FollowBarButton.h */,
-				CAFBB69E18B7D62700A8FD03 /* FollowBarButton.m */,
+				CA6B5C0718AB0870006CB919 /* FavoriteButton.h */,
+				CA6B5C0818AB0870006CB919 /* FavoriteButton.m */,
+				CAFBB69D18B7D62700A8FD03 /* FavoriteBarButton.h */,
+				CAFBB69E18B7D62700A8FD03 /* FavoriteBarButton.m */,
 				CAA68940189B5FA400CE7FAA /* UserCell.h */,
 				CAA68941189B5FA400CE7FAA /* UserCell.m */,
 				CAA6893E189B5F8100CE7FAA /* UserCell.xib */,
@@ -752,7 +752,7 @@
 				CA5B60CB18C63F16001D2647 /* SecurityCell.m in Sources */,
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CA0F62AD18A73D61001FAA1A /* SecurityViewController.m in Sources */,
-				CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */,
+				CAFBB69F18B7D62700A8FD03 /* FavoriteBarButton.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
@@ -764,9 +764,9 @@
 				CA3046DD18C3933F004E0CD6 /* FullQuote.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
 				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
-				CA6B5C0918AB0870006CB919 /* FollowButton.m in Sources */,
+				CA6B5C0918AB0870006CB919 /* FavoriteButton.m in Sources */,
 				CAA68942189B5FA400CE7FAA /* UserCell.m in Sources */,
-				CA861DE018AEA4C00057D163 /* FollowingService.m in Sources */,
+				CA861DE018AEA4C00057D163 /* FavoriteService.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
 				CA0F62B518A7464F001FAA1A /* Comment.m in Sources */,
 				CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */,

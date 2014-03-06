@@ -10,7 +10,7 @@
 #import "SecurityViewController.h"
 #import "Constants.h"
 #import "PortfolioService.h"
-#import "FollowingService.h"
+#import "FavoriteService.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "Quote.h"
@@ -41,6 +41,7 @@
     [searchField setTextColor:[UIColor blackColor]];
     
     self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
+    self.searchDisplayController.navigationItem.title = @"Watch List";
     self.searchDisplayController.navigationItem.rightBarButtonItem = self.doneBarButton;
     self.searchDisplayController.searchResultsTableView.backgroundColor = self.tableView.backgroundColor;
     self.searchDisplayController.searchResultsTableView.separatorColor = self.tableView.separatorColor;
@@ -51,8 +52,10 @@
     [self.tableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
     [self.searchDisplayController.searchResultsTableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
     [self refreshViews];
+    [self loadQuotes];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -68,8 +71,8 @@
 }
 
 - (void)refreshViews {
-    _watching = [[[FollowingService instance] watching] mutableCopy];
-    [self loadQuotes];
+    _watching = [[[FavoriteService instance] favoriteSecurities] mutableCopy];
+    [self.tableView reloadData];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -145,7 +148,7 @@
     cell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     cell.changeLabel.text= [NSString stringWithFormat:@"%+0.2f (%+0.2f%%)", quote.priceChange, quote.percentChange];
     cell.changeLabel.textColor = [PortfolioService colorForChange:quote.percentChange];
-    [cell.followButton setupForSecurity:security];
+    [cell.favoriteButton setupForSecurity:security];
     
     return cell;
 }
@@ -175,13 +178,14 @@
 }
 
 - (void)loadQuotes {
-    [[FinanceClient instance] fetchQuotesForSecurities:self.watching callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    NSArray *securities = [self.watching arrayByAddingObjectsFromArray:self.searchResults];
+    [[FinanceClient instance] fetchQuotesForSecurities:securities callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             NSDictionary *quotes = [Quote fromData:data];
             if (quotes.count > 0) {
                 _quotes = [Quote fromData:data];
+                [self.tableView reloadData];
             }
-            [self.tableView reloadData];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
@@ -191,7 +195,15 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowSecuritySegue"]) {
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
-        Security *security = [self.watching objectAtIndex:indexPath.row];
+        
+        Security *security;
+        if (self.searchDisplayController.isActive) {
+            security = [self.searchResults objectAtIndex:indexPath.row];
+        }
+        else {
+            security = [self.watching objectAtIndex:indexPath.row];
+        }
+        
         SecurityViewController *securityViewController = segue.destinationViewController;
         securityViewController.symbol = security.symbol;
     }

@@ -8,6 +8,7 @@
 
 #import "SecurityViewController.h"
 #import "Constants.h"
+#import "PortfolioService.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
 #import "CommentCell.h"
@@ -141,7 +142,7 @@
     self.chartView.hostedGraph = graph;
     graph.paddingLeft = 0.0f;
     graph.paddingTop = 0.0f;
-    graph.paddingRight = 0.0f;
+    graph.paddingRight = 5.0f;
     graph.paddingBottom = 30.0f;
     graph.plotAreaFrame.masksToBorder = NO;
 }
@@ -162,8 +163,9 @@
         style.fontSize = 11.0f;
     }
     
+    long adjustedCoordinate = self.history.quotes.count > 0 ? self.history.quotes.count - 1 : 0;
     CPTXYAxis *y = [(CPTXYAxisSet *)self.chartView.hostedGraph.axisSet yAxis];
-    y.orthogonalCoordinateDecimal = CPTDecimalFromFloat(self.history.quotes.count);
+    y.orthogonalCoordinateDecimal = CPTDecimalFromFloat(adjustedCoordinate);
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
     
     NSMutableArray *customTickLocations = [[NSMutableArray alloc] init];
@@ -199,12 +201,12 @@
     x.orthogonalCoordinateDecimal = CPTDecimalFromFloat(self.history.lowPrice);
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
     
-    NSMutableArray *customTickLocations = [[NSMutableArray alloc] initWithCapacity:self.history.quotes.count];
-    NSMutableArray *customLabels = [[NSMutableArray alloc] initWithCapacity: customTickLocations.count];
+    NSMutableArray *customTickLocations = [[NSMutableArray alloc] init];
+    NSMutableArray *customLabels = [[NSMutableArray alloc] init];
     
     NSInteger lastMonth = -1;
     for (int i = 0; i < self.history.quotes.count; i++) {
-        [customTickLocations addObject:[NSNumber numberWithInt:i]];
+        [customTickLocations addObject:[NSNumber numberWithInt:i + 1]];
         
         HistoricalQuote *quote = [self.history.quotes objectAtIndex:i];
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -216,16 +218,18 @@
                 [dateFormatter setDateFormat:@"MMM"];
     
                 CPTAxisLabel *axisLabel = [[CPTAxisLabel alloc] initWithText:[dateFormatter stringFromDate:quote.date] textStyle:style];
-                axisLabel.tickLocation = [[NSNumber numberWithInt:i] decimalValue];
+                axisLabel.tickLocation = [[NSNumber numberWithInt:i + 1] decimalValue];
                 axisLabel.offset = x.labelOffset + x.majorTickLength;
                 axisLabel.rotation = M_PI / 4;
                 [customLabels addObject:axisLabel];
             }
             lastMonth = components.month;
         }
-        x.axisLabels =  [NSSet setWithArray:customLabels];
-        x.majorTickLocations =  [NSSet setWithArray:customTickLocations];
     }
+    x.axisLabels =  [NSSet setWithArray:customLabels];
+    NSLog(@"LastValue %ld", [customTickLocations.lastObject integerValue]);
+    NSLog(@"Count %ld", customTickLocations.count);
+    x.majorTickLocations =  [NSSet setWithArray:customTickLocations];
 }
 
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
@@ -256,10 +260,11 @@
     [self configureVerticalAxis];
     [self configureHorizontalAxis];
     
-    self.plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(self.history.quotes.count)];
+    long adjustedLength = self.history.quotes.count > 0 ? self.history.quotes.count - 1 : 0;
+    self.plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(adjustedLength)];
     self.plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(low) length:CPTDecimalFromFloat(high - low)];
     
-    CPTColor *plotColor = start > end ? [CPTColor redColor] : [CPTColor greenColor];
+    CPTColor *plotColor = [CPTColor colorWithCGColor:[PortfolioService colorForChange:(end - start)].CGColor];
     CPTMutableLineStyle *lineStyle = [[CPTMutableLineStyle alloc] init];
     lineStyle.lineColor = plotColor;
     self.pricePlot.dataLineStyle = lineStyle;
@@ -288,8 +293,7 @@
     commentCell.textLabel.text = comment.text;
     commentCell.textLabel.numberOfLines = 0;
     commentCell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    [commentCell.followButton setupForUser:comment.user];
+    [commentCell.favoriteButton setupForUser:comment.user];
 
     return commentCell;
 }
@@ -362,7 +366,6 @@
 }
 
 - (IBAction)onSixMonthButton:(id)sender {
-
     self.oneYearButton.selected = NO;
     self.sixMonthButton.selected = YES;
     self.threeMonthButton.selected = NO;

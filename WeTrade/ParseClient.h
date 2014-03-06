@@ -20,8 +20,8 @@
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchSecuritiesForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)fetchWatching:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchFavoriteUsers:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchFavoriteSecurities:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)createCommentWithSymbol:(NSString *)symbol text:(NSString *) text;
 - (void)createSecurityWithSymbol:(NSString *)symbol callback:(void (^)(BOOL succeeded, NSError *error))callback;
 - (void)followUser:(PFUser *)user;

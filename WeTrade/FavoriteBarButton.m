@@ -1,24 +1,24 @@
 //
-//  FollowBarButton.m
+//  FavoriteBarButton.m
 //  WeTrade
 //
 //  Created by Jason Wells on 2/21/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "FollowBarButton.h"
-#import "FollowingService.h"
+#import "FavoriteBarButton.h"
+#import "FavoriteService.h"
 
-@interface FollowBarButton ()
+@interface FavoriteBarButton ()
 
-@property (assign, nonatomic) BOOL isFollowing;
+@property (assign, nonatomic) BOOL isFavorite;
 @property (strong, nonatomic) PFUser *user;
 
 - (IBAction)didTouchButton:(id)sender;
 
 @end
 
-@implementation FollowBarButton
+@implementation FavoriteBarButton
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -29,23 +29,23 @@
 
 - (void)setupForUser:(PFUser *)user {
     _user = user;
-    _isFollowing = [[FollowingService instance] isFollowingObjectId:user.objectId];
+    _isFavorite = [[FavoriteService instance] isFavorite:user.objectId];
     [self updateTintColor];
 }
 
 - (IBAction)didTouchButton:(id)sender {
-    if (self.isFollowing) {
-        [[FollowingService instance] unfollowUser:self.user];
+    if (self.isFavorite) {
+        [[FavoriteService instance] unfollowUser:self.user];
     }
     else {
-        [[FollowingService instance] followUser:self.user];
+        [[FavoriteService instance] followUser:self.user];
     }
-    _isFollowing = !self.isFollowing;
+    _isFavorite = !self.isFavorite;
     [self updateTintColor];
 }
 
 - (void)updateTintColor {
-    if (_isFollowing) {
+    if (self.isFavorite) {
         [self setTintColor:[UIColor colorWithRed:0.25 green:0.6 blue:1.0 alpha:1.0]];
     }
     else {

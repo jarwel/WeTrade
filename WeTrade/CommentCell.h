@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FollowButton.h"
+#import "FavoriteButton.h"
 
 @interface CommentCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
-@property (weak, nonatomic) IBOutlet FollowButton *followButton;
+@property (weak, nonatomic) IBOutlet FavoriteButton *favoriteButton;
 
 @end

@@ -11,7 +11,7 @@
 #import "Constants.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
-#import "FollowingService.h"
+#import "FavoriteService.h"
 #import "PortfolioService.h"
 #import "UserCell.h"
 #import "Position.h"
@@ -84,7 +84,7 @@
         [self loadChangeForUser:user indexPath:indexPath];
     }
     
-    [userCell.followButton setupForUser:user];
+    [userCell.favoriteButton setupForUser:user];
     return userCell;
 }
 
@@ -141,7 +141,7 @@
     if (self.searchMode) {
         return self.search;
     }
-    return [[FollowingService instance] following];
+    return [[FavoriteService instance] favoriteUsers];
 }
 
 - (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {

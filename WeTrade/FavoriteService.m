@@ -1,28 +1,28 @@
 //
-//  FollowingService.m
+//  FavoriteService.m
 //  WeTrade
 //
 //  Created by Jason Wells on 2/14/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "FollowingService.h"
+#import "FavoriteService.h"
 #import "Constants.h"
 #import "ParseClient.h"
 
-@interface FollowingService ()
+@interface FavoriteService ()
 
 @property (nonatomic, strong) NSMutableDictionary *users;
 @property (nonatomic, strong) NSMutableDictionary *securities;
 
 @end
 
-@implementation FollowingService
+@implementation FavoriteService
 
-+ (FollowingService *)instance {
-    static FollowingService *instance;
++ (FavoriteService *)instance {
+    static FavoriteService *instance;
     if (!instance) {
-        instance = [[FollowingService alloc] init];
+        instance = [[FavoriteService alloc] init];
         [instance synchronize];
     }
     return instance;
@@ -35,12 +35,22 @@
     return self;
 }
 
-- (NSArray *)following {
+- (NSArray *)favoriteUsers {
     return [self.users allValues];
 }
 
-- (NSArray *)watching {
+- (NSArray *)favoriteSecurities {
     return [self.securities allValues];
+}
+
+-(BOOL)isFavorite:(NSString *)objectId {
+    if (objectId && [self.users objectForKey:objectId] != nil) {
+        return YES;
+    }
+    if (objectId && [self.securities objectForKey:objectId] != nil) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)followUser:(PFUser *)user {
@@ -90,18 +100,8 @@
     [[ParseClient instance] unfollowSecurity:security];
 }
 
--(BOOL)isFollowingObjectId:(NSString *)objectId {
-    if (objectId && [self.users objectForKey:objectId] != nil) {
-        return YES;
-    }
-    if (objectId && [self.securities objectForKey:objectId] != nil) {
-        return YES;
-    }
-    return NO;
-}
-
 - (void)synchronize {
-    [[ParseClient instance] fetchFollowing:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchFavoriteUsers:^(NSArray *objects, NSError *error) {
         if (!error) {
             _users = [[NSMutableDictionary alloc] init];
             for (PFUser *user in objects) {
@@ -112,7 +112,7 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    [[ParseClient instance] fetchWatching:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchFavoriteSecurities:^(NSArray *objects, NSError *error) {
         if (!error) {
             _securities = [[NSMutableDictionary alloc] init];
             for (PFObject *object in objects) {

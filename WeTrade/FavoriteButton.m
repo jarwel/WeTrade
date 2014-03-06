@@ -1,17 +1,17 @@
 //
-//  FollowButton.m
+//  FavoriteButton.m
 //  WeTrade
 //
 //  Created by Jason Wells on 2/11/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "FollowButton.h"
-#import "FollowingService.h"
+#import "FavoriteButton.h"
+#import "FavoriteService.h"
 
-@interface FollowButton ()
+@interface FavoriteButton ()
 
-@property (assign, nonatomic, assign) BOOL isFollowing;
+@property (assign, nonatomic, assign) BOOL isFavorite;
 @property (strong, nonatomic) PFUser *user;
 @property (strong, nonatomic) Security *security;
 
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation FollowButton
+@implementation FavoriteButton
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -32,29 +32,29 @@
     if ([user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self setHidden:YES];
     }
-    _isFollowing = [[FollowingService instance] isFollowingObjectId:user.objectId];
+    _isFavorite = [[FavoriteService instance] isFavorite:user.objectId];
     _user = user;
     _security = nil;
-    [self setSelected:self.isFollowing];
+    [self setSelected:self.isFavorite];
 }
 
 - (void)setupForSecurity:(Security *)security {
-    _isFollowing = [[FollowingService instance] isFollowingObjectId:security.objectId];
+    _isFavorite = [[FavoriteService instance] isFavorite:security.objectId];
     _user = nil;
     _security = security;
-    [self setSelected:self.isFollowing];
+    [self setSelected:self.isFavorite];
 }
 
 - (IBAction)didTouchButton:(id)sender {
     if (self.user) {
-        self.isFollowing ? [[FollowingService instance] unfollowUser:self.user] : [[FollowingService instance] followUser:self.user];
+        self.isFavorite ? [[FavoriteService instance] unfollowUser:self.user] : [[FavoriteService instance] followUser:self.user];
     }
     if (self.security) {
-        self.isFollowing ? [[FollowingService instance] unfollowSecurity:self.security] : [[FollowingService instance] followSecurity:self.security];
+        self.isFavorite ? [[FavoriteService instance] unfollowSecurity:self.security] : [[FavoriteService instance] followSecurity:self.security];
     }
     
-    _isFollowing = !self.isFollowing;
-    [self setSelected:self.isFollowing];
+    _isFavorite = !self.isFavorite;
+    [self setSelected:self.isFavorite];
 }
 
 @end

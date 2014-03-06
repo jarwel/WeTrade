@@ -47,7 +47,7 @@
                             <constraint firstAttribute="height" constant="32" id="TM0-xo-rhs"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JwZ-3d-8Ur" customClass="FollowButton">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JwZ-3d-8Ur" customClass="FavoriteButton">
                         <rect key="frame" x="278" y="7" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
@@ -78,7 +78,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="followButton" destination="JwZ-3d-8Ur" id="k1i-Kh-goo"/>
+                <outlet property="favoriteButton" destination="JwZ-3d-8Ur" id="fJg-DM-AES"/>
                 <outlet property="textLabel" destination="knk-3k-Dyc" id="AYw-H7-5XB"/>
                 <outlet property="timeLabel" destination="sfJ-dz-K2Y" id="gU7-vB-Mri"/>
                 <outlet property="usernameLabel" destination="xZ9-1K-a78" id="5kn-Uo-Sro"/>

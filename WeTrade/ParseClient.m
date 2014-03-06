@@ -8,7 +8,7 @@
 
 #import "ParseClient.h"
 #import "PortfolioService.h"
-#import "FollowingService.h"
+#import "FavoriteService.h"
 #import "Position.h"
 #import "Lot.h"
 
@@ -74,19 +74,19 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)fetchFollowing:(void (^)(NSArray *objects, NSError *error))callback {
-    NSLog(@"fetchFollowing");
+- (void)fetchFavoriteUsers:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchFavoriteUsers");
     
-    PFRelation *relation = [[PFUser currentUser] relationforKey:@"following"];
+    PFRelation *relation = [[PFUser currentUser] relationforKey:@"favoriteUsers"];
     PFQuery *query = [relation query];
     [query setLimit:100];
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)fetchWatching:(void (^)(NSArray *objects, NSError *error))callback {
-    NSLog(@"fetchWatching");
+- (void)fetchFavoriteSecurities:(void (^)(NSArray *objects, NSError *error))callback {
+    NSLog(@"fetchFavoriteSecurities");
     
-    PFRelation *relation = [[PFUser currentUser] relationforKey:@"watching"];
+    PFRelation *relation = [[PFUser currentUser] relationforKey:@"favoriteSecurities"];
     PFQuery *query = [relation query];
     [query setLimit:100];
     [query findObjectsInBackgroundWithBlock:callback];
@@ -114,7 +114,7 @@
     NSLog(@"followUser: %@", user.objectId);
     
     PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"following"];
+    PFRelation *relation = [currentUser relationforKey:@"favoriteUsers"];
     [relation addObject:user];
     [currentUser saveInBackground];
 }
@@ -123,7 +123,7 @@
     NSLog(@"unfollowUser: %@", user.objectId);
     
     PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"following"];
+    PFRelation *relation = [currentUser relationforKey:@"favoriteUsers"];
     [relation removeObject:user];
     [currentUser saveInBackground];
 }
@@ -132,7 +132,7 @@
     NSLog(@"followSecurity: %@", security.objectId);
     
     PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"watching"];
+    PFRelation *relation = [currentUser relationforKey:@"favoriteSecurities"];
     [relation addObject:security.data];
     [currentUser saveInBackground];
 }
@@ -141,7 +141,7 @@
     NSLog(@"unfollowSecurity: %@", security.objectId);
     
     PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"watching"];
+    PFRelation *relation = [currentUser relationforKey:@"favoriteSecurities"];
     [relation removeObject:security.data];
     [currentUser saveInBackground];
 }

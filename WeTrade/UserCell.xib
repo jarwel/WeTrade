@@ -13,7 +13,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="51"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saB-Vm-HAX" customClass="FollowButton">
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saB-Vm-HAX" customClass="FavoriteButton">
                         <rect key="frame" x="278" y="7" width="32" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" image="follow.png"/>
@@ -36,7 +36,7 @@
                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
             </tableViewCellContentView>
             <connections>
-                <outlet property="followButton" destination="saB-Vm-HAX" id="gAC-yT-uWG"/>
+                <outlet property="favoriteButton" destination="saB-Vm-HAX" id="RX4-v1-xCH"/>
                 <outlet property="totalChangeLabel" destination="cET-kx-P5E" id="nEI-2S-I6O"/>
                 <outlet property="usernameLabel" destination="VaE-7B-4oR" id="3NM-nL-Rir"/>
             </connections>

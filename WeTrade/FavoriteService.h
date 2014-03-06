@@ -1,5 +1,5 @@
 //
-//  FollowingService.h
+//  FavoriteService.h
 //  WeTrade
 //
 //  Created by Jason Wells on 2/14/14.
@@ -10,18 +10,18 @@
 #import <Parse/Parse.h>
 #import "Security.h"
 
-@interface FollowingService : NSObject
+@interface FavoriteService : NSObject
 
 @property (nonatomic, strong) NSArray *following;
 
-+ (FollowingService *)instance;
-- (NSArray *)following;
-- (NSArray *)watching;
++ (FavoriteService *)instance;
+- (NSArray *)favoriteUsers;
+- (NSArray *)favoriteSecurities;
 - (void)followUser:(PFUser *)user;
 - (void)unfollowUser:(PFUser *)user;
 - (void)followSecurity:(Security *)security;
 - (void)unfollowSecurity:(Security *)security;
-- (BOOL)isFollowingObjectId:(NSString *)objectId;
+- (BOOL)isFavorite:(NSString *)objectId;
 - (void)synchronize;
 
 @end
