@@ -2,6 +2,7 @@
 */build/*
 *.pbxuser
 !default.pbxuser
+*.pbxuser
 *.mode1v3
 !default.mode1v3
 *.mode2v3
