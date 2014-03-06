@@ -1,5 +1,5 @@
 //
-//  StockViewController.h
+//  SecurityViewController.h
 //  WeTrade
 //
 //  Created by Jason Wells on 2/8/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
 
-@interface StockViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
+@interface SecurityViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
 @property (nonatomic, strong) NSString *symbol;
 

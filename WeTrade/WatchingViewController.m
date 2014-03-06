@@ -7,7 +7,7 @@
 //
 
 #import "WatchingViewController.h"
-#import "StockViewController.h"
+#import "SecurityViewController.h"
 #import "Constants.h"
 #import "PortfolioService.h"
 #import "FollowingService.h"
@@ -21,9 +21,10 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
 
-@property (strong, nonatomic) NSArray *watching;
+@property (strong, nonatomic) NSMutableArray *watching;
 @property (strong, nonatomic) NSArray *searchResults;
 @property (strong, nonatomic) NSDictionary *quotes;
+@property (nonatomic, strong) NSTimer *quoteTimer;
 
 - (IBAction)onDoneButton:(id)sender;
 
@@ -36,10 +37,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.searchDisplayController.searchResultsTableView setBackgroundColor:[UIColor lightGrayColor]];
+    UITextField *searchField = [self.searchDisplayController.searchBar valueForKey:@"_searchField"];
+    [searchField setTextColor:[UIColor blackColor]];
     
     self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
     self.searchDisplayController.navigationItem.rightBarButtonItem = self.doneBarButton;
+    self.searchDisplayController.searchResultsTableView.backgroundColor = self.tableView.backgroundColor;
+    self.searchDisplayController.searchResultsTableView.separatorColor = self.tableView.separatorColor;
+    self.searchDisplayController.searchResultsTableView.separatorInset =  self.tableView.separatorInset;
+    self.searchDisplayController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
 
     UINib *securityCell = [UINib nibWithNibName:@"SecurityCell" bundle:nil];
     [self.tableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
@@ -49,8 +55,20 @@
     [self refreshViews];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    if (self.quoteTimer) {
+        [self.quoteTimer invalidate];
+        _quoteTimer = nil;
+    }
+}
+
 - (void)refreshViews {
-    _watching = [[FollowingService instance] watching];
+    _watching = [[[FollowingService instance] watching] mutableCopy];
     [self loadQuotes];
 }
 
@@ -132,12 +150,28 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    NSString *item = [self.watching objectAtIndex:fromIndexPath.row];
+    [self.watching removeObjectAtIndex:fromIndexPath.row];
+    [self.watching insertObject:item atIndex:toIndexPath.row];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"ShowStockSegue" sender:self];
+    [self performSegueWithIdentifier:@"ShowSecuritySegue" sender:self];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.doneBarButton.title = @"Cancel";
+    [self.searchDisplayController.navigationItem.rightBarButtonItem setTitle:@"Cancel"];
+}
+
+- (IBAction)onDoneButton:(id)sender {
+    if (self.searchDisplayController.isActive) {
+        [self.searchDisplayController setActive:NO];
+        [self.doneBarButton setTitle:@"Done"];
+    }
+    else {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)loadQuotes {
@@ -154,16 +188,12 @@
     }];
 }
 
-- (IBAction)onDoneButton:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
+    if ([[segue identifier] isEqualToString:@"ShowSecuritySegue"]) {
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
         Security *security = [self.watching objectAtIndex:indexPath.row];
-        StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.symbol = security.symbol;
+        SecurityViewController *securityViewController = segue.destinationViewController;
+        securityViewController.symbol = security.symbol;
     }
 }
 

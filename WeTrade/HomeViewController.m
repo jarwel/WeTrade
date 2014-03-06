@@ -7,7 +7,7 @@
 //
 
 #import "HomeViewController.h"
-#import "StockViewController.h"
+#import "SecurityViewController.h"
 #import "Constants.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
@@ -207,7 +207,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"ShowStockSegue" sender:self];
+    [self performSegueWithIdentifier:@"ShowSecuritySegue" sender:self];
 }
 
 - (void)refreshViews {
@@ -296,15 +296,15 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowStockSegue"]) {
+    if ([[segue identifier] isEqualToString:@"ShowSecuritySegue"]) {
         if (self.viewDeckController) {
             [self.viewDeckController setEnabled:NO];
         }
         
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
         Position *position = [self.positions objectAtIndex:indexPath.row];
-        StockViewController *stockViewController = segue.destinationViewController;
-        stockViewController.symbol = position.symbol;
+        SecurityViewController *securityViewController = segue.destinationViewController;
+        securityViewController.symbol = position.symbol;
     }
 }
 

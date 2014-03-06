@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62A718A6CFE9001FAA1A /* RestObject.m */; };
-		CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AC18A73D61001FAA1A /* StockViewController.m */; };
+		CA0F62AD18A73D61001FAA1A /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AC18A73D61001FAA1A /* SecurityViewController.m */; };
 		CA0F62B018A742D2001FAA1A /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AF18A742D2001FAA1A /* CommentCell.m */; };
 		CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA0F62B118A742F2001FAA1A /* CommentCell.xib */; };
 		CA0F62B518A7464F001FAA1A /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62B418A7464F001FAA1A /* Comment.m */; };
@@ -94,8 +94,8 @@
 /* Begin PBXFileReference section */
 		CA0F62A618A6CFE9001FAA1A /* RestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestObject.h; sourceTree = "<group>"; };
 		CA0F62A718A6CFE9001FAA1A /* RestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestObject.m; sourceTree = "<group>"; };
-		CA0F62AB18A73D61001FAA1A /* StockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockViewController.h; sourceTree = "<group>"; };
-		CA0F62AC18A73D61001FAA1A /* StockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockViewController.m; sourceTree = "<group>"; };
+		CA0F62AB18A73D61001FAA1A /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
+		CA0F62AC18A73D61001FAA1A /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		CA0F62AE18A742D2001FAA1A /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		CA0F62AF18A742D2001FAA1A /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		CA0F62B118A742F2001FAA1A /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
@@ -577,8 +577,8 @@
 				CAA68944189B60F300CE7FAA /* FollowingViewController.m */,
 				CA5B60C618C63879001D2647 /* WatchingViewController.h */,
 				CA5B60C718C63879001D2647 /* WatchingViewController.m */,
-				CA0F62AB18A73D61001FAA1A /* StockViewController.h */,
-				CA0F62AC18A73D61001FAA1A /* StockViewController.m */,
+				CA0F62AB18A73D61001FAA1A /* SecurityViewController.h */,
+				CA0F62AC18A73D61001FAA1A /* SecurityViewController.m */,
 				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
 				CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */,
@@ -751,7 +751,7 @@
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
 				CA5B60CB18C63F16001D2647 /* SecurityCell.m in Sources */,
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
-				CA0F62AD18A73D61001FAA1A /* StockViewController.m in Sources */,
+				CA0F62AD18A73D61001FAA1A /* SecurityViewController.m in Sources */,
 				CAFBB69F18B7D62700A8FD03 /* FollowBarButton.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */,

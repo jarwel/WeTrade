@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="beF-9p-xZS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="beF-9p-xZS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -273,17 +273,17 @@
                         <outlet property="chartView" destination="Wh3-qu-aaj" id="la5-TZ-bvJ"/>
                         <outlet property="followBarButton" destination="nUG-Sb-nV5" id="dxI-uX-T6k"/>
                         <outlet property="tableView" destination="qxG-xH-eGj" id="CiW-q6-eS9"/>
-                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowStockSegue" id="fcC-fv-hjr"/>
+                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowSecuritySegue" id="fcC-fv-hjr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap9-Dj-fCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-7075" y="-3650"/>
         </scene>
-        <!--Stock View Controller-->
+        <!--Security View Controller-->
         <scene sceneID="m8s-hr-bHq">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qMQ-f6-otZ" customClass="StockViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qMQ-f6-otZ" customClass="SecurityViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BB6-NG-c4h"/>
                         <viewControllerLayoutGuide type="bottom" id="Yzk-kE-vFG"/>
@@ -733,7 +733,7 @@
         <scene sceneID="hhk-x7-bSk">
             <objects>
                 <tableViewController id="pOS-0r-nbj" customClass="WatchingViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="1" sectionFooterHeight="1" id="Lsk-be-6Ah">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="1" sectionFooterHeight="1" id="Lsk-be-6Ah">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -743,11 +743,10 @@
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="pOS-0r-nbj" id="2Vh-ah-qhD"/>
-                            <outlet property="delegate" destination="pOS-0r-nbj" id="Uh3-mg-YeO"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Watch List" id="Nfd-7q-h8g">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="BaY-yn-Nym">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="BaY-yn-Nym">
                             <connections>
                                 <action selector="onDoneButton:" destination="pOS-0r-nbj" id="h1Q-xQ-Pue"/>
                             </connections>
@@ -756,7 +755,7 @@
                     <connections>
                         <outlet property="doneBarButton" destination="BaY-yn-Nym" id="8ti-Q4-ymu"/>
                         <outlet property="searchDisplayController" destination="9Pb-bv-31N" id="Sj9-vO-a1u"/>
-                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowStockSegue" id="naP-fe-8VP"/>
+                        <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowSecuritySegue" id="naP-fe-8VP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u7x-Kv-6rH" userLabel="First Responder" sceneMemberID="firstResponder"/>

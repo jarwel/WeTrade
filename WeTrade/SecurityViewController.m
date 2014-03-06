@@ -1,12 +1,12 @@
 //
-//  StockViewController.m
+//  SecurityViewController.m
 //  WeTrade
 //
 //  Created by Jason Wells on 2/8/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "StockViewController.h"
+#import "SecurityViewController.h"
 #import "Constants.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
@@ -16,7 +16,7 @@
 #import "HistoricalQuote.h"
 #import "History.h"
 
-@interface StockViewController ()
+@interface SecurityViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
@@ -71,7 +71,7 @@
 - (void)orientationChanged;
 @end
 
-@implementation StockViewController
+@implementation SecurityViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
