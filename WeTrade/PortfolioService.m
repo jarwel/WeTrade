@@ -16,6 +16,8 @@
 
 @property (strong, nonatomic) NSArray *portfolio;
 
+- (void)clear;
+
 @end
 
 @implementation PortfolioService
@@ -32,6 +34,7 @@
 - (id)init {
     if (self = [super init]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:LoginNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
     }
     return self;
 }
@@ -109,6 +112,10 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+- (void)clear {
+    _portfolio = [[NSArray alloc] init];
 }
 
 @end
