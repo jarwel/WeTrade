@@ -180,7 +180,7 @@
         if (!error){
             [PFObject saveAllInBackground:saves block:^(BOOL succeeded, NSError *error) {
                 if (!error){
-                    [[PortfolioService instance] synchronize];
+                    [[PortfolioService instance] update];
                 }
                 else {
                     NSLog(@"Error: %@ %@", error, [error userInfo]);

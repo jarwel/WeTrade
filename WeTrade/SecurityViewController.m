@@ -70,7 +70,6 @@
 - (void)refreshTable;
 - (void)refreshView;
 - (void)orientationChanged;
-
 @end
 
 @implementation SecurityViewController

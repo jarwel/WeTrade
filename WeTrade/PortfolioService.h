@@ -18,6 +18,6 @@
 + (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (UIColor *)colorForChange:(float)change;
-- (void)synchronize;
+- (void)update;
 
 @end

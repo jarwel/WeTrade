@@ -24,7 +24,7 @@
     static PortfolioService *instance;
     if (!instance) {
         instance = [[PortfolioService alloc] init];
-        [instance synchronize];
+        [instance update];
     }
     return instance;
 }
@@ -100,7 +100,7 @@
     return [UIColor blueColor];
 }
 
-- (void)synchronize {
+- (void)update {
     [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
         if (!error) {
             _data = [Position fromObjects:objects];

@@ -13,7 +13,8 @@
 @interface QuoteService ()
 
 @property (strong, nonatomic) NSMutableDictionary *quotes;
-@property (strong, nonatomic) NSTimer *timer;
+- (void)update;
+- (void)clear;
 
 @end
 
@@ -30,7 +31,8 @@
 - (id)init {
     if (self = [super init]) {
         _quotes = [[NSMutableDictionary alloc] init];
-        _timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateQuotes) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(update) userInfo:nil repeats:YES];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
     }
     return self;
 }
@@ -38,7 +40,7 @@
 - (Quote *)quoteForSymbol:(NSString *)symbol {
     Quote *quote = [self.quotes objectForKey:symbol];
     
-    if (!quote) {
+    if (!quote && ![symbol isEqualToString:CashSymbol]) {
         [self.quotes setObject:[[Quote alloc] init] forKey:symbol];
         NSMutableSet *symbols = [[NSMutableSet alloc] init];
         [symbols addObject:symbol];
@@ -54,12 +56,13 @@
     
     for (NSString *symbol in symbols) {
         Quote *quote = [self.quotes objectForKey:symbol];
-        if (quote) {
-            [quotes setObject:quote forKey:symbol];
-        }
-        else {
+        
+        if (!quote && ![symbol isEqualToString:CashSymbol]) {
             [self.quotes setObject:[[Quote alloc] init] forKey:symbol];
             [missingSymbols addObject:symbol];
+        }
+        else {
+            [quotes setObject:quote forKey:symbol];
         }
     }
     
@@ -69,6 +72,7 @@
     
     return quotes;
 }
+
 
 - (void)fetchQuotesForSymbols:(NSSet *)symbols {
     [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -86,7 +90,7 @@
     }];
 }
 
-- (void)updateQuotes {
+- (void)update {
     if (self.quotes.count > 0) {
         [[FinanceClient instance] fetchQuotesForSymbols:[NSSet setWithArray:self.quotes.allKeys] callback:^(NSURLResponse *response, NSData *data, NSError *error) {
             if (!error) {
@@ -100,6 +104,10 @@
             }
         }];
     }
+}
+
+- (void)clear {
+    [self.quotes removeAllObjects];
 }
 
 @end

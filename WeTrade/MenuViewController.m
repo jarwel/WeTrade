@@ -56,7 +56,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 4) {
+    if (indexPath.row == (self.count - 1)) {
         [[NSNotificationCenter defaultCenter] postNotificationName:LogoutNotification object:nil];
     }
 }

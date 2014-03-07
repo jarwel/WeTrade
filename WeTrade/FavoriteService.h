@@ -21,6 +21,5 @@
 - (void)followSecurity:(Security *)security;
 - (void)unfollowSecurity:(Security *)security;
 - (BOOL)isFavorite:(NSString *)objectId;
-- (void)synchronize;
 
 @end

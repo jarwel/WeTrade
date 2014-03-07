@@ -15,6 +15,9 @@
 @property (nonatomic, strong) NSMutableDictionary *users;
 @property (nonatomic, strong) NSMutableDictionary *securities;
 
+- (void)update;
+- (void)clear;
+
 @end
 
 @implementation FavoriteService
@@ -23,14 +26,15 @@
     static FavoriteService *instance;
     if (!instance) {
         instance = [[FavoriteService alloc] init];
-        [instance synchronize];
+        [instance update];
     }
     return instance;
 }
 
 - (id)init {
     if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchronize) name:LoginNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:LoginNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
     }
     return self;
 }
@@ -100,7 +104,7 @@
     [[ParseClient instance] unfollowSecurity:security];
 }
 
-- (void)synchronize {
+- (void)update {
     [[ParseClient instance] fetchFavoriteUsers:^(NSArray *objects, NSError *error) {
         if (!error) {
             _users = [[NSMutableDictionary alloc] init];
@@ -124,6 +128,11 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+}
+
+- (void)clear {
+    [self.users removeAllObjects];
+    [self.securities removeAllObjects];
 }
 
 @end
