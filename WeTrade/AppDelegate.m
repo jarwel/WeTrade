@@ -80,16 +80,16 @@
 }
 
 - (void)signOut {
-    self.window.rootViewController = self.signInViewController;
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [PFUser logOut];
+    self.window.rootViewController = self.currentViewController;
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
 }
 
 - (UIViewController *)currentViewController {
     if (![PFUser currentUser]) {
         return self.signInViewController;
     }
-    return self.homeNavigationController;
+    return self.homeViewController;
 }
 
 - (UIViewController *)signInViewController {
@@ -102,7 +102,7 @@
     return signInViewController;
 }
 
-- (UIViewController *)homeNavigationController {
+- (UIViewController *)homeViewController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
         
@@ -111,7 +111,7 @@
     UIViewController *right = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
     
     IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:center leftViewController:left rightViewController:right];
-    [viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
+        [viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
     homeViewController.viewDeckController = viewDeckController;
     return viewDeckController;
 }

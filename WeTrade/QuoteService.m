@@ -13,6 +13,7 @@
 @interface QuoteService ()
 
 @property (strong, nonatomic) NSMutableDictionary *quotes;
+
 - (void)update;
 - (void)clear;
 
@@ -41,9 +42,10 @@
     Quote *quote = [self.quotes objectForKey:symbol];
     
     if (!quote && ![symbol isEqualToString:CashSymbol]) {
-        [self.quotes setObject:[[Quote alloc] init] forKey:symbol];
         NSMutableSet *symbols = [[NSMutableSet alloc] init];
         [symbols addObject:symbol];
+        
+        [self.quotes setObject:[[Quote alloc] init] forKey:symbol];
         [self fetchQuotesForSymbols:symbols];
     }
 

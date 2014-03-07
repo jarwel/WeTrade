@@ -28,9 +28,10 @@
 @property (assign, nonatomic) BOOL searchMode;
 
 - (NSArray *)current;
-- (void)refreshViews;
 - (void)fetchPortfolioForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
 - (void)expireChangeForTimer:(NSTimer *)timer;
+- (void)refreshQuotes;
+- (void)refreshFavorites;
 
 @end
 
@@ -47,19 +48,34 @@
 
     _portfolios = [[NSMutableDictionary alloc] init];
     _timers = [[NSMutableSet alloc] init];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFavorites) name:FavoritesChangedNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
     [self.view endEditing:YES];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
 }
+
+- (void)refreshQuotes {
+    NSLog(@"FollowingViewController refreshQuotes");
+    [self.tableView reloadData];
+}
+
+- (void)refreshFavorites {
+    NSLog(@"FollowingViewController refreshFavorites");
+    [self.tableView reloadData];
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.current.count;
@@ -138,11 +154,6 @@
     [self.tableView reloadData];
 }
 
-- (void)refreshViews {
-    NSLog(@"refreshing FollowingViewController");
-    [self.tableView reloadData];
-}
-
 - (NSArray *)current {
     if (self.searchMode) {
         return self.search;
@@ -198,6 +209,7 @@
         homeViewController.user = user;
         homeViewController.title = [NSString stringWithFormat:@"%@'s Portfolio", user.username];
     }
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

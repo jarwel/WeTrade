@@ -34,8 +34,9 @@
 
 - (void)initTable;
 - (void)initChart;
-- (void)sortPositions;
-- (void)refreshViews;
+- (void)reloadTotals;
+- (void)refreshQuotes;
+- (void)refreshPositions;
 - (void)orientationChanged;
 
 @end
@@ -60,22 +61,80 @@
     
     [self initTable];
     [self initChart];
-    
-    [self loadPositions];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadPositions) name:PortfolioChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [self refreshPositions];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     if (self.viewDeckController) {
         [self.viewDeckController setEnabled:YES];
     }
     
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPositions) name:PortfolioChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)refreshQuotes {
+    NSLog(@"HomeViewController refreshQuotes");
+    
+    [self reloadTotals];
+    [self.tableView reloadData];
+    [self.chartView.hostedGraph reloadData];
+}
+
+- (void)refreshPositions {
+    NSLog(@"HomeViewController refreshPositions");
+    
+    if (self.user) {
+        [[ParseClient instance] fetchLotsForUserId:self.user.objectId callback:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                NSArray *positions = [Position fromObjects:objects];
+                [self sortPositions:positions];
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+    else {
+        NSArray *positions =  [[PortfolioService instance] positions];
+        [self sortPositions:positions];
+    }
+}
+
+- (void)sortPositions:(NSArray *)positions {
+    NSSet *symbols = [PortfolioService symbolsForPositions:positions];
+    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            NSDictionary *quotes = [Quote mapFromData:data];
+            _positions = [positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+                
+                Position *firstPosition = (Position*)first;
+                Quote *firstQuote = [quotes objectForKey:firstPosition.symbol];
+                float firstValue = [firstPosition valueForQuote:firstQuote];
+                
+                Position *secondPosition = (Position*)second;
+                Quote *secondQuote = [quotes objectForKey:secondPosition.symbol];
+                float secondValue = [secondPosition valueForQuote:secondQuote];
+                
+                return firstValue < secondValue;
+            }];
+            [self reloadTotals];
+            [self.tableView reloadData];
+            [self.chartView.hostedGraph reloadData];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (void)orientationChanged {
@@ -205,9 +264,7 @@
     [self performSegueWithIdentifier:@"ShowSecuritySegue" sender:self];
 }
 
-- (void)refreshViews {
-    NSLog(@"refreshing HomeViewController");
-    
+- (void)reloadTotals {
     NSSet *symbols = [PortfolioService symbolsForPositions:self.positions];
     NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
 
@@ -223,55 +280,12 @@
     
     self.changeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
     self.changeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
-    
-    [self.tableView reloadData];
-    [self.chartView.hostedGraph reloadData];
-}
-
-- (void)loadPositions {
-    if (self.user) {
-        [[ParseClient instance] fetchLotsForUserId:self.user.objectId callback:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                _positions = [Position fromObjects:objects];
-                [self sortPositions];
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
-        }];
-    }
-    else {
-        _positions = [[PortfolioService instance] positions];
-        [self sortPositions];
-    }
-}
-
-- (void)sortPositions {
-    NSSet *symbols = [PortfolioService symbolsForPositions:self.positions];
-    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (!error) {
-            NSDictionary *quotes = [Quote mapFromData:data];
-            _positions = [self.positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
-                
-                Position *firstPosition = (Position*)first;
-                Quote *firstQuote = [quotes objectForKey:firstPosition.symbol];
-                float firstValue = [firstPosition valueForQuote:firstQuote];
-                
-                Position *secondPosition = (Position*)second;
-                Quote *secondQuote = [quotes objectForKey:secondPosition.symbol];
-                float secondValue = [secondPosition valueForQuote:secondQuote];
-                
-                return firstValue < secondValue;
-            }];
-            [self refreshViews];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
 }
 
 - (IBAction)onChangeButton:(id)sender {
     [self.changeButton setSelected:!self.changeButton.selected];
-    [self refreshViews];
+    [self reloadTotals];
+    [self.tableView reloadData];
 }
 
 - (IBAction)onDoneButton:(id)sender {
@@ -289,6 +303,7 @@
     if (self.viewDeckController) {
         [self.viewDeckController setEnabled:NO];
     }
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

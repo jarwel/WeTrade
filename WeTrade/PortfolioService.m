@@ -14,7 +14,7 @@
 
 @interface PortfolioService ()
 
-@property (strong, nonatomic) NSArray *data;
+@property (strong, nonatomic) NSArray *portfolio;
 
 @end
 
@@ -31,13 +31,13 @@
 
 - (id)init {
     if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchronize) name:LoginNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:LoginNotification object:nil];
     }
     return self;
 }
 
 - (NSArray *)positions {
-    return self.data;
+    return self.portfolio;
 }
 
 + (NSSet *)symbolsForPositions:(NSArray *)positions {
@@ -103,7 +103,7 @@
 - (void)update {
     [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _data = [Position fromObjects:objects];
+            _portfolio = [Position fromObjects:objects];
             [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);

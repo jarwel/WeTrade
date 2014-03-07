@@ -28,7 +28,8 @@
 - (IBAction)onReorderButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
 
-- (void)refreshViews;
+- (void)refreshQuotes;
+- (void)refreshFavorites;
 
 @end
 
@@ -41,7 +42,7 @@
     [searchField setTextColor:[UIColor blackColor]];
     
     self.searchDisplayController.displaysSearchBarInNavigationBar = YES;
-    self.searchDisplayController.navigationItem.title = @"Watch List";
+    self.searchDisplayController.navigationItem.title = @"Watching";
     self.searchDisplayController.navigationItem.rightBarButtonItem = self.doneBarButton;
     self.searchDisplayController.searchResultsTableView.backgroundColor = self.tableView.backgroundColor;
     self.searchDisplayController.searchResultsTableView.separatorColor = self.tableView.separatorColor;
@@ -52,16 +53,33 @@
     [self.tableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
     [self.searchDisplayController.searchResultsTableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
     
-    [self refreshViews];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
+    _watching = [[[FavoriteService instance] favoriteSecurities] mutableCopy];
 }
 
-- (void)refreshViews {
-    NSLog(@"refreshing WatchingViewContoller");
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFavorites) name:FavoritesChangedNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
+}
+
+
+- (void)refreshFavorites {
+    NSLog(@"WatchingViewContoller refreshFavorites");
     _watching = [[[FavoriteService instance] favoriteSecurities] mutableCopy];
+    [self.tableView reloadData];
+}
+
+- (void)refreshQuotes {
+    NSLog(@"WatchingViewContoller refreshQuotes");
+    [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
 }
 
@@ -131,6 +149,7 @@
     else {
         security = [self.watching objectAtIndex:indexPath.row];
     }
+    
     Quote *quote = [[QuoteService instance] quoteForSymbol:security.symbol];
     
     cell.symbolLabel.text = security.symbol;
