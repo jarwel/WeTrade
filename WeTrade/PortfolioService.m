@@ -14,7 +14,7 @@
 
 @interface PortfolioService ()
 
-@property (nonatomic, strong) NSArray *data;
+@property (strong, nonatomic) NSArray *data;
 
 @end
 
@@ -38,6 +38,16 @@
 
 - (NSArray *)positions {
     return self.data;
+}
+
++ (NSSet *)symbolsForPositions:(NSArray *)positions {
+    NSMutableSet *symbols = [[NSMutableSet alloc] init];
+    for (Position *position in positions) {
+        if (![position.symbol isEqualToString:CashSymbol]) {
+            [symbols addObject:position.symbol];
+        }
+    }
+    return symbols;
 }
 
 + (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {

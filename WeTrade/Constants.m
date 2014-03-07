@@ -10,7 +10,8 @@
 
 NSString * const LoginNotification = @"LoginNotification";
 NSString * const LogoutNotification = @"LogoutNotification";
+NSString * const QuotesUpdatedNotification = @"QuotesUpdatedNotification";
 NSString * const PortfolioChangedNotification = @"PortfolioChangedNotification";
-NSString * const FollowingChangedNotification = @"FollowingChangedNotification";
+NSString * const FavoritesChangedNotification = @"FavoritesChangedNotification";
 
 NSString *const CashSymbol =@"$CASH";

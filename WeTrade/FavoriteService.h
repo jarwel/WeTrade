@@ -12,11 +12,10 @@
 
 @interface FavoriteService : NSObject
 
-@property (nonatomic, strong) NSArray *following;
+@property (strong, nonatomic) NSArray *favoriteUsers;
+@property (strong, nonatomic) NSArray *favoriteSecurities;
 
 + (FavoriteService *)instance;
-- (NSArray *)favoriteUsers;
-- (NSArray *)favoriteSecurities;
 - (void)followUser:(PFUser *)user;
 - (void)unfollowUser:(PFUser *)user;
 - (void)followSecurity:(Security *)security;

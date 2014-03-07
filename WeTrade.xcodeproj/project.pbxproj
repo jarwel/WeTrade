@@ -37,6 +37,7 @@
 		CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662718982BFE00A55D3F /* SignInViewController.m */; };
 		CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662A18982CC600A55D3F /* SignUpViewController.m */; };
 		CA6B5C0918AB0870006CB919 /* FavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B5C0818AB0870006CB919 /* FavoriteButton.m */; };
+		CA758CF218C93E4B0045CB40 /* QuoteService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA758CF118C93E4B0045CB40 /* QuoteService.m */; };
 		CA7B32FC1898988B001C14AF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7B32FB1898988B001C14AF /* Constants.m */; };
 		CA829F0018AC62D600AEA465 /* profile_default.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CA829EFF18AC62D600AEA465 /* profile_default.jpeg */; };
 		CA861DE018AEA4C00057D163 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA861DDF18AEA4C00057D163 /* FavoriteService.m */; };
@@ -143,6 +144,8 @@
 		CA60662A18982CC600A55D3F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		CA6B5C0718AB0870006CB919 /* FavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteButton.h; sourceTree = "<group>"; };
 		CA6B5C0818AB0870006CB919 /* FavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteButton.m; sourceTree = "<group>"; };
+		CA758CF018C93E4B0045CB40 /* QuoteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuoteService.h; sourceTree = "<group>"; };
+		CA758CF118C93E4B0045CB40 /* QuoteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuoteService.m; sourceTree = "<group>"; };
 		CA7B32FA1898988B001C14AF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CA7B32FB1898988B001C14AF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CA829EFF18AC62D600AEA465 /* profile_default.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile_default.jpeg; sourceTree = "<group>"; };
@@ -446,6 +449,8 @@
 		CA89420418B984F80046C1BD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CA758CF018C93E4B0045CB40 /* QuoteService.h */,
+				CA758CF118C93E4B0045CB40 /* QuoteService.m */,
 				CA89420518B9A49A0046C1BD /* PortfolioService.h */,
 				CA89420618B9A49A0046C1BD /* PortfolioService.m */,
 				CA861DDE18AEA4C00057D163 /* FavoriteService.h */,
@@ -750,6 +755,7 @@
 				CA0F62B818A7550D001FAA1A /* HistoricalQuote.m in Sources */,
 				CA1008AD1890647B0031CF68 /* AppDelegate.m in Sources */,
 				CA5B60CB18C63F16001D2647 /* SecurityCell.m in Sources */,
+				CA758CF218C93E4B0045CB40 /* QuoteService.m in Sources */,
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CA0F62AD18A73D61001FAA1A /* SecurityViewController.m in Sources */,
 				CAFBB69F18B7D62700A8FD03 /* FavoriteBarButton.m in Sources */,

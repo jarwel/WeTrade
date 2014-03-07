@@ -55,20 +55,20 @@
 
 - (void)followUser:(PFUser *)user {
     [self.users setObject:user forKey:user.objectId];
-    [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
     [[ParseClient instance] followUser:user];
 }
 
 - (void)unfollowUser:(PFUser *)user {
     [self.users removeObjectForKey:user.objectId];
-    [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
     [[ParseClient instance] unfollowUser:user];
 }
 
 - (void)followSecurity:(Security *)security {
     if (security.objectId) {
         [self.securities setObject:security forKey:security.objectId];
-        [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
         [[ParseClient instance] followSecurity:security];
     }
     else {
@@ -78,7 +78,7 @@
                     if (!error) {
                         Security *security = [Security fromParseObjects:objects].firstObject;
                         [self.securities setObject:security forKey:security.objectId];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
                         [[ParseClient instance] followSecurity:security];
                     }
                     else {
@@ -96,7 +96,7 @@
 
 - (void)unfollowSecurity:(Security *)security {
     [self.securities removeObjectForKey:security.objectId];
-    [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
     [[ParseClient instance] unfollowSecurity:security];
 }
 
@@ -107,7 +107,7 @@
             for (PFUser *user in objects) {
                 [self.users setObject:user forKey:user.objectId];
             }
-            [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
@@ -119,7 +119,7 @@
                 Security *security = [[Security alloc] initWithData:object];
                 [self.securities setObject:security forKey:security.objectId];
             }
-            [[NSNotificationCenter defaultCenter] postNotificationName:FollowingChangedNotification object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }

@@ -10,7 +10,7 @@
 #import "HomeViewController.h"
 #import "Constants.h"
 #import "ParseClient.h"
-#import "FinanceClient.h"
+#import "QuoteService.h"
 #import "FavoriteService.h"
 #import "PortfolioService.h"
 #import "UserCell.h"
@@ -22,14 +22,14 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) NSMutableDictionary *percentChanges;
-@property (nonatomic, strong) NSMutableSet *timers;
-@property (nonatomic, strong) NSArray *search;
-@property (nonatomic, assign) BOOL searchMode;
+@property (strong, nonatomic) NSMutableDictionary *portfolios;
+@property (strong, nonatomic) NSMutableSet *timers;
+@property (strong, nonatomic) NSArray *search;
+@property (assign, nonatomic) BOOL searchMode;
 
 - (NSArray *)current;
 - (void)refreshViews;
-- (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
+- (void)fetchPortfolioForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
 - (void)expireChangeForTimer:(NSTimer *)timer;
 
 @end
@@ -45,10 +45,11 @@
     UINib *userCell = [UINib nibWithNibName:@"UserCell" bundle:nil];
     [self.tableView registerNib:userCell forCellReuseIdentifier:@"UserCell"];
 
-    _percentChanges = [[NSMutableDictionary alloc] init];
+    _portfolios = [[NSMutableDictionary alloc] init];
     _timers = [[NSMutableSet alloc] init];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -72,19 +73,23 @@
     
     userCell.tag = indexPath.row;
     userCell.usernameLabel.text = user.username;
+    [userCell.favoriteButton setupForUser:user];
     
-    NSNumber *percentChange = [self.percentChanges objectForKey:user.objectId];
-    if (percentChange) {
+    NSArray *positions = [self.portfolios objectForKey:user.objectId];
+    if (positions) {
+        NSSet *symbols = [PortfolioService symbolsForPositions:positions];
+        NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
+        NSNumber *percentChange = [PortfolioService dayChangeForQuotes:quotes positions:positions];
+        
         userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
         userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
     }
     else {
         userCell.totalChangeLabel.text = @"--";
         userCell.totalChangeLabel.textColor = [UIColor lightGrayColor];
-        [self loadChangeForUser:user indexPath:indexPath];
+        [self fetchPortfolioForUser:user indexPath:indexPath];
     }
     
-    [userCell.favoriteButton setupForUser:user];
     return userCell;
 }
 
@@ -134,6 +139,7 @@
 }
 
 - (void)refreshViews {
+    NSLog(@"refreshing FollowingViewController");
     [self.tableView reloadData];
 }
 
@@ -144,32 +150,30 @@
     return [[FavoriteService instance] favoriteUsers];
 }
 
-- (void)loadChangeForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
+- (void)fetchPortfolioForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
     [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSArray *positions = [Position fromObjects:objects];
-            [[FinanceClient instance] fetchQuotesForPositions:positions callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-                if (!error) {
-                    NSDictionary *quotes = [Quote fromData:data];
-                    NSNumber *percentChange = [PortfolioService dayChangeForQuotes:quotes positions:positions];
-                    if (percentChange) {
-                        UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                        if (userCell) {
-                            userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-                            userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
-                        }
-                        [self.percentChanges setObject:percentChange forKey:user.objectId];
-                        if (![self.timers containsObject:user.objectId]) {
-                            [self.timers addObject:user.objectId];
-                            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:user.objectId, @"userId", nil];
-                            [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(expireChangeForTimer:) userInfo:userInfo repeats:NO];
-                        }
-                    }
-                } else {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-            }];
-        } else {
+            
+            UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+            if (userCell) {
+                NSSet *symbols = [PortfolioService symbolsForPositions:positions];
+                NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
+                NSNumber *percentChange = [PortfolioService dayChangeForQuotes:quotes positions:positions];
+                
+                userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+                userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
+            }
+            
+            [self.portfolios setObject:positions forKey:user.objectId];
+            
+            if (![self.timers containsObject:user.objectId]) {
+                [self.timers addObject:user.objectId];
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:user.objectId, @"userId", nil];
+                [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(expireChangeForTimer:) userInfo:userInfo repeats:NO];
+            }
+        }
+        else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
@@ -177,7 +181,7 @@
 
 - (void)expireChangeForTimer:(NSTimer *)timer {
     NSString *userId = [[timer userInfo] objectForKey:@"userId"];
-    [self.percentChanges removeObjectForKey:userId];
+    [self.portfolios removeObjectForKey:userId];
     [self.timers removeObject:userId];
     NSLog(@"Expired change for userId: %@", userId);
 }

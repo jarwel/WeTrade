@@ -9,6 +9,7 @@
 #import "WatchingViewController.h"
 #import "SecurityViewController.h"
 #import "Constants.h"
+#import "QuoteService.h"
 #import "PortfolioService.h"
 #import "FavoriteService.h"
 #import "ParseClient.h"
@@ -23,8 +24,6 @@
 
 @property (strong, nonatomic) NSMutableArray *watching;
 @property (strong, nonatomic) NSArray *searchResults;
-@property (strong, nonatomic) NSDictionary *quotes;
-@property (strong, nonatomic) NSTimer *quoteTimer;
 
 - (IBAction)onReorderButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
@@ -54,24 +53,14 @@
     [self.searchDisplayController.searchResultsTableView registerNib:securityCell forCellReuseIdentifier:@"SecurityCell"];
     
     [self refreshViews];
-    [self loadQuotes];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FollowingChangedNotification object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    _quoteTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(loadQuotes) userInfo:nil repeats:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    if (self.quoteTimer) {
-        [self.quoteTimer invalidate];
-        _quoteTimer = nil;
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)refreshViews {
+    NSLog(@"refreshing WatchingViewContoller");
+    
     _watching = [[[FavoriteService instance] favoriteSecurities] mutableCopy];
     [self.tableView reloadData];
 }
@@ -97,9 +86,9 @@
                     [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
                         if (!error) {
                             if ([searchText isEqualToString:searchBar.text]) {
-                                _quotes = [Quote fromData:data];
+                                NSDictionary *quotes = [Quote mapFromData:data];
                                 
-                                Quote *searchQuote = [self.quotes objectForKey:searchSymbol];
+                                Quote *searchQuote = [quotes objectForKey:searchSymbol];
                                 if (!isSecurityForSearch && searchQuote && searchQuote.isValid) {
                                     NSMutableArray *securitiesWithSearchText = [securities mutableCopy];
                                     [securitiesWithSearchText insertObject:[[Security alloc] initWithSymbol:searchSymbol] atIndex:0];
@@ -142,7 +131,7 @@
     else {
         security = [self.watching objectAtIndex:indexPath.row];
     }
-    Quote *quote = [self.quotes valueForKey:security.symbol];
+    Quote *quote = [[QuoteService instance] quoteForSymbol:security.symbol];
     
     cell.symbolLabel.text = security.symbol;
     cell.nameLabel.text = quote.name;
@@ -190,21 +179,6 @@
     else {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
-}
-
-- (void)loadQuotes {
-    NSArray *securities = [self.watching arrayByAddingObjectsFromArray:self.searchResults];
-    [[FinanceClient instance] fetchQuotesForSecurities:securities callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (!error) {
-            NSDictionary *quotes = [Quote fromData:data];
-            if (quotes.count > 0) {
-                _quotes = [Quote fromData:data];
-                [self.tableView reloadData];
-            }
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -57,8 +57,11 @@
     return YES;
 }
 
++ (NSArray *)fromData:(NSData *)data {
+    return [[self mapFromData:data] allValues];
+}
 
-+ (NSMutableDictionary *)fromData:(NSData *)data {
++ (NSMutableDictionary *)mapFromData:(NSData *)data {
     NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
     NSDictionary *query = [dictionary objectForKey:@"query"];

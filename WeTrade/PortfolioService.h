@@ -10,9 +10,10 @@
 
 @interface PortfolioService : NSObject
 
-@property (nonatomic, strong) NSArray *positions;
+@property (strong, nonatomic) NSArray *positions;
 
 + (PortfolioService *)instance;
++ (NSSet *)symbolsForPositions:(NSArray *)positions;
 + (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;;
 + (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;

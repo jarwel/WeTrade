@@ -29,14 +29,6 @@
     [self fetchQuotesForSymbols:symbols callback:callback];
 }
 
-- (void)fetchQuotesForSecurities:(NSArray *)securities callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    NSMutableSet *symbols = [[NSMutableSet alloc] init];
-    for (Security *security in securities) {
-        [symbols addObject:security.symbol];
-    }
-    [self fetchQuotesForSymbols:symbols callback:callback];
-}
-
 - (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
     if (symbols.count > 0) {
         NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
@@ -46,7 +38,8 @@
         NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
         NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
         
-        [self staleWhileRevalidate:url callback:callback];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
     }
 }
 

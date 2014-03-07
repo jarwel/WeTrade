@@ -49,11 +49,11 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 
-@property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
-@property (nonatomic, strong) CPTScatterPlot *pricePlot;
-@property (nonatomic, strong) NSMutableArray *comments;
-@property (nonatomic, strong) FullQuote *fullQuote;
-@property (nonatomic, strong) History *history;
+@property (strong, nonatomic) CPTXYPlotSpace *plotSpace;
+@property (strong, nonatomic) CPTScatterPlot *pricePlot;
+@property (strong, nonatomic) NSMutableArray *comments;
+@property (strong, nonatomic) FullQuote *fullQuote;
+@property (strong, nonatomic) History *history;
 
 - (IBAction)onViewButton:(id)sender;
 - (IBAction)onOneMonthButton:(id)sender;
@@ -70,6 +70,7 @@
 - (void)refreshTable;
 - (void)refreshView;
 - (void)orientationChanged;
+
 @end
 
 @implementation SecurityViewController
@@ -105,7 +106,7 @@
     [self initTable];
 
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FollowingChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FavoritesChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 

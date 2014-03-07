@@ -11,6 +11,6 @@
 
 @interface SecurityViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
-@property (nonatomic, strong) NSString *symbol;
+@property (strong, nonatomic) NSString *symbol;
 
 @end

@@ -13,7 +13,7 @@
 
 @interface HomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
-@property (nonatomic, strong) IIViewDeckController *viewDeckController;
-@property (nonatomic, strong) PFUser *user;
+@property (strong, nonatomic) IIViewDeckController *viewDeckController;
+@property (strong, nonatomic) PFUser *user;
 
 @end

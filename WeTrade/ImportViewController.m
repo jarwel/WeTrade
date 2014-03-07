@@ -18,8 +18,8 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
-@property (nonatomic, strong) Scraper *scraper;
-@property (nonatomic, strong) NSMutableArray *lots;
+@property (strong, nonatomic) Scraper *scraper;
+@property (strong, nonatomic) NSMutableArray *lots;
 
 - (IBAction)onCancelButton:(id)sender;
 

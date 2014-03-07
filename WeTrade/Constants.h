@@ -10,8 +10,9 @@
 
 extern NSString *const LoginNotification;
 extern NSString *const LogoutNotification;
+extern NSString *const QuotesUpdatedNotification;
 extern NSString *const PortfolioChangedNotification;
-extern NSString *const FollowingChangedNotification;
+extern NSString *const FavoritesChangedNotification;
 
 extern NSString *const CashSymbol;
 

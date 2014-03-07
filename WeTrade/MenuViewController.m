@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic, assign) int count;
+@property (assign, nonatomic) int count;
 
 @end
 
