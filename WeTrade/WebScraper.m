@@ -1,16 +1,16 @@
 //
-//  Scraper.m
+//  WebScraper.m
 //  WeTrade
 //
 //  Created by Jason Wells on 3/1/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "Scraper.h"
+#import "WebScraper.h"
 
-@implementation Scraper
+@implementation WebScraper
 
-- (NSMutableArray* )scrapeWebView:(UIWebView *)webView {
+- (NSMutableArray* )parseWebView:(UIWebView *)webView {
     [NSException raise:@"Method not implemented" format:@"extractFromWebView is not implemented for Scraper"];
     return nil;
 }

@@ -21,7 +21,6 @@
     
     self.window.rootViewController = self.currentViewController;
     
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signIn) name:LoginNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signOut) name:LogoutNotification object:nil];
     return YES;

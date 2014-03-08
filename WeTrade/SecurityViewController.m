@@ -49,6 +49,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 
+@property (assign, nonatomic) BOOL isPortrait;
 @property (strong, nonatomic) CPTXYPlotSpace *plotSpace;
 @property (strong, nonatomic) CPTScatterPlot *pricePlot;
 @property (strong, nonatomic) NSMutableArray *comments;
@@ -66,10 +67,9 @@
 - (IBAction)onTap:(id)sender;
 
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
-- (void)refreshChart;
-- (void)refreshTable;
-- (void)refreshView;
-- (void)orientationChanged;
+- (void)reloadMetrics;
+- (void)refreshViews;
+
 @end
 
 @implementation SecurityViewController
@@ -83,10 +83,13 @@
     [self.view.layer insertSublayer:gradient atIndex:0];
     
     [self setTitle:self.symbol];
-    [[FinanceClient instance] fetchFullQuoteForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [self initChart];
+    [self initTable];
+    
+    [[FinanceClient instance] fetchMetricsForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _fullQuote = [FullQuote fromData:data];
-            [self refreshView];
+            [self reloadMetrics];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
@@ -99,40 +102,36 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    [self onOneMonthButton:nil];
-    
-    [self initChart];
-    [self initTable];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:FavoritesChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [self refreshViews];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FavoritesChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
-- (void)orientationChanged {
-    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    BOOL isPortrait = orientation == UIDeviceOrientationPortrait;
-    if (isPortrait) {
-        [self onOneMonthButton:nil];
-    }
-    
-    [self.timeView setHidden:isPortrait];
-    [self.viewButton setHidden:!isPortrait];
-    [self.tableView setHidden:!isPortrait];
-    [self.commentView setHidden:!isPortrait];
-    [self.navigationController setNavigationBarHidden:!isPortrait];
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self refreshViews];
+}
+
+- (void)refreshViews {
+    _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;    
+    [self.navigationController setNavigationBarHidden:!self.isPortrait];
+    [self.timeView setHidden:self.isPortrait];
+    [self.viewButton setHidden:!self.isPortrait];
+    [self.commentView setHidden:!self.isPortrait];
+    [self.tableView setHidden:!self.isPortrait];
     [self.dataView setHidden:YES];
     [self.chartView setHidden:NO];
+    
+    if (self.isPortrait) {
+        [self onOneMonthButton:nil];
+    }
 }
 
 - (void)initTable {
@@ -317,11 +316,7 @@
 
 }
 
-- (void)refreshTable {
-    [self.tableView reloadData];
-}
-
-- (void)refreshView{
+- (void)reloadMetrics {
     self.nameLabel.text = self.fullQuote.name;
     self.openLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.open];
     self.previousCloseLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.previousClose];

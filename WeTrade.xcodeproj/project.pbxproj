@@ -27,7 +27,7 @@
 		CA1008C81890647B0031CF68 /* WeTradeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1008C71890647B0031CF68 /* WeTradeTests.m */; };
 		CA3046D418C2BE55004E0CD6 /* FidelityScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D318C2BE55004E0CD6 /* FidelityScraper.m */; };
 		CA3046D718C2BF58004E0CD6 /* EtradeScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D618C2BF58004E0CD6 /* EtradeScraper.m */; };
-		CA3046DA18C2BFB2004E0CD6 /* Scraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D918C2BFB2004E0CD6 /* Scraper.m */; };
+		CA3046DA18C2BFB2004E0CD6 /* WebScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D918C2BFB2004E0CD6 /* WebScraper.m */; };
 		CA3046DD18C3933F004E0CD6 /* FullQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046DC18C3933F004E0CD6 /* FullQuote.m */; };
 		CA4A1DA818AA93A1002D2DEC /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = CA4A1DA718AA93A1002D2DEC /* History.m */; };
 		CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B60C718C63879001D2647 /* WatchingViewController.m */; };
@@ -124,8 +124,8 @@
 		CA3046D318C2BE55004E0CD6 /* FidelityScraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FidelityScraper.m; sourceTree = "<group>"; };
 		CA3046D518C2BF58004E0CD6 /* EtradeScraper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EtradeScraper.h; sourceTree = "<group>"; };
 		CA3046D618C2BF58004E0CD6 /* EtradeScraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EtradeScraper.m; sourceTree = "<group>"; };
-		CA3046D818C2BFB2004E0CD6 /* Scraper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scraper.h; sourceTree = "<group>"; };
-		CA3046D918C2BFB2004E0CD6 /* Scraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scraper.m; sourceTree = "<group>"; };
+		CA3046D818C2BFB2004E0CD6 /* WebScraper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebScraper.h; sourceTree = "<group>"; };
+		CA3046D918C2BFB2004E0CD6 /* WebScraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebScraper.m; sourceTree = "<group>"; };
 		CA3046DB18C3933F004E0CD6 /* FullQuote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullQuote.h; sourceTree = "<group>"; };
 		CA3046DC18C3933F004E0CD6 /* FullQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullQuote.m; sourceTree = "<group>"; };
 		CA4A1DA618AA93A1002D2DEC /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
@@ -429,8 +429,8 @@
 				CA3046D318C2BE55004E0CD6 /* FidelityScraper.m */,
 				CA3046D518C2BF58004E0CD6 /* EtradeScraper.h */,
 				CA3046D618C2BF58004E0CD6 /* EtradeScraper.m */,
-				CA3046D818C2BFB2004E0CD6 /* Scraper.h */,
-				CA3046D918C2BFB2004E0CD6 /* Scraper.m */,
+				CA3046D818C2BFB2004E0CD6 /* WebScraper.h */,
+				CA3046D918C2BFB2004E0CD6 /* WebScraper.m */,
 			);
 			name = Scrapers;
 			sourceTree = "<group>";
@@ -763,7 +763,7 @@
 				CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
 				CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */,
-				CA3046DA18C2BFB2004E0CD6 /* Scraper.m in Sources */,
+				CA3046DA18C2BFB2004E0CD6 /* WebScraper.m in Sources */,
 				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
 				CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */,
 				CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */,

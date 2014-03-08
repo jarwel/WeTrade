@@ -19,16 +19,6 @@
     return instance;
 }
 
-- (void)fetchQuotesForPositions:(NSArray *)positions callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    NSMutableSet *symbols = [[NSMutableSet alloc] init];
-    for (Position *position in positions) {
-        if (![CashSymbol isEqualToString:position.symbol]) {
-            [symbols addObject:position.symbol];
-        }
-    }
-    [self fetchQuotesForSymbols:symbols callback:callback];
-}
-
 - (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
     if (symbols.count > 0) {
         NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
@@ -43,14 +33,30 @@
     }
 }
 
-- (void)fetchFullQuoteForSymbol:(NSString *)symbol callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    NSLog(@"fetchFullQuoteForSymbol: %@", symbol);
+- (void)fetchSectorsForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    if (symbols.count > 0) {
+        NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
+        NSLog(@"fetchSectorsForSymbols: %@", symbolString);
+        
+        NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.stocks where symbol in (%@)", symbolString];
+        NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
+    }
+}
+
+- (void)fetchMetricsForSymbol:(NSString *)symbol callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
+    if (symbol) {
+        NSLog(@"fetchFullQuoteForSymbol: %@", symbol);
     
-    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.quotes where symbol = '%@'", symbol];
-    NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
+        NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.quotes where symbol = '%@'", symbol];
+        NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
     
-    [self staleWhileRevalidate:url callback:callback];
+        [self staleWhileRevalidate:url callback:callback];
+    }
 }
 
 - (void)fetchHistoryForSymbol:(NSString *)symbol startDate:(NSDate *)startDate endDate:(NSDate *)endDate callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {

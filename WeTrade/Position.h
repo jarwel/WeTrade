@@ -13,6 +13,7 @@
 @interface Position : NSObject
 
 @property (nonatomic, strong) NSString *symbol;
+@property (nonatomic, strong) NSString *sector;
 @property (nonatomic, assign) int shares;
 @property (nonatomic, assign) float costBasis;
 @property (nonatomic, strong) NSMutableArray *lots;

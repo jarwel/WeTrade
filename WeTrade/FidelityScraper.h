@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Scraper.h"
+#import "WebScraper.h"
 
-@interface FidelityScraper : Scraper
+@interface FidelityScraper : WebScraper
 
 + (FidelityScraper *)instance;
+- (NSMutableArray* )parseWebView:(UIWebView *)webView;
 
 @end

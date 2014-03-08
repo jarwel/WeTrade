@@ -9,6 +9,7 @@
 #import "PortfolioService.h"
 #import "Constants.h"
 #import "ParseClient.h"
+#import "FinanceClient.h"
 #import "Position.h"
 #import "Quote.h"
 
@@ -103,14 +104,55 @@
     return [UIColor blueColor];
 }
 
-- (void)update {
-    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
++ (void)fetchPositionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback {
+    [[ParseClient instance] fetchLotsForUserId:userId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _portfolio = [Position fromObjects:objects];
-            [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+            NSArray *positions = [Position fromObjects:objects];
+            NSSet *symbols = [self symbolsForPositions:positions];
+            [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+                NSMutableDictionary *sectors = [[NSMutableDictionary alloc] init];
+                if (!error) {
+                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSDictionary *query = [dictionary objectForKey:@"query"];
+                    int count = [[query objectForKey:@"count"] intValue];
+                    if (count > 0) {
+                       NSDictionary *results = [query objectForKey:@"results"];
+                        if (count == 1) {
+                            NSDictionary *stock = [results objectForKey:@"stock"];
+                            NSString *symbol = [stock objectForKey:@"symbol"];
+                            NSString *sector = [stock objectForKey:@"Sector"];
+                            [sectors setObject:sector forKey:symbol];
+                        }
+                        else {
+                            for (NSDictionary *stock in [results objectForKey:@"stock"]) {
+                                NSString *symbol = [stock objectForKey:@"symbol"];
+                                NSString *sector = [stock objectForKey:@"Sector"];
+                                [sectors setObject:sector forKey:symbol];
+                            }
+                        }
+                    }
+                } else {
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+                
+                for (Position *position in positions) {
+                    NSString *sector = [sectors objectForKey:position.symbol];
+                    position.sector = sector;
+                }
+                callback(positions);
+            }];
+
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
+    }];
+}
+
+- (void)update {
+    PFUser *currentUser = [PFUser currentUser];
+    [PortfolioService fetchPositionsForUserId:currentUser.objectId callback:^(NSArray *positions) {
+        _portfolio = positions;
+        [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
     }];
 }
 

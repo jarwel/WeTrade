@@ -7,6 +7,7 @@
 //
 
 #import "EtradeScraper.h"
+#import "Lot.h"
 
 @implementation EtradeScraper
 
@@ -26,7 +27,7 @@
     return [NSURL URLWithString:@"https://us.etrade.com/e/t/stockplan/olportfolioview?ploc=c-SubNav"];
 }
 
-- (NSMutableArray* )scrapeWebView:(UIWebView *)webView {
+- (NSMutableArray* )parseWebView:(UIWebView *)webView {
     NSMutableArray *lots = [[NSMutableArray alloc] init];
     
     NSString *string = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByClassName('centerTable')[1].outerHTML"];

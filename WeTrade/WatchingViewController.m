@@ -58,14 +58,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFavorites) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
 }
@@ -156,7 +154,7 @@
     cell.nameLabel.text = quote.name;
     cell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
     cell.changeLabel.text= [NSString stringWithFormat:@"%+0.2f (%+0.2f%%)", quote.priceChange, quote.percentChange];
-    cell.changeLabel.textColor = [PortfolioService colorForChange:quote.percentChange];
+    cell.changeLabel.textColor = [PortfolioService colorForChange:quote.priceChange];
     [cell.favoriteButton setupForSecurity:security];
     
     return cell;

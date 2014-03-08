@@ -7,6 +7,7 @@
 //
 
 #import "FidelityScraper.h"
+#import "Lot.h"
 
 @implementation FidelityScraper
 
@@ -26,7 +27,7 @@
     return [NSURL URLWithString:@"https://oltx.fidelity.com/ftgw/fbc/ofpositions/portfolioPositions"];
 }
 
-- (NSMutableArray* )scrapeWebView:(UIWebView *)webView {
+- (NSMutableArray* )parseWebView:(UIWebView *)webView {
     NSMutableArray *lots = [[NSMutableArray alloc] init];
     
     NSString *string = [webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('positionsTable').outerHTML"];

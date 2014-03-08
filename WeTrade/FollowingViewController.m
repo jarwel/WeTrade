@@ -52,16 +52,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFavorites) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
     [self.view endEditing:YES];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
 }

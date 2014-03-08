@@ -26,18 +26,19 @@
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
-@property (strong, nonatomic) NSArray *positions;
+@property (assign, nonatomic) BOOL isPortrait;
 @property (assign, nonatomic) float totalValue;
+@property (strong, nonatomic) NSArray *positions;
 
 - (IBAction)onChangeButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
 
 - (void)initTable;
 - (void)initChart;
+- (void)reloadQuotes;
+- (void)reloadPositions;
 - (void)reloadTotals;
-- (void)refreshQuotes;
-- (void)refreshPositions;
-- (void)orientationChanged;
+- (void)refreshViews;
 
 @end
 
@@ -47,7 +48,7 @@
     [super viewDidLoad];
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = self.view.bounds;
+    gradient.frame = CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.height);
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
     [self.view.layer insertSublayer:gradient atIndex:0];
     
@@ -61,48 +62,68 @@
     
     [self initTable];
     [self initChart];
-    [self refreshPositions];
+    [self reloadPositions];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    if (self.viewDeckController) {
-        [self.viewDeckController setEnabled:YES];
-    }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshPositions) name:PortfolioChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [self.viewDeckController setEnabled:YES];
+    [self refreshViews];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:PortfolioChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
+    [self.viewDeckController setEnabled:NO];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
-- (void)refreshQuotes {
-    NSLog(@"HomeViewController refreshQuotes");
-    
-    [self reloadTotals];
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self.viewDeckController closeOpenView];
+    [self refreshViews];
+}
+
+- (void)refreshViews {
+    _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
+    [self.chartView setHidden:!self.isPortrait];
+    [self.viewDeckController setEnabled:self.isPortrait];
     [self.tableView reloadData];
-    [self.chartView.hostedGraph reloadData];
 }
 
-- (void)refreshPositions {
+- (void)reloadQuotes {
+    NSLog(@"HomeViewController refreshQuotes");
+    [self reloadTotals];
+    [self.chartView.hostedGraph reloadData];
+    [self.tableView reloadData];
+}
+
+- (void)reloadTotals {
+    NSSet *symbols = [PortfolioService symbolsForPositions:self.positions];
+    NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
+    
+    self.totalValue = [[PortfolioService totalValueForQuotes:quotes positions:self.positions] floatValue];
+    
+    NSNumber *percentChange;
+    if (self.changeButton.selected) {
+        percentChange = [PortfolioService totalChangeForQuotes:quotes positions:self.positions];
+    }
+    else {
+        percentChange = [PortfolioService dayChangeForQuotes:quotes positions:self.positions];
+    }
+    
+    self.changeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+    self.changeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
+}
+
+
+- (void)reloadPositions {
     NSLog(@"HomeViewController refreshPositions");
     
     if (self.user) {
-        [[ParseClient instance] fetchLotsForUserId:self.user.objectId callback:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                NSArray *positions = [Position fromObjects:objects];
-                [self sortPositions:positions];
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
+        [PortfolioService fetchPositionsForUserId:self.user.objectId callback:^(NSArray *positions) {
+            [self sortPositions:positions];
         }];
     }
     else {
@@ -135,13 +156,6 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-}
-
-- (void)orientationChanged {
-    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    if (self.viewDeckController) {
-        [self.viewDeckController setEnabled:(orientation == UIDeviceOrientationPortrait)];
-    }
 }
 
 - (void)initTable {
@@ -230,8 +244,9 @@
     if ([position.symbol isEqualToString:CashSymbol]) {
         positionCell.priceLabel.text = nil;
         positionCell.percentChangeLabel.text = nil;
+        positionCell.sectorLabel.text = nil;
         positionCell.userInteractionEnabled = NO;
-        positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", position.shares / self.totalValue * 100];
+        positionCell.allocationLable.text = [NSString stringWithFormat:@"%0.1f%%", position.shares / self.totalValue * 100];
     }
     else {
         Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
@@ -254,7 +269,16 @@
         positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
         positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
         positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
-        positionCell.allocationLable.text = [NSString stringWithFormat:@"%+0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
+        positionCell.allocationLable.text = [NSString stringWithFormat:@"%0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
+        
+        if (self.isPortrait) {
+            positionCell.sectorLabel.text = nil;
+        }
+        else {
+            positionCell.sectorLabel.text = position.sector;
+            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f (%+0.2f%%)", quote.priceChange, quote.percentChange];
+            positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:quote.priceChange];
+        }
     }
     
     return positionCell;
@@ -262,24 +286,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self performSegueWithIdentifier:@"ShowSecuritySegue" sender:self];
-}
-
-- (void)reloadTotals {
-    NSSet *symbols = [PortfolioService symbolsForPositions:self.positions];
-    NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
-
-    self.totalValue = [[PortfolioService totalValueForQuotes:quotes positions:self.positions] floatValue];
-    
-    NSNumber *percentChange;
-    if (self.changeButton.selected) {
-        percentChange = [PortfolioService totalChangeForQuotes:quotes positions:self.positions];
-    }
-    else {
-        percentChange = [PortfolioService dayChangeForQuotes:quotes positions:self.positions];
-    }
-    
-    self.changeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-    self.changeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
 }
 
 - (IBAction)onChangeButton:(id)sender {
@@ -298,10 +304,6 @@
         Position *position = [self.positions objectAtIndex:indexPath.row];
         SecurityViewController *securityViewController = segue.destinationViewController;
         securityViewController.symbol = position.symbol;
-    }
-    
-    if (self.viewDeckController) {
-        [self.viewDeckController setEnabled:NO];
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }

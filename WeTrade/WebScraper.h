@@ -1,5 +1,5 @@
 //
-//  Scraper.h
+//  WebScraper.h
 //  WeTrade
 //
 //  Created by Jason Wells on 3/1/14.
@@ -7,14 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Lot.h"
 
-@interface Scraper : NSObject
+@interface WebScraper : NSObject
 
-@property (nonatomic, strong) NSString *source;
-@property (nonatomic, strong) NSURL *url;
+@property (strong, nonatomic) NSString *source;
+@property (strong, nonatomic) NSURL *url;
 
-- (NSMutableArray* )scrapeWebView:(UIWebView *)webView;
+- (NSMutableArray* )parseWebView:(UIWebView *)webView;
 - (NSString *)extractStringFrom:(NSString *)from withPattern:(NSString *)pattern;
 - (NSNumber *)extractDecimalFrom:(NSString *)from withPattern:(NSString *)pattern;
 - (NSNumber *)extractCurrencyFrom:(NSString *)from withPattern:(NSString *)pattern;

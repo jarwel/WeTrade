@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Scraper.h"
+#import "WebScraper.h"
 
-@interface EtradeScraper : Scraper
+@interface EtradeScraper : WebScraper
 
 + (EtradeScraper *)instance;
+- (NSMutableArray* )parseWebView:(UIWebView *)webView;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "ImportViewController.h"
 #import "EditLotsViewController.h"
-#import "Scraper.h"
+#import "WebScraper.h"
 #import "ParseClient.h"
 #import "Lot.h"
 #import "FidelityScraper.h"
@@ -18,7 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
-@property (strong, nonatomic) Scraper *scraper;
+@property (strong, nonatomic) WebScraper *webScraper;
 @property (strong, nonatomic) NSMutableArray *lots;
 
 - (IBAction)onCancelButton:(id)sender;
@@ -30,8 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _scraper = [FidelityScraper instance];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:self.scraper.url]];
+    _webScraper = [FidelityScraper instance];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:self.webScraper.url]];
 }
 
 - (IBAction)onCancelButton:(id)sender {
@@ -40,13 +40,13 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"EditLotsSegue"]) {
-        NSMutableArray *lots = [self.scraper scrapeWebView:self.webView];
+        NSMutableArray *lots = [self.webScraper parseWebView:self.webView];
         
         UINavigationController *navigationViewController = segue.destinationViewController;
         navigationViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         
         EditLotsViewController *editLotsViewController = [[navigationViewController viewControllers] lastObject];
-        editLotsViewController.source = self.scraper.source;
+        editLotsViewController.source = self.webScraper.source;
         editLotsViewController.lots  = lots;
         [editLotsViewController setTitle:@"Confirm Lots"];
     }
