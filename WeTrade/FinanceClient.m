@@ -8,6 +8,7 @@
 
 #import "FinanceClient.h"
 #import "Constants.h"
+#import "Quote.h"
 
 @implementation FinanceClient
 
@@ -19,32 +20,82 @@
     return instance;
 }
 
-- (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    if (symbols.count > 0) {
-        NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
-        NSLog(@"fetchQuotesForSymbols: %@", symbolString);
+- (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSArray *quotes))callback {
+    NSMutableArray *quotes = [[NSMutableArray alloc] init];
+    
+    NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
+    NSLog(@"fetchQuotesForSymbols: %@", symbolString);
 
-        NSString *query = [NSString stringWithFormat:@"select symbol, Name, LastTradePriceOnly, Change, ChangeinPercent, PreviousClose, ErrorIndicationreturnedforsymbolchangedinvalid from yahoo.finance.quotes where symbol in (%@)", symbolString];
-        NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-        NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
+    NSString *query = [NSString stringWithFormat:@"select symbol, Name, LastTradePriceOnly, Change, ChangeinPercent, PreviousClose, ErrorIndicationreturnedforsymbolchangedinvalid from yahoo.finance.quotes where symbol in (%@)", symbolString];
+    NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
         
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
-    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (!connectionError) {
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSDictionary *query = [dictionary objectForKey:@"query"];
+                
+            int count = [[query objectForKey:@"count"] intValue];
+            if (count == 1) {
+                NSDictionary *results = [query objectForKey:@"results"];
+                NSDictionary *quote = [results objectForKey:@"quote"];
+                [quotes addObject:[[Quote alloc] initWithDictionary:quote]];
+            }
+            if (count > 1) {
+                NSDictionary *results = [query objectForKey:@"results"];
+                for (NSDictionary *quote in [results objectForKey:@"quote"]) {
+                    [quotes addObject:[[Quote alloc] initWithDictionary:quote]];
+                }
+            }
+            callback(quotes);
+        }
+        else {
+            NSLog(@"Error: %@ %@", connectionError, [connectionError userInfo]);
+        }
+    }];
 }
 
-- (void)fetchSectorsForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {
-    if (symbols.count > 0) {
-        NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
-        NSLog(@"fetchSectorsForSymbols: %@", symbolString);
+- (void)fetchSectorsForSymbols:(NSSet *)symbols callback:(void (^)(NSDictionary *sectors))callback {
+    NSMutableDictionary *sectors = [[NSMutableDictionary alloc] init];
+    
+    NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
+    NSLog(@"fetchSectorsForSymbols: %@", symbolString);
         
-        NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.stocks where symbol in (%@)", symbolString];
-        NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-        NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
+    NSString *query = [NSString stringWithFormat:@"select * from yahoo.finance.stocks where symbol in (%@)", symbolString];
+    NSString* encoded = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString *url = [NSString stringWithFormat:@"http://query.yahooapis.com/v1/public/yql?q=%@&env=store://datatables.org/alltableswithkeys&format=json", encoded];
         
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
-    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (!connectionError) {
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSDictionary *query = [dictionary objectForKey:@"query"];
+            int count = [[query objectForKey:@"count"] intValue];
+            if (count == 1) {
+                NSDictionary *results = [query objectForKey:@"results"];
+                NSDictionary *stock = [results objectForKey:@"stock"];
+                NSString *symbol = [stock objectForKey:@"symbol"];
+                NSString *sector = [stock objectForKey:@"Sector"];
+                if (sector) {
+                    [sectors setObject:sector forKey:symbol];
+                }
+            }
+            if (count > 1) {
+                NSDictionary *results = [query objectForKey:@"results"];
+                for (NSDictionary *stock in [results objectForKey:@"stock"]) {
+                    NSString *symbol = [stock objectForKey:@"symbol"];
+                    NSString *sector = [stock objectForKey:@"Sector"];
+                    if (sector) {
+                        [sectors setObject:sector forKey:symbol];
+                    }
+                }
+            }
+            callback(sectors);
+        } else {
+            NSLog(@"Error: %@ %@", connectionError, [connectionError userInfo]);
+        }
+    }];
 }
 
 - (void)fetchMetricsForSymbol:(NSString *)symbol callback:(void (^)(NSURLResponse *response, NSData *data, NSError *connectionError))callback {

@@ -20,7 +20,4 @@
 @property (nonatomic, assign, readonly) float previousClose;
 @property (nonatomic, assign, readonly) BOOL isValid;
 
-+ (NSArray *)fromData:(NSData *)data;
-+ (NSMutableDictionary *)mapFromData:(NSData *)data;
-
 @end

@@ -57,33 +57,4 @@
     return YES;
 }
 
-+ (NSArray *)fromData:(NSData *)data {
-    return [[self mapFromData:data] allValues];
-}
-
-+ (NSMutableDictionary *)mapFromData:(NSData *)data {
-    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    NSMutableDictionary *quotes = [[NSMutableDictionary alloc] init];
-    NSDictionary *query = [dictionary objectForKey:@"query"];
-    
-    int count = [[query objectForKey:@"count"] intValue];
-    if (count == 0) {
-        return quotes;
-    }
-    if (count == 1) {
-        NSDictionary *results = [query objectForKey:@"results"];
-        NSDictionary *dictionary = [results objectForKey:@"quote"];
-        Quote *quote = [[Quote alloc] initWithDictionary:dictionary];
-        [quotes setObject:quote forKey:quote.symbol];
-    }
-    else {
-        NSDictionary *results = [query objectForKey:@"results"];
-        for (NSDictionary *dictionary in [results objectForKey:@"quote"]) {
-            Quote *quote = [[Quote alloc] initWithDictionary:dictionary];
-            [quotes setObject:quote forKey:quote.symbol];
-        }
-    }
-    return quotes;
-}
-
 @end

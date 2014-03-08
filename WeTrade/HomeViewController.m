@@ -135,27 +135,28 @@
 
 - (void)sortPositions:(NSArray *)positions {
     NSSet *symbols = [PortfolioService symbolsForPositions:positions];
-    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (!error) {
-            NSDictionary *quotes = [Quote mapFromData:data];
-            _positions = [positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
-                
-                Position *firstPosition = (Position*)first;
-                Quote *firstQuote = [quotes objectForKey:firstPosition.symbol];
-                float firstValue = [firstPosition valueForQuote:firstQuote];
-                
-                Position *secondPosition = (Position*)second;
-                Quote *secondQuote = [quotes objectForKey:secondPosition.symbol];
-                float secondValue = [secondPosition valueForQuote:secondQuote];
-                
-                return firstValue < secondValue;
-            }];
-            [self reloadTotals];
-            [self.tableView reloadData];
-            [self.chartView.hostedGraph reloadData];
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
+        
+        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+        for (Quote *quote in quotes) {
+            [dictionary setObject:quote forKey:quote.symbol];
         }
+        
+        _positions = [positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+            
+            Position *firstPosition = (Position*)first;
+            Quote *firstQuote = [dictionary objectForKey:firstPosition.symbol];
+            float firstValue = [firstPosition valueForQuote:firstQuote];
+            
+            Position *secondPosition = (Position*)second;
+            Quote *secondQuote = [dictionary objectForKey:secondPosition.symbol];
+            float secondValue = [secondPosition valueForQuote:secondQuote];
+            
+            return firstValue < secondValue;
+        }];
+        [self reloadTotals];
+        [self.tableView reloadData];
+        [self.chartView.hostedGraph reloadData];
     }];
 }
 

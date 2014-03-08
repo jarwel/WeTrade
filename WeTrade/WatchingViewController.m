@@ -99,26 +99,23 @@
                     }
                     [symbols addObject:searchSymbol];
 
-                    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-                        if (!error) {
-                            if ([searchText isEqualToString:searchBar.text]) {
-                                NSDictionary *quotes = [Quote mapFromData:data];
-                                
-                                Quote *searchQuote = [quotes objectForKey:searchSymbol];
-                                if (!isSecurityForSearch && searchQuote && searchQuote.isValid) {
-                                    NSMutableArray *securitiesWithSearchText = [securities mutableCopy];
-                                    [securitiesWithSearchText insertObject:[[Security alloc] initWithSymbol:searchSymbol] atIndex:0];
-                                    _searchResults = securitiesWithSearchText;
-                                }
-                                else {
-                                    _searchResults = securities;
-                                }
-                               [self.searchDisplayController.searchResultsTableView reloadData];
-                            }
+                    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
+                        
+                        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+                        for (Quote *quote in quotes) {
+                            [dictionary setObject:quote forKey:quote.symbol];
+                        }
+
+                        Quote *searchQuote = [dictionary objectForKey:searchSymbol];
+                        if (!isSecurityForSearch && searchQuote && searchQuote.isValid) {
+                            NSMutableArray *securitiesWithSearchText = [securities mutableCopy];
+                            [securitiesWithSearchText insertObject:[[Security alloc] initWithSymbol:searchSymbol] atIndex:0];
+                            _searchResults = securitiesWithSearchText;
                         }
                         else {
-                            NSLog(@"Error: %@ %@", error, [error userInfo]);
+                            _searchResults = securities;
                         }
+                        [self.searchDisplayController.searchResultsTableView reloadData];
                     }];
                 }
             }

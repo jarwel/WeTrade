@@ -14,8 +14,8 @@
 
 @property (strong, nonatomic) NSMutableDictionary *quotes;
 
-- (void)update;
-- (void)clear;
+- (void)reloadQuotes;
+- (void)clearQuotes;
 
 @end
 
@@ -32,8 +32,8 @@
 - (id)init {
     if (self = [super init]) {
         _quotes = [[NSMutableDictionary alloc] init];
-        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(update) userInfo:nil repeats:YES];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
+        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reloadQuotes) userInfo:nil repeats:YES];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearQuotes) name:LogoutNotification object:nil];
     }
     return self;
 }
@@ -46,7 +46,14 @@
         [symbols addObject:symbol];
         
         [self.quotes setObject:[[Quote alloc] init] forKey:symbol];
-        [self fetchQuotesForSymbols:symbols];
+        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
+            if (quotes.count > 0) {
+                for (Quote *quote in quotes) {
+                    [self.quotes setObject:quote forKey:quote.symbol];
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
+            }
+        }];
     }
 
     return quote;
@@ -69,46 +76,34 @@
     }
     
     if (missingSymbols.count > 0) {
-        [self fetchQuotesForSymbols:missingSymbols];
+        [[FinanceClient instance] fetchQuotesForSymbols:missingSymbols callback:^(NSArray *quotes) {
+            if (quotes.count > 0) {
+                for (Quote *quote in quotes) {
+                    [self.quotes setObject:quote forKey:quote.symbol];
+                }
+                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
+            }
+        }];
     }
     
     return quotes;
 }
 
-
-- (void)fetchQuotesForSymbols:(NSSet *)symbols {
-    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (!error) {
-            NSArray *quotes = [Quote fromData:data];
-            for (Quote *quote in quotes) {
-                [self.quotes setObject:quote forKey:quote.symbol];
-            }
-            if (quotes.count > 0) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
-            }
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-}
-
-- (void)update {
+- (void)reloadQuotes {
     if (self.quotes.count > 0) {
-        [[FinanceClient instance] fetchQuotesForSymbols:[NSSet setWithArray:self.quotes.allKeys] callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-            if (!error) {
-                NSArray *quotes = [Quote fromData:data];
-                if (quotes.count > 0) {
-                    [self.quotes setObject:quotes.firstObject forKey:((Quote *)quotes.firstObject).symbol];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
+        NSSet *symbols = [NSSet setWithArray:self.quotes.allKeys];
+        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
+            if (quotes.count > 0) {
+                for (Quote *quote in quotes) {
+                    [self.quotes setObject:quote forKey:quote.symbol];
                 }
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
+                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
             }
         }];
     }
 }
 
-- (void)clear {
+- (void)clearQuotes {
     [self.quotes removeAllObjects];
 }
 

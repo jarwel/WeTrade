@@ -109,43 +109,13 @@
         if (!error) {
             NSArray *positions = [Position fromObjects:objects];
             NSSet *symbols = [self symbolsForPositions:positions];
-            [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
-                NSMutableDictionary *sectors = [[NSMutableDictionary alloc] init];
-                if (!error) {
-                    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSDictionary *query = [dictionary objectForKey:@"query"];
-                    int count = [[query objectForKey:@"count"] intValue];
-                    if (count > 0) {
-                       NSDictionary *results = [query objectForKey:@"results"];
-                        if (count == 1) {
-                            NSDictionary *stock = [results objectForKey:@"stock"];
-                            NSString *symbol = [stock objectForKey:@"symbol"];
-                            NSString *sector = [stock objectForKey:@"Sector"];
-                            if (sector) {
-                                [sectors setObject:sector forKey:symbol];
-                            }
-                        }
-                        else {
-                            for (NSDictionary *stock in [results objectForKey:@"stock"]) {
-                                NSString *symbol = [stock objectForKey:@"symbol"];
-                                NSString *sector = [stock objectForKey:@"Sector"];
-                                if (sector) {
-                                    [sectors setObject:sector forKey:symbol];
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-                
+            [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSDictionary *sectors) {
                 for (Position *position in positions) {
                     NSString *sector = [sectors objectForKey:position.symbol];
                     position.sector = sector;
                 }
                 callback(positions);
             }];
-
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
