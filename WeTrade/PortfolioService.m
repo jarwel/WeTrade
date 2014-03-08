@@ -104,7 +104,7 @@
     return [UIColor blueColor];
 }
 
-+ (void)fetchPositionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback {
++ (void)positionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback {
     [[ParseClient instance] fetchLotsForUserId:userId callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSArray *positions = [Position fromObjects:objects];
@@ -154,7 +154,7 @@
 
 - (void)update {
     PFUser *currentUser = [PFUser currentUser];
-    [PortfolioService fetchPositionsForUserId:currentUser.objectId callback:^(NSArray *positions) {
+    [PortfolioService positionsForUserId:currentUser.objectId callback:^(NSArray *positions) {
         _portfolio = positions;
         [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
     }];

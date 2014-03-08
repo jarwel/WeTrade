@@ -28,8 +28,8 @@
 - (IBAction)onReorderButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
 
-- (void)refreshQuotes;
-- (void)refreshFavorites;
+- (void)reloadQuotes;
+- (void)reloadFavorites;
 
 @end
 
@@ -58,8 +58,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFavorites) name:FavoritesChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFavorites) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -69,14 +69,14 @@
 }
 
 
-- (void)refreshFavorites {
-    NSLog(@"WatchingViewContoller refreshFavorites");
+- (void)reloadFavorites {
+    NSLog(@"WatchingViewContoller reloadFavorites");
     _watching = [[[FavoriteService instance] favoriteSecurities] mutableCopy];
     [self.tableView reloadData];
 }
 
-- (void)refreshQuotes {
-    NSLog(@"WatchingViewContoller refreshQuotes");
+- (void)reloadQuotes {
+    NSLog(@"WatchingViewContoller reloadQuotes");
     [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
 }

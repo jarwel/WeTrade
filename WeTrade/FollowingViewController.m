@@ -30,8 +30,8 @@
 - (NSArray *)current;
 - (void)fetchPortfolioForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath;
 - (void)expireChangeForTimer:(NSTimer *)timer;
-- (void)refreshQuotes;
-- (void)refreshFavorites;
+- (void)reloadQuotes;
+- (void)reloadFavorites;
 
 @end
 
@@ -52,8 +52,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshQuotes) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFavorites) name:FavoritesChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFavorites) name:FavoritesChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -63,13 +63,13 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
 }
 
-- (void)refreshQuotes {
+- (void)reloadQuotes {
     NSLog(@"FollowingViewController refreshQuotes");
     [self.tableView reloadData];
 }
 
-- (void)refreshFavorites {
-    NSLog(@"FollowingViewController refreshFavorites");
+- (void)reloadFavorites {
+    NSLog(@"FollowingViewController reloadFavorites");
     [self.tableView reloadData];
 }
 

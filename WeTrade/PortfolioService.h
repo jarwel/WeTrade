@@ -18,7 +18,7 @@
 + (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (UIColor *)colorForChange:(float)change;
-+ (void)fetchPositionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback;
++ (void)positionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback;
 - (void)update;
 
 @end

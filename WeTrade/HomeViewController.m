@@ -94,7 +94,7 @@
 }
 
 - (void)reloadQuotes {
-    NSLog(@"HomeViewController refreshQuotes");
+    NSLog(@"HomeViewController reloadQuotes");
     [self reloadTotals];
     [self.chartView.hostedGraph reloadData];
     [self.tableView reloadData];
@@ -120,10 +120,10 @@
 
 
 - (void)reloadPositions {
-    NSLog(@"HomeViewController refreshPositions");
+    NSLog(@"HomeViewController reloadPositions");
     
     if (self.user) {
-        [PortfolioService fetchPositionsForUserId:self.user.objectId callback:^(NSArray *positions) {
+        [PortfolioService positionsForUserId:self.user.objectId callback:^(NSArray *positions) {
             [self sortPositions:positions];
         }];
     }
