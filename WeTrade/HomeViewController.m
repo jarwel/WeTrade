@@ -79,11 +79,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
 }
 
--(void)updateViewConstraints {
-    [super updateViewConstraints];
-    NSLog(@"HI");
-}
-
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self refreshViews];
 }

@@ -19,6 +19,7 @@
 
 @interface SecurityViewController ()
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *chartViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousCloseLabel;
@@ -85,7 +86,6 @@
     [self setTitle:self.symbol];
     [self initChart];
     [self initTable];
-    [self refreshViews];
     
     [[FinanceClient instance] fetchMetricsForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
@@ -107,6 +107,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self refreshViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
 }
 
@@ -121,16 +122,18 @@
 
 - (void)refreshViews {
     _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
-    if (self.isPortrait) {
-        [self onOneMonthButton:nil];
-    }
     [self.navigationController setNavigationBarHidden:!self.isPortrait];
-    [self.timeView setHidden:self.isPortrait];
+    [self.chartViewHeightConstraint setConstant: self.isPortrait ? 190.0f : 220.0f];
     [self.viewButton setHidden:!self.isPortrait];
     [self.commentView setHidden:!self.isPortrait];
     [self.tableView setHidden:!self.isPortrait];
+    [self.timeView setHidden:self.isPortrait];
     [self.dataView setHidden:YES];
     [self.chartView setHidden:NO];
+    
+    if (!self.history || self.isPortrait) {
+        [self onOneMonthButton:self];
+    }
 }
 
 - (void)initTable {
@@ -309,7 +312,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     Comment *comment = [self.comments objectAtIndex:indexPath.row];
     UIFont *font = [UIFont systemFontOfSize:13];
-    CGSize size = {self.tableView.frame.size.width , 1000};
+    CGSize size = {self.tableView.frame.size.width , 99999};
     CGFloat height = [comment.text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping].height;
     return 60 + height;
 
