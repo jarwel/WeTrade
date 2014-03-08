@@ -67,7 +67,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.viewDeckController setEnabled:YES];
     [self refreshViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:PortfolioChangedNotification object:nil];
@@ -81,12 +80,14 @@
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [self.viewDeckController closeOpenView];
     [self refreshViews];
 }
 
 - (void)refreshViews {
     _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
+    if (!self.isPortrait) {
+        [self.viewDeckController closeOpenView];
+    }
     [self.chartView setHidden:!self.isPortrait];
     [self.viewDeckController setEnabled:self.isPortrait];
     [self.tableView reloadData];

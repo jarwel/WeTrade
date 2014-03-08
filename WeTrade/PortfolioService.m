@@ -121,13 +121,17 @@
                             NSDictionary *stock = [results objectForKey:@"stock"];
                             NSString *symbol = [stock objectForKey:@"symbol"];
                             NSString *sector = [stock objectForKey:@"Sector"];
-                            [sectors setObject:sector forKey:symbol];
+                            if (sector) {
+                                [sectors setObject:sector forKey:symbol];
+                            }
                         }
                         else {
                             for (NSDictionary *stock in [results objectForKey:@"stock"]) {
                                 NSString *symbol = [stock objectForKey:@"symbol"];
                                 NSString *sector = [stock objectForKey:@"Sector"];
-                                [sectors setObject:sector forKey:symbol];
+                                if (sector) {
+                                    [sectors setObject:sector forKey:symbol];
+                                }
                             }
                         }
                     }

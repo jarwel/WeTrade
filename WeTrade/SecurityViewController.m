@@ -85,6 +85,7 @@
     [self setTitle:self.symbol];
     [self initChart];
     [self initTable];
+    [self refreshViews];
     
     [[FinanceClient instance] fetchMetricsForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
@@ -106,7 +107,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self refreshViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
 }
 
@@ -120,7 +120,10 @@
 }
 
 - (void)refreshViews {
-    _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;    
+    _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
+    if (self.isPortrait) {
+        [self onOneMonthButton:nil];
+    }
     [self.navigationController setNavigationBarHidden:!self.isPortrait];
     [self.timeView setHidden:self.isPortrait];
     [self.viewButton setHidden:!self.isPortrait];
@@ -128,10 +131,6 @@
     [self.tableView setHidden:!self.isPortrait];
     [self.dataView setHidden:YES];
     [self.chartView setHidden:NO];
-    
-    if (self.isPortrait) {
-        [self onOneMonthButton:nil];
-    }
 }
 
 - (void)initTable {

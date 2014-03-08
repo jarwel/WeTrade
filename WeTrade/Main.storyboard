@@ -313,10 +313,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPs-ew-24l">
-                                <rect key="frame" x="240" y="67" width="80" height="25"/>
+                                <rect key="frame" x="260" y="67" width="60" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="7Bs-D4-YhD"/>
+                                    <constraint firstAttribute="width" constant="60" id="7Bs-D4-YhD"/>
                                     <constraint firstAttribute="height" constant="25" id="ute-bU-0Zd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
@@ -753,7 +753,7 @@
         <scene sceneID="hhk-x7-bSk">
             <objects>
                 <tableViewController id="pOS-0r-nbj" customClass="WatchingViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Lsk-be-6Ah">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="1" sectionFooterHeight="1" id="Lsk-be-6Ah">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -986,6 +986,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="T22-1a-XiM"/>
-        <segue reference="fcC-fv-hjr"/>
+        <segue reference="naP-fe-8VP"/>
     </inferredMetricsTieBreakers>
 </document>
