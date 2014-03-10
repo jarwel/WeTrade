@@ -105,9 +105,13 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshViews];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self refreshViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViews) name:FavoritesChangedNotification object:nil];
 }
 
@@ -122,8 +126,9 @@
 
 - (void)refreshViews {
     _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
+    
     [self.navigationController setNavigationBarHidden:!self.isPortrait];
-    [self.chartViewHeightConstraint setConstant: self.isPortrait ? 190.0f : 220.0f];
+    [self.chartViewHeightConstraint setConstant: self.isPortrait ? 190.0f : 240.0f];
     [self.viewButton setHidden:!self.isPortrait];
     [self.commentView setHidden:!self.isPortrait];
     [self.tableView setHidden:!self.isPortrait];
@@ -238,8 +243,6 @@
         }
     }
     x.axisLabels =  [NSSet setWithArray:customLabels];
-    NSLog(@"LastValue %ld", [customTickLocations.lastObject integerValue]);
-    NSLog(@"Count %ld", customTickLocations.count);
     x.majorTickLocations =  [NSSet setWithArray:customTickLocations];
 }
 

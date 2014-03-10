@@ -292,6 +292,7 @@
                         <outlet property="changeLabel" destination="IxP-sc-3vd" id="VZt-qw-0sC"/>
                         <outlet property="chartView" destination="Wh3-qu-aaj" id="la5-TZ-bvJ"/>
                         <outlet property="favoriteBarButton" destination="nUG-Sb-nV5" id="vXm-e8-g1c"/>
+                        <outlet property="tableHeaderView" destination="btk-Qo-I3U" id="I8U-Ug-1GQ"/>
                         <outlet property="tableView" destination="qxG-xH-eGj" id="CiW-q6-eS9"/>
                         <segue destination="qMQ-f6-otZ" kind="push" identifier="ShowSecuritySegue" id="fcC-fv-hjr"/>
                     </connections>
@@ -615,7 +616,7 @@
                                     <constraint firstAttribute="height" constant="190" id="Z0U-YP-lhd"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ek-H7-Gml">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3ek-H7-Gml">
                                 <rect key="frame" x="0.0" y="290" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -657,11 +658,8 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="cPE-Sj-WBI"/>
-                                </constraints>
                             </view>
-                            <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Uq4-Cv-UV3">
+                            <tableView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Uq4-Cv-UV3">
                                 <rect key="frame" x="0.0" y="330" width="320" height="238"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -686,16 +684,9 @@
                             <constraint firstItem="sZo-O5-LVj" firstAttribute="leading" secondItem="qWU-q3-9jS" secondAttribute="leading" id="74a-2Q-srj"/>
                             <constraint firstAttribute="trailing" secondItem="hPs-ew-24l" secondAttribute="trailing" constant="10" id="8Px-q3-vlM"/>
                             <constraint firstItem="v8f-RC-M5i" firstAttribute="leading" secondItem="qWU-q3-9jS" secondAttribute="leading" constant="10" id="EeU-44-o2d"/>
-                            <constraint firstItem="Uq4-Cv-UV3" firstAttribute="leading" secondItem="qWU-q3-9jS" secondAttribute="leading" id="FBu-sc-NAN"/>
-                            <constraint firstAttribute="trailing" secondItem="3ek-H7-Gml" secondAttribute="trailing" id="H2X-I2-3er"/>
                             <constraint firstAttribute="trailing" secondItem="sZo-O5-LVj" secondAttribute="trailing" id="Uyw-4p-8q9"/>
-                            <constraint firstAttribute="trailing" secondItem="Uq4-Cv-UV3" secondAttribute="trailing" id="a38-5E-JSV"/>
-                            <constraint firstItem="3ek-H7-Gml" firstAttribute="leading" secondItem="qWU-q3-9jS" secondAttribute="leading" id="blP-IC-9KM"/>
                             <constraint firstAttribute="trailing" secondItem="Ftx-qf-4gt" secondAttribute="trailing" id="cWY-Cn-A1f"/>
                             <constraint firstItem="hPs-ew-24l" firstAttribute="top" secondItem="BB6-NG-c4h" secondAttribute="bottom" constant="3" id="e0p-ia-hjN"/>
-                            <constraint firstItem="3ek-H7-Gml" firstAttribute="top" secondItem="sZo-O5-LVj" secondAttribute="bottom" id="eOs-rZ-TgG"/>
-                            <constraint firstItem="Yzk-kE-vFG" firstAttribute="top" secondItem="Uq4-Cv-UV3" secondAttribute="bottom" id="hJ0-QZ-120"/>
-                            <constraint firstItem="Uq4-Cv-UV3" firstAttribute="top" secondItem="3ek-H7-Gml" secondAttribute="bottom" id="lbP-Ou-C9I"/>
                             <constraint firstItem="sZo-O5-LVj" firstAttribute="top" secondItem="hPs-ew-24l" secondAttribute="bottom" constant="8" id="nQV-Bj-8Dw"/>
                             <constraint firstItem="Ftx-qf-4gt" firstAttribute="top" secondItem="BB6-NG-c4h" secondAttribute="bottom" id="vgc-ER-XAg"/>
                         </constraints>
@@ -996,7 +987,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="fcC-fv-hjr"/>
         <segue reference="T22-1a-XiM"/>
-        <segue reference="naP-fe-8VP"/>
     </inferredMetricsTieBreakers>
 </document>

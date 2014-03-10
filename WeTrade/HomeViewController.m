@@ -20,8 +20,10 @@
 
 @interface HomeViewController ()
 
+;
 @property (weak, nonatomic) IBOutlet UIButton *changeButton;
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
+@property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
@@ -65,9 +67,13 @@
     [self reloadPositions];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshViews];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self refreshViews];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:PortfolioChangedNotification object:nil];
 }
@@ -84,11 +90,14 @@
 }
 
 - (void)refreshViews {
-    _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    _isPortrait = orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationUnknown;
+    
     if (!self.isPortrait) {
         [self.viewDeckController closeOpenView];
     }
     [self.chartView setHidden:!self.isPortrait];
+    [self.tableHeaderView setHidden:!self.isPortrait];
     [self.viewDeckController setEnabled:self.isPortrait];
     [self.tableView reloadData];
 }
