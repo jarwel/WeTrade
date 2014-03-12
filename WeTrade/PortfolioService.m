@@ -15,8 +15,9 @@
 
 @interface PortfolioService ()
 
-@property (strong, nonatomic) NSArray *portfolio;
+@property (strong, nonatomic) NSMutableArray *lots;
 
+- (void)reload;
 - (void)clear;
 
 @end
@@ -27,21 +28,73 @@
     static PortfolioService *instance;
     if (!instance) {
         instance = [[PortfolioService alloc] init];
-        [instance update];
+        [instance reload];
     }
     return instance;
 }
 
 - (id)init {
     if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:LoginNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload) name:LoginNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
     }
     return self;
 }
 
 - (NSArray *)positions {
-    return self.portfolio;
+    NSMutableDictionary *positions = [[NSMutableDictionary alloc] init];
+    for (Lot *lot in self.lots) {
+        NSString *symbol = lot.symbol;
+        
+        if ([lot.cash boolValue]) {
+            symbol = CashSymbol;
+        }
+        
+        if (![positions objectForKey:symbol]) {
+            [positions setObject:[[Position alloc] initWithSymbol:symbol] forKey:symbol];
+        }
+        Position *position = [positions objectForKey:symbol];
+        [position addLot:lot];
+    }
+    return [positions allValues];
+}
+
+- (void)markCashSymbol:(NSString *)symbol {
+    for (Lot *lot in self.lots) {
+        if ([lot.symbol isEqualToString:symbol]) {
+            lot.cash = @"YES";
+            [[ParseClient instance] updateLot:lot withCash:@"Yes"];
+        }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+}
+
+- (void)unmarkCashSymbol:(NSString *)symbol {
+    for (Lot *lot in self.lots) {
+        if ([lot.symbol isEqualToString:symbol]) {
+            lot.cash = @"NO";
+            [[ParseClient instance] updateLot:lot withCash:@"NO"];
+        }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+}
+
+- (void)addLots:(NSArray *)lots fromSource:(NSString *)source; {
+    NSMutableArray *removes = [[NSMutableArray alloc] init];
+    for (Lot *lot in self.lots) {
+        if ([lot.source isEqualToString:source]) {
+            [removes addObject:lot];
+        }
+    }
+    [[ParseClient instance] removeLots:removes callback:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [[ParseClient instance] createLots:lots withSource:source callback:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [self reload];
+                }
+            }];
+        }
+    }];
 }
 
 + (NSSet *)symbolsForPositions:(NSArray *)positions {
@@ -116,22 +169,27 @@
                 }
                 callback(positions);
             }];
-        } else {
+        }
+        else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
 }
 
-- (void)update {
-    PFUser *currentUser = [PFUser currentUser];
-    [PortfolioService positionsForUserId:currentUser.objectId callback:^(NSArray *positions) {
-        _portfolio = positions;
-        [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+- (void)reload {
+    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            _lots = [Lot fromParseObjects:objects];
+           [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+        }
+        else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
     }];
 }
 
 - (void)clear {
-    _portfolio = [[NSArray alloc] init];
+    [self.lots removeAllObjects];
 }
 
 @end

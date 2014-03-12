@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
 #import "Quote.h"
+#import "Lot.h"
 
 @interface Position : NSObject
 
@@ -16,8 +17,9 @@
 @property (nonatomic, strong) NSString *sector;
 @property (nonatomic, assign) int shares;
 @property (nonatomic, assign) float costBasis;
-@property (nonatomic, strong) NSMutableArray *lots;
 
+- (id)initWithSymbol:(NSString *)symbol;
+- (void)addLot:(Lot *)lot;
 - (float)valueForQuote:(Quote *)quote;
 + (NSMutableArray *)fromObjects:(NSArray *)objects;
 

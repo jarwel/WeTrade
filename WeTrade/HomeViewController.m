@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
-@property (assign, nonatomic) BOOL isPortrait;
+@property (assign, nonatomic) BOOL isLandscape;
 @property (assign, nonatomic) float totalValue;
 @property (strong, nonatomic) NSArray *positions;
 
@@ -74,15 +74,15 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self reloadPositions];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:PortfolioChangedNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.viewDeckController setEnabled:NO];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PortfolioChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:QuotesUpdatedNotification object:nil];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -91,14 +91,14 @@
 
 - (void)refreshViews {
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    _isPortrait = orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationUnknown;
+    _isLandscape = UIDeviceOrientationIsLandscape(orientation) || orientation == UIDeviceOrientationPortraitUpsideDown;
     
-    if (!self.isPortrait) {
+    if (self.isLandscape) {
         [self.viewDeckController closeOpenView];
     }
-    [self.chartView setHidden:!self.isPortrait];
-    [self.tableHeaderView setHidden:!self.isPortrait];
-    [self.viewDeckController setEnabled:self.isPortrait];
+    [self.chartView setHidden:self.isLandscape];
+    [self.tableHeaderView setHidden:self.isLandscape];
+    [self.viewDeckController setEnabled:!self.isLandscape];
     [self.tableView reloadData];
 }
 
@@ -135,6 +135,7 @@
         [PortfolioService positionsForUserId:self.user.objectId callback:^(NSArray *positions) {
             [self sortPositions:positions];
         }];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:QuotesUpdatedNotification object:nil];
     }
     else {
         NSArray *positions =  [[PortfolioService instance] positions];
@@ -282,13 +283,12 @@
         positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
         positionCell.allocationLable.text = [NSString stringWithFormat:@"%0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
         
-        if (self.isPortrait) {
-            positionCell.sectorLabel.text = nil;
-        }
-        else {
+        if (self.isLandscape) {
             positionCell.sectorLabel.text = position.sector;
             positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f (%+0.2f%%)", quote.priceChange, quote.percentChange];
-            positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:quote.priceChange];
+        }
+        else {
+            positionCell.sectorLabel.text = nil;
         }
     }
     

@@ -152,10 +152,20 @@
     [lotObject saveInBackground];
 }
 
-- (void)updateLots:(NSArray *)lots fromSource:(NSString *)source {
-    NSLog(@"updateLots: %ld source: %@", lots.count, source);
+- (void)removeLots:(NSArray *)lots callback:(void (^)(BOOL succeeded, NSError *error))callback  {
+    NSLog(@"removeLots: %ld", lots.count);
+    
+    NSMutableArray *objects = [[NSMutableArray alloc] init];
+    for(Lot *lot in lots) {
+        [objects addObject:lot.data];
+    }
+    [PFObject deleteAllInBackground:objects block:callback];
+}
 
-    NSMutableArray *saves = [[NSMutableArray alloc] init];
+- (void)createLots:(NSArray *)lots withSource:(NSString *)source callback:(void (^)(BOOL succeeded, NSError *error))callback {
+    NSLog(@"createLots: %ld", lots.count);
+    
+    NSMutableArray *objects = [[NSMutableArray alloc] init];
     for (Lot *lot in lots) {
         PFObject *lotObject = [PFObject objectWithClassName:@"Lot"];
         lotObject[@"userId"] = [PFUser currentUser].objectId;
@@ -164,33 +174,9 @@
         lotObject[@"shares"] = [@(lot.shares) stringValue];
         lotObject[@"costBasis"] = [@(lot.costBasis) stringValue];
         lotObject[@"cash"] = lot.cash ? lot.cash : @"No" ;
-        [saves addObject:lotObject];
+        [objects addObject:lotObject];
     }
-    
-    NSMutableArray *deletes = [[NSMutableArray alloc] init];
-    for (Position *position in [[PortfolioService instance] positions]) {
-        for(Lot *lot in position.lots) {
-            if ([lot.source isEqualToString:source]) {
-                [deletes addObject:lot.data];
-            }
-        }
-    }
-    
-    [PFObject deleteAllInBackground:deletes block:^(BOOL succeeded, NSError *error) {
-        if (!error){
-            [PFObject saveAllInBackground:saves block:^(BOOL succeeded, NSError *error) {
-                if (!error){
-                    [[PortfolioService instance] update];
-                }
-                else {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-            }];
-        }
-        else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
+    [PFObject saveAllInBackground:objects block:callback];
 }
 
 @end

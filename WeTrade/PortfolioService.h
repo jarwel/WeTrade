@@ -19,6 +19,8 @@
 + (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (UIColor *)colorForChange:(float)change;
 + (void)positionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback;
-- (void)update;
+- (void)markCashSymbol:(NSString *)symbol;
+- (void)unmarkCashSymbol:(NSString *)symbol;
+- (void)addLots:(NSArray *)lots fromSource:(NSString *)source;
 
 @end

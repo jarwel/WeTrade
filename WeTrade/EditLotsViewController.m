@@ -7,6 +7,7 @@
 //
 
 #import "EditLotsViewController.h"
+#import "PortfolioService.h"
 #import "ParseClient.h"
 #import "LotCell.h"
 #import "Lot.h"
@@ -72,13 +73,21 @@
 
 - (IBAction)onCashButton:(UIButton *)sender {
     Lot *lot = [self.lots objectAtIndex:sender.tag];
-    lot.cash = !sender.selected ? @"YES" : @"NO";
-    [[ParseClient instance] updateLot:lot withCash:lot.cash];
+    
+    if (sender.selected) {
+        lot.cash = @"NO";
+        [[PortfolioService instance] unmarkCashSymbol:lot.symbol];
+    }
+    else {
+        lot.cash = @"YES";
+        [[PortfolioService instance] markCashSymbol:lot.symbol];
+    }
+
     [self.tableView reloadData];
 }
 
 - (IBAction)onImportButton:(id)sender {
-    [[ParseClient instance] updateLots:self.lots fromSource:self.source];
+    [[PortfolioService instance] addLots:self.lots fromSource:self.source];
     self.navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }

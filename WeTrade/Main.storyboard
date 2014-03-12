@@ -992,7 +992,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="uFQ-FL-4gM"/>
         <segue reference="fcC-fv-hjr"/>
-        <segue reference="T22-1a-XiM"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,10 +10,17 @@
 #import "Lot.h"
 #import "Constants.h"
 
+@interface Position ()
+
+@property (nonatomic, strong) NSMutableArray *lots;
+
+@end
+
 @implementation Position
 
-- (id)init {
+- (id)initWithSymbol:(NSString *)symbol {
     if (self = [super init]) {
+        _symbol = symbol;
         _lots = [[NSMutableArray alloc] init];
     }
     return self;
@@ -45,6 +52,10 @@
     return _costBasis;
 }
 
+- (void)addLot:(Lot *)lot {
+    [self.lots addObject:lot];
+}
+
 - (float)valueForQuote:(Quote *)quote {
     if ([CashSymbol isEqualToString:self.symbol]) {
         return self.shares;
@@ -62,7 +73,7 @@
         }
         
         if ([positions valueForKey:symbol] == nil) {
-            [positions setObject:[[Position alloc] init] forKey:symbol];
+            [positions setObject:[[Position alloc] initWithSymbol:symbol] forKey:symbol];
         }
         Position *position = [positions objectForKey:symbol];
         [position.lots addObject:[[Lot alloc] initWithData:object]];
