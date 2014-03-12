@@ -18,7 +18,6 @@
 @property (nonatomic, assign) int shares;
 @property (nonatomic, assign) float costBasis;
 
-- (id)initWithSymbol:(NSString *)symbol;
 - (void)addLot:(Lot *)lot;
 - (float)valueForQuote:(Quote *)quote;
 + (NSMutableArray *)fromObjects:(NSArray *)objects;

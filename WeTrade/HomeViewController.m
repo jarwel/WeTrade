@@ -64,17 +64,17 @@
     
     [self initTable];
     [self initChart];
-    [self reloadPositions];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self reloadPositions];
     [self refreshViews];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self reloadPositions];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:PortfolioChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadQuotes) name:QuotesUpdatedNotification object:nil];
 }
 
@@ -135,10 +135,9 @@
         [PortfolioService positionsForUserId:self.user.objectId callback:^(NSArray *positions) {
             [self sortPositions:positions];
         }];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadPositions) name:QuotesUpdatedNotification object:nil];
     }
     else {
-        NSArray *positions =  [[PortfolioService instance] positions];
+        NSArray *positions = [[PortfolioService instance] positions];
         [self sortPositions:positions];
     }
 }
@@ -263,24 +262,21 @@
     else {
         Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
         
-        NSNumber *percentChange;
-        if (self.changeButton.selected) {
-            if (position.costBasis > 0) {
-                float totalChange = ([position valueForQuote:quote] - position.costBasis) / position.costBasis;
-                percentChange = [NSNumber numberWithFloat:totalChange * 100];
-            }
+        if (self.changeButton.selected && position.costBasis > 0) {
+            float totalChange = ([position valueForQuote:quote] - position.costBasis) / position.costBasis * 100;
+            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", totalChange];
+            positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:totalChange];
         }
         else {
             if (quote) {
-                percentChange = [NSNumber numberWithFloat:quote.percentChange];
+                positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
+                positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:quote.priceChange];
             }
         }
     
         positionCell.userInteractionEnabled = YES;
         positionCell.symbolLabel.text = position.symbol;
         positionCell.priceLabel.text = [NSString stringWithFormat:@"%0.2f", quote.price];
-        positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-        positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
         positionCell.allocationLable.text = [NSString stringWithFormat:@"%0.1f%%", [position valueForQuote:quote] / self.totalValue * 100];
         
         if (self.isLandscape) {

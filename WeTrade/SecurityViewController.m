@@ -52,7 +52,7 @@
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
-@property (assign, nonatomic) BOOL isPortrait;
+@property (assign, nonatomic) BOOL isLandscape;
 @property (strong, nonatomic) CPTXYPlotSpace *plotSpace;
 @property (strong, nonatomic) CPTScatterPlot *pricePlot;
 @property (strong, nonatomic) NSMutableArray *comments;
@@ -141,17 +141,18 @@
 }
 
 - (void)refreshViews {
-    _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    _isLandscape = UIDeviceOrientationIsLandscape(orientation) || orientation == UIDeviceOrientationPortraitUpsideDown;
     
-    [self.chartViewHeightConstraint setConstant: self.isPortrait ? 190.0f : 220.0f];
-    [self.viewButton setHidden:!self.isPortrait];
-    [self.commentView setHidden:!self.isPortrait];
-    [self.tableView setHidden:!self.isPortrait];
-    [self.timeView setHidden:self.isPortrait];
+    [self.chartViewHeightConstraint setConstant: self.isLandscape ? 220.0f : 190.0f];
+    [self.viewButton setHidden:self.isLandscape];
+    [self.commentView setHidden:self.isLandscape];
+    [self.tableView setHidden:self.isLandscape];
+    [self.timeView setHidden:!self.isLandscape];
     [self.dataView setHidden:YES];
     [self.chartView setHidden:NO];
     
-    if (!self.history || self.isPortrait) {
+    if (!self.history || !self.isLandscape) {
         [self onOneMonthButton:self];
     }
 }

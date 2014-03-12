@@ -18,9 +18,8 @@
 
 @implementation Position
 
-- (id)initWithSymbol:(NSString *)symbol {
+- (id)init {
     if (self = [super init]) {
-        _symbol = symbol;
         _lots = [[NSMutableArray alloc] init];
     }
     return self;
@@ -73,7 +72,9 @@
         }
         
         if ([positions valueForKey:symbol] == nil) {
-            [positions setObject:[[Position alloc] initWithSymbol:symbol] forKey:symbol];
+            Position *position = [[Position alloc] init];
+            position.symbol = symbol;
+            [positions setObject:position forKey:symbol];
         }
         Position *position = [positions objectForKey:symbol];
         [position.lots addObject:[[Lot alloc] initWithData:object]];

@@ -16,6 +16,7 @@
 @interface PortfolioService ()
 
 @property (strong, nonatomic) NSMutableArray *lots;
+@property (strong, nonatomic) NSDictionary *sectors;
 
 - (void)reload;
 - (void)clear;
@@ -51,7 +52,10 @@
         }
         
         if (![positions objectForKey:symbol]) {
-            [positions setObject:[[Position alloc] initWithSymbol:symbol] forKey:symbol];
+            Position *position = [[Position alloc] init];
+            position.symbol = symbol;
+            position.sector = [self.sectors objectForKey:symbol];
+            [positions setObject:position forKey:symbol];
         }
         Position *position = [positions objectForKey:symbol];
         [position addLot:lot];
@@ -179,8 +183,16 @@
 - (void)reload {
     [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _lots = [Lot fromParseObjects:objects];
-           [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+            NSMutableArray *lots = [Lot fromParseObjects:objects];
+            NSMutableSet *symbols = [[NSMutableSet alloc] init];
+            for (Lot *lot in lots) {
+                [symbols addObject:lot.symbol];
+            }
+            [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSDictionary *sectors) {
+                _sectors = sectors;
+                _lots = lots;
+                [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+            }];
         }
         else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
