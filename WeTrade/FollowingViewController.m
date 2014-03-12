@@ -64,7 +64,7 @@
 }
 
 - (void)reloadQuotes {
-    NSLog(@"FollowingViewController refreshQuotes");
+    NSLog(@"FollowingViewController reloadQuotes");
     [self.tableView reloadData];
 }
 
