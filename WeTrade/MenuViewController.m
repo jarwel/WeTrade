@@ -46,9 +46,9 @@
         case 0 :
             return [tableView dequeueReusableCellWithIdentifier:@"WatchListCell" forIndexPath:indexPath];
         case 1 :
-            return [tableView dequeueReusableCellWithIdentifier:@"ImportCell" forIndexPath:indexPath];
-        case 2 :
             return [tableView dequeueReusableCellWithIdentifier:@"ManageLotsCell" forIndexPath:indexPath];
+        case 2 :
+            return [tableView dequeueReusableCellWithIdentifier:@"ImportAccountCell" forIndexPath:indexPath];
         case 3 :
             return [tableView dequeueReusableCellWithIdentifier:@"SignOutCell" forIndexPath:indexPath];
     }
