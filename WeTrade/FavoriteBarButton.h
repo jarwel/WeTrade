@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "Security.h"
 
 @interface FavoriteBarButton : UIBarButtonItem
 
 - (void)setupForUser:(PFUser *)user;
+- (void)setupForSecurity:(Security *)security;
 
 @end

@@ -13,6 +13,7 @@
 
 @property (assign, nonatomic) BOOL isFavorite;
 @property (strong, nonatomic) PFUser *user;
+@property (strong, nonatomic) Security *security;
 
 - (IBAction)didTouchButton:(id)sender;
 
@@ -29,17 +30,26 @@
 
 - (void)setupForUser:(PFUser *)user {
     _user = user;
+    _security = nil;
     _isFavorite = [[FavoriteService instance] isFavorite:user.objectId];
     [self updateTintColor];
 }
 
+- (void)setupForSecurity:(Security *)security {
+    _user = nil;
+    _security = security;
+    _isFavorite = [[FavoriteService instance] isFavorite:security.objectId];
+    [self updateTintColor];
+}
+
 - (IBAction)didTouchButton:(id)sender {
-    if (self.isFavorite) {
-        [[FavoriteService instance] unfollowUser:self.user];
+    if (self.user) {
+        self.isFavorite ? [[FavoriteService instance] unfollowUser:self.user] : [[FavoriteService instance] followUser:self.user];
     }
-    else {
-        [[FavoriteService instance] followUser:self.user];
+    if (self.security) {
+        self.isFavorite ? [[FavoriteService instance] unfollowSecurity:self.security] : [[FavoriteService instance] followSecurity:self.security];
     }
+    
     _isFavorite = !self.isFavorite;
     [self updateTintColor];
 }

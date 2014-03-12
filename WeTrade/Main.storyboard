@@ -694,7 +694,11 @@
                             <outletCollection property="gestureRecognizers" destination="nV6-qX-xBM" appends="YES" id="3yI-Qy-Yaw"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="TRs-IU-b8T"/>
+                    <navigationItem key="navigationItem" id="TRs-IU-b8T">
+                        <barButtonItem key="rightBarButtonItem" image="follow.png" id="cDg-gx-QOQ" customClass="FavoriteBarButton">
+                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="Dzt-JX-idV" id="slS-XV-fTs"/>
                         <outlet property="chartView" destination="sZo-O5-LVj" id="Uqg-cW-R6A"/>
@@ -708,6 +712,7 @@
                         <outlet property="earningsPerShareLabel" destination="sdt-Wk-9dm" id="U25-lh-4PN"/>
                         <outlet property="ebitdaLabel" destination="7bA-Z3-kTJ" id="Df4-YR-4iQ"/>
                         <outlet property="exDividendDateLabel" destination="EB8-YL-cmT" id="Uxe-RV-Y5a"/>
+                        <outlet property="favoriteBarButton" destination="cDg-gx-QOQ" id="ata-kb-uqs"/>
                         <outlet property="highLabel" destination="Iix-Hb-vq8" id="oCU-rA-QNo"/>
                         <outlet property="lowLabel" destination="FUr-yX-cAB" id="FMh-aj-zh9"/>
                         <outlet property="marketCapitalizationLabel" destination="5Ip-hU-m2T" id="qM9-Ec-bhO"/>

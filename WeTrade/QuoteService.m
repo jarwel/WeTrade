@@ -14,8 +14,8 @@
 
 @property (strong, nonatomic) NSMutableDictionary *quotes;
 
-- (void)reloadQuotes;
-- (void)clearQuotes;
+- (void)reload;
+- (void)clear;
 
 @end
 
@@ -32,8 +32,8 @@
 - (id)init {
     if (self = [super init]) {
         _quotes = [[NSMutableDictionary alloc] init];
-        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reloadQuotes) userInfo:nil repeats:YES];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearQuotes) name:LogoutNotification object:nil];
+        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reload) userInfo:nil repeats:YES];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
     }
     return self;
 }
@@ -89,7 +89,7 @@
     return quotes;
 }
 
-- (void)reloadQuotes {
+- (void)reload {
     if (self.quotes.count > 0) {
         NSSet *symbols = [NSSet setWithArray:self.quotes.allKeys];
         [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
@@ -103,7 +103,7 @@
     }
 }
 
-- (void)clearQuotes {
+- (void)clear {
     [self.quotes removeAllObjects];
 }
 

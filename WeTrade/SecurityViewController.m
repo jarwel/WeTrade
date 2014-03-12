@@ -11,15 +11,16 @@
 #import "PortfolioService.h"
 #import "ParseClient.h"
 #import "FinanceClient.h"
+#import "FavoriteBarButton.h"
 #import "CommentCell.h"
 #import "Comment.h"
 #import "FullQuote.h"
+#import "Security.h"
 #import "HistoricalQuote.h"
 #import "History.h"
 
 @interface SecurityViewController ()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *chartViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousCloseLabel;
@@ -35,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *yieldLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDividendDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dividendDateLabel;
-
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
@@ -48,7 +48,9 @@
 @property (weak, nonatomic) IBOutlet UIView *dataView;
 @property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *chartViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
+@property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
 @property (assign, nonatomic) BOOL isPortrait;
 @property (strong, nonatomic) CPTXYPlotSpace *plotSpace;
@@ -84,13 +86,19 @@
     [self.view.layer insertSublayer:gradient atIndex:0];
     
     [self setTitle:self.symbol];
+    [self.favoriteBarButton setupForSecurity:[[Security alloc] initWithSymbol:self.symbol]];
     [self initChart];
     [self initTable];
     
-    [[FinanceClient instance] fetchMetricsForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[ParseClient instance] fetchSecurityForSymbol:self.symbol callback:^(NSArray *objects, NSError *error) {
         if (!error) {
-            _fullQuote = [FullQuote fromData:data];
-            [self reloadMetrics];
+            Security *security = [Security fromParseObjects:objects].firstObject;
+            
+            if (!security) {
+                security = [[Security alloc] initWithSymbol:self.symbol];
+            }
+            [self.favoriteBarButton setupForSecurity:security];
+            
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
@@ -99,6 +107,14 @@
         if (!error) {
             _comments = [Comment fromParseObjects:objects];
             [self.tableView reloadData];
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+    [[FinanceClient instance] fetchMetricsForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            _fullQuote = [FullQuote fromData:data];
+            [self reloadMetrics];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
@@ -127,8 +143,7 @@
 - (void)refreshViews {
     _isPortrait = [UIDevice currentDevice].orientation == UIDeviceOrientationPortrait;
     
-    [self.navigationController setNavigationBarHidden:!self.isPortrait];
-    [self.chartViewHeightConstraint setConstant: self.isPortrait ? 190.0f : 240.0f];
+    [self.chartViewHeightConstraint setConstant: self.isPortrait ? 190.0f : 220.0f];
     [self.viewButton setHidden:!self.isPortrait];
     [self.commentView setHidden:!self.isPortrait];
     [self.tableView setHidden:!self.isPortrait];
