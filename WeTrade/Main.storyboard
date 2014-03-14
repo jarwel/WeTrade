@@ -7,7 +7,7 @@
         <!--Menu View Controller-->
         <scene sceneID="vJU-Xr-q4D">
             <objects>
-                <viewController storyboardIdentifier="Menu" automaticallyAdjustsScrollViewInsets="NO" id="XtZ-EM-h6g" customClass="MenuViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MenuViewController" automaticallyAdjustsScrollViewInsets="NO" id="XtZ-EM-h6g" customClass="MenuViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JUr-c9-rla"/>
                         <viewControllerLayoutGuide type="bottom" id="lpd-2c-7uY"/>
@@ -173,10 +173,10 @@
             </objects>
             <point key="canvasLocation" x="-12209" y="-4667"/>
         </scene>
-        <!--Home View Controller - My Portfolio-->
+        <!--Portfolio View Controller - My Portfolio-->
         <scene sceneID="eru-ud-5Yp">
             <objects>
-                <viewController storyboardIdentifier="Home" automaticallyAdjustsScrollViewInsets="NO" id="i5f-bq-GVV" customClass="HomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PortfolioViewController" automaticallyAdjustsScrollViewInsets="NO" id="i5f-bq-GVV" customClass="PortfolioViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1Wn-h3-b8X"/>
                         <viewControllerLayoutGuide type="bottom" id="s1o-sp-nJc"/>
@@ -856,7 +856,7 @@
         <!--Following View Controller-->
         <scene sceneID="NCn-lS-VCh">
             <objects>
-                <viewController storyboardIdentifier="Following" id="9hJ-YY-QIb" customClass="FollowingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FollowingViewController" id="9hJ-YY-QIb" customClass="FollowingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mXE-7Q-LUa"/>
                         <viewControllerLayoutGuide type="bottom" id="Ofc-4k-JCm"/>
@@ -1051,7 +1051,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="T22-1a-XiM"/>
-        <segue reference="naP-fe-8VP"/>
+        <segue reference="uFQ-FL-4gM"/>
+        <segue reference="fcC-fv-hjr"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,7 +7,7 @@
 //
 
 #import "FollowingViewController.h"
-#import "HomeViewController.h"
+#import "PortfolioViewController.h"
 #import "Constants.h"
 #import "ParseClient.h"
 #import "QuoteService.h"
@@ -202,9 +202,9 @@
         UINavigationController *navigationViewController = segue.destinationViewController;
         navigationViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 
-        HomeViewController *homeViewController = [[navigationViewController viewControllers] lastObject];
-        homeViewController.user = user;
-        homeViewController.title = [NSString stringWithFormat:@"%@'s Portfolio", user.username];
+        PortfolioViewController *portfolioViewController = [[navigationViewController viewControllers] lastObject];
+        portfolioViewController.user = user;
+        portfolioViewController.title = [NSString stringWithFormat:@"%@'s Portfolio", user.username];
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }

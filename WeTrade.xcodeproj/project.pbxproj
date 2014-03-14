@@ -60,7 +60,7 @@
 		CAB14EFF1897307300B2C9BE /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14EFD18972DAB00B2C9BE /* Accounts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CAB14F03189730B400B2C9BE /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB14F02189730B400B2C9BE /* FacebookSDK.framework */; };
 		CACD593418919E7E006FD228 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CACD593318919E7E006FD228 /* Main.storyboard */; };
-		CACD593F1891C369006FD228 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* HomeViewController.m */; };
+		CACD593F1891C369006FD228 /* PortfolioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACD593E1891C369006FD228 /* PortfolioViewController.m */; };
 		CACD59411891C4DC006FD228 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59401891C4DC006FD228 /* Parse.framework */; };
 		CACD594B1891C5A9006FD228 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59421891C5A9006FD228 /* AudioToolbox.framework */; };
 		CACD594C1891C5A9006FD228 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACD59431891C5A9006FD228 /* CFNetwork.framework */; };
@@ -263,8 +263,8 @@
 		CAB14F001897307A00B2C9BE /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CAB14F02189730B400B2C9BE /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		CACD593318919E7E006FD228 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		CACD593D1891C369006FD228 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
-		CACD593E1891C369006FD228 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		CACD593D1891C369006FD228 /* PortfolioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortfolioViewController.h; sourceTree = "<group>"; };
+		CACD593E1891C369006FD228 /* PortfolioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortfolioViewController.m; sourceTree = "<group>"; };
 		CACD59401891C4DC006FD228 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		CACD59421891C5A9006FD228 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CACD59431891C5A9006FD228 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -591,8 +591,8 @@
 				CA60662718982BFE00A55D3F /* SignInViewController.m */,
 				CA60662918982CC600A55D3F /* SignUpViewController.h */,
 				CA60662A18982CC600A55D3F /* SignUpViewController.m */,
-				CACD593D1891C369006FD228 /* HomeViewController.h */,
-				CACD593E1891C369006FD228 /* HomeViewController.m */,
+				CACD593D1891C369006FD228 /* PortfolioViewController.h */,
+				CACD593E1891C369006FD228 /* PortfolioViewController.m */,
 				CACD595F1891CDB3006FD228 /* MenuViewController.h */,
 				CACD59601891CDB3006FD228 /* MenuViewController.m */,
 				CAA68943189B60F300CE7FAA /* FollowingViewController.h */,
@@ -808,7 +808,7 @@
 				CA5D112D1898CDF9006940E8 /* IIViewDeckController.m in Sources */,
 				CA977C401896118B002AD88F /* ParseObject.m in Sources */,
 				CA1008A91890647B0031CF68 /* main.m in Sources */,
-				CACD593F1891C369006FD228 /* HomeViewController.m in Sources */,
+				CACD593F1891C369006FD228 /* PortfolioViewController.m in Sources */,
 				CA0F62B018A742D2001FAA1A /* CommentCell.m in Sources */,
 				CA3046D718C2BF58004E0CD6 /* EtradeScraper.m in Sources */,
 				CACD597C1891EA35006FD228 /* Lot.m in Sources */,

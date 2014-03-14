@@ -1,12 +1,12 @@
 //
-//  HomeViewController.m
+//  PortfolioViewController.m
 //  WeTrade
 //
 //  Created by Jason Wells on 1/23/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "HomeViewController.h"
+#import "PortfolioViewController.h"
 #import "SecurityViewController.h"
 #import "PortfolioService.h"
 #import "QuoteService.h"
@@ -17,7 +17,7 @@
 #import "Position.h"
 #import "Quote.h"
 
-@interface HomeViewController ()
+@interface PortfolioViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *changeButton;
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
@@ -45,7 +45,7 @@
 
 @end
 
-@implementation HomeViewController
+@implementation PortfolioViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

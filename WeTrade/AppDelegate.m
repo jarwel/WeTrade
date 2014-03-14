@@ -11,7 +11,7 @@
 #import "IIViewDeckController.h"
 #import "SignInViewController.h"
 #import "SignUpViewController.h"
-#import "HomeViewController.h"
+#import "PortfolioViewController.h"
 
 @implementation AppDelegate
 
@@ -103,15 +103,15 @@
 
 - (UIViewController *)homeViewController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"Home"];
+    PortfolioViewController *portfolioViewController = [storyboard instantiateViewControllerWithIdentifier:@"PortfolioViewController"];
         
-    UINavigationController *center = [[UINavigationController alloc] initWithRootViewController:homeViewController];
-    UIViewController *left = [storyboard instantiateViewControllerWithIdentifier:@"Menu"];
-    UIViewController *right = [storyboard instantiateViewControllerWithIdentifier:@"Following"];
+    UINavigationController *center = [[UINavigationController alloc] initWithRootViewController:portfolioViewController];
+    UIViewController *left = [storyboard instantiateViewControllerWithIdentifier:@"MenuViewController"];
+    UIViewController *right = [storyboard instantiateViewControllerWithIdentifier:@"FollowingViewController"];
     
     IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:center leftViewController:left rightViewController:right];
         [viewDeckController setCenterhiddenInteractivity:IIViewDeckCenterHiddenNotUserInteractive];
-    homeViewController.viewDeckController = viewDeckController;
+    portfolioViewController.viewDeckController = viewDeckController;
     return viewDeckController;
 }
 
