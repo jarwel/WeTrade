@@ -241,6 +241,10 @@
     return [CPTFill fillWithColor:[[CPTColor blueColor] colorWithAlphaComponent:alpha]];
 }
 
+-(void)pieChart:(CPTPieChart *)pieChart sliceWasSelectedAtRecordIndex:(NSUInteger)index {
+    NSLog(@"Touched");
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.positions.count;
 }

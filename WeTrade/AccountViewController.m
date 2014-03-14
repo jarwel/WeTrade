@@ -38,7 +38,7 @@
     }
 }
 
-- (UIImage *)sizeImage:(UIImage *)image{
+- (UIImage *)sizeImage:(UIImage *)image {
     CGSize size = CGSizeMake(self.tableView.frame.size.width, self.tableView.rowHeight);
     CGFloat width = (size.height - 20) / image.size.height * image.size.width;
     CGFloat height = size.height - 20;

@@ -11,7 +11,7 @@
 #import "IIViewDeckController.h"
 #import "CorePlot-CocoaTouch.h"
 
-@interface HomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
+@interface HomeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource, CPTPieChartDelegate>
 
 @property (strong, nonatomic) IIViewDeckController *viewDeckController;
 @property (strong, nonatomic) PFUser *user;
