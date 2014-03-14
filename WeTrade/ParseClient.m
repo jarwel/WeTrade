@@ -49,7 +49,7 @@
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback {
     NSLog(@"fetchUsersForSearch: %@", search);
     
-    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    PFQuery *query = [PFUser query];
     [query whereKey:@"canonicalUsername" hasPrefix:[search lowercaseString]];
     [query whereKey:@"objectId" notEqualTo:[PFUser currentUser].objectId];
     [query setLimit:100];
@@ -74,22 +74,36 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)fetchFavoriteUsers:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)fetchFavoriteUsers:(void (^)(NSArray *users))callback {
     NSLog(@"fetchFavoriteUsers");
     
-    PFRelation *relation = [[PFUser currentUser] relationforKey:@"favoriteUsers"];
-    PFQuery *query = [relation query];
-    [query setLimit:100];
-    [query findObjectsInBackgroundWithBlock:callback];
+    PFUser *user = [PFUser currentUser];
+    NSArray *objects = [user objectForKey:@"favoriteUsers"];
+    [PFObject fetchAllIfNeededInBackground:objects block:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            callback(objects);
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
-- (void)fetchFavoriteSecurities:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)fetchFavoriteSecurities:(void (^)(NSArray *securities))callback {
     NSLog(@"fetchFavoriteSecurities");
+    NSMutableArray *securities = [[NSMutableArray alloc] init];
     
-    PFRelation *relation = [[PFUser currentUser] relationforKey:@"favoriteSecurities"];
-    PFQuery *query = [relation query];
-    [query setLimit:100];
-    [query findObjectsInBackgroundWithBlock:callback];
+    PFUser *user = [PFUser currentUser];
+    NSArray *objects = [user objectForKey:@"favoriteSecurities"];
+    [PFObject fetchAllIfNeededInBackground:objects block:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            for (PFObject *object in objects) {
+                [securities addObject:[[Security alloc] initWithData:object]];
+            }
+            callback(securities);
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (void)createSecurityWithSymbol:(NSString *)symbol callback:(void (^)(BOOL succeeded, NSError *error))callback {
@@ -110,58 +124,6 @@
     [commentObject saveInBackground];
 }
 
-- (void)followUser:(PFUser *)user {
-    NSLog(@"followUser: %@", user.objectId);
-    
-    PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"favoriteUsers"];
-    [relation addObject:user];
-    [currentUser saveInBackground];
-}
-
-- (void)unfollowUser:(PFUser *)user {
-    NSLog(@"unfollowUser: %@", user.objectId);
-    
-    PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"favoriteUsers"];
-    [relation removeObject:user];
-    [currentUser saveInBackground];
-}
-
-- (void)followSecurity:(Security *)security {
-    NSLog(@"followSecurity: %@", security.objectId);
-    
-    PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"favoriteSecurities"];
-    [relation addObject:security.data];
-    [currentUser saveInBackground];
-}
-
-- (void)unfollowSecurity:(Security *)security {
-    NSLog(@"unfollowSecurity: %@", security.objectId);
-    
-    PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationforKey:@"favoriteSecurities"];
-    [relation removeObject:security.data];
-    [currentUser saveInBackground];
-}
-
-- (void)updateLot:(Lot *)lot withCash:(NSString *)cash {
-    PFObject *lotObject = lot.data;
-    lotObject[@"cash"] = cash;
-    [lotObject saveInBackground];
-}
-
-- (void)removeLots:(NSArray *)lots callback:(void (^)(BOOL succeeded, NSError *error))callback  {
-    NSLog(@"removeLots: %ld", lots.count);
-    
-    NSMutableArray *objects = [[NSMutableArray alloc] init];
-    for(Lot *lot in lots) {
-        [objects addObject:lot.data];
-    }
-    [PFObject deleteAllInBackground:objects block:callback];
-}
-
 - (void)createLots:(NSArray *)lots withSource:(NSString *)source callback:(void (^)(BOOL succeeded, NSError *error))callback {
     NSLog(@"createLots: %ld", lots.count);
     
@@ -178,5 +140,67 @@
     }
     [PFObject saveAllInBackground:objects block:callback];
 }
+
+- (void)updateLot:(Lot *)lot withCash:(NSString *)cash {
+    PFObject *lotObject = lot.data;
+    lotObject[@"cash"] = cash;
+    [lotObject saveInBackground];
+}
+
+- (void)updateFavoriteSecurities:(NSArray *)securities {
+    NSLog(@"updateFavoriteSecurities: %ld", securities.count);
+    
+    NSMutableArray *objects = [[NSMutableArray alloc] init];
+    for(Security *security in securities) {
+        [objects addObject:security.data];
+    }
+    
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser setObject:objects forKey:@"favoriteSecurities"];
+    [currentUser saveInBackground];
+}
+
+- (void)removeLots:(NSArray *)lots callback:(void (^)(BOOL succeeded, NSError *error))callback  {
+    NSLog(@"removeLots: %ld", lots.count);
+    
+    NSMutableArray *objects = [[NSMutableArray alloc] init];
+    for(Lot *lot in lots) {
+        [objects addObject:lot.data];
+    }
+    [PFObject deleteAllInBackground:objects block:callback];
+}
+
+- (void)followUser:(PFUser *)user {
+    NSLog(@"followUser: %@", user.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser addObject:user forKey:@"favoriteUsers"];
+    [currentUser saveInBackground];
+}
+
+- (void)unfollowUser:(PFUser *)user {
+    NSLog(@"unfollowUser: %@", user.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser removeObject:user forKey:@"favoriteUsers"];
+    [currentUser saveInBackground];
+}
+
+- (void)followSecurity:(Security *)security {
+    NSLog(@"followSecurity: %@", security.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser addObject:security.data forKey:@"favoriteSecurities"];
+    [currentUser saveInBackground];
+}
+
+- (void)unfollowSecurity:(Security *)security {
+    NSLog(@"unfollowSecurity: %@", security.objectId);
+    
+    PFUser *currentUser = [PFUser currentUser];
+    [currentUser removeObject:security.data forKey:@"favoriteSecurities"];
+    [currentUser saveInBackground];
+}
+
 
 @end

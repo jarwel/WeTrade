@@ -49,8 +49,7 @@
                 }
             }
             callback(quotes);
-        }
-        else {
+        } else {
             NSLog(@"Error: %@ %@", connectionError, [connectionError userInfo]);
         }
     }];

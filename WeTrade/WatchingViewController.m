@@ -161,6 +161,7 @@
     NSString *item = [self.watching objectAtIndex:fromIndexPath.row];
     [self.watching removeObjectAtIndex:fromIndexPath.row];
     [self.watching insertObject:item atIndex:toIndexPath.row];
+    [[FavoriteService instance] reorderSecurities:self.watching];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

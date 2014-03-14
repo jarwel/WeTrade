@@ -20,6 +20,7 @@
 - (void)unfollowUser:(PFUser *)user;
 - (void)followSecurity:(Security *)security;
 - (void)unfollowSecurity:(Security *)security;
+- (void)reorderSecurities:(NSMutableArray *)securities;
 - (BOOL)isFavorite:(NSString *)objectId;
 
 @end
