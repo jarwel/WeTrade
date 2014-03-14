@@ -14,6 +14,7 @@
 
 + (PortfolioService *)instance;
 + (NSSet *)symbolsForPositions:(NSArray *)positions;
++ (NSSet *)sectorsForPositions:(NSArray *)positions;
 + (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;;
 + (NSNumber *)totalChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;
 + (NSNumber *)dayChangeForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions;

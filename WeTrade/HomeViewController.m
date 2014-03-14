@@ -12,7 +12,6 @@
 #import "QuoteService.h"
 #import "Constants.h"
 #import "ParseClient.h"
-#import "FinanceClient.h"
 #import "FavoriteBarButton.h"
 #import "PositionCell.h"
 #import "Position.h"
@@ -20,7 +19,6 @@
 
 @interface HomeViewController ()
 
-;
 @property (weak, nonatomic) IBOutlet UIButton *changeButton;
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
@@ -29,8 +27,10 @@
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
 @property (assign, nonatomic) BOOL isLandscape;
+@property (assign, nonatomic) BOOL showSectors;
 @property (assign, nonatomic) float totalValue;
 @property (strong, nonatomic) NSArray *positions;
+@property (strong, nonatomic) NSArray *sectors;
 
 - (IBAction)onChangeButton:(id)sender;
 - (IBAction)onDoneButton:(id)sender;
@@ -41,6 +41,7 @@
 - (void)reloadPositions;
 - (void)reloadTotals;
 - (void)refreshViews;
+- (void)sortPositions:(NSArray *)positions;
 
 @end
 
@@ -144,29 +145,43 @@
 
 - (void)sortPositions:(NSArray *)positions {
     NSSet *symbols = [PortfolioService symbolsForPositions:positions];
-    [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
+    NSSet *sectors = [PortfolioService sectorsForPositions:positions];
+    NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
         
-        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-        for (Quote *quote in quotes) {
-            [dictionary setObject:quote forKey:quote.symbol];
-        }
-        
-        _positions = [positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+    _positions = [positions sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+        Position *firstPosition = (Position*)first;
+        Quote *firstQuote = [quotes objectForKey:firstPosition.symbol];
+        float firstValue = [firstPosition valueForQuote:firstQuote];
             
-            Position *firstPosition = (Position*)first;
-            Quote *firstQuote = [dictionary objectForKey:firstPosition.symbol];
-            float firstValue = [firstPosition valueForQuote:firstQuote];
+        Position *secondPosition = (Position*)second;
+        Quote *secondQuote = [quotes objectForKey:secondPosition.symbol];
+        float secondValue = [secondPosition valueForQuote:secondQuote];
             
-            Position *secondPosition = (Position*)second;
-            Quote *secondQuote = [dictionary objectForKey:secondPosition.symbol];
-            float secondValue = [secondPosition valueForQuote:secondQuote];
-            
-            return firstValue < secondValue;
-        }];
-        [self reloadTotals];
-        [self.tableView reloadData];
-        [self.chartView.hostedGraph reloadData];
+        return firstValue < secondValue;
     }];
+    
+    _sectors = [[sectors allObjects] sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+        NSString *firstSector = (NSString *)first;
+        float firstValue = 0.0f;
+        
+        NSString *secondSector = (NSString *)second;
+        float secondValue = 0.0f;
+        
+        for (Position *position in positions) {
+            Quote *quote = [quotes objectForKey:position.symbol];
+            if ([position.sector isEqualToString:firstSector]) {
+                firstValue += [position valueForQuote:quote];
+            }
+            if ([position.sector isEqualToString:secondSector]) {
+                secondValue += [position valueForQuote:quote];
+            }
+        }
+        return firstValue < secondValue;
+    }];
+
+    [self reloadTotals];
+    [self.tableView reloadData];
+    [self.chartView.hostedGraph reloadData];
 }
 
 - (void)initTable {
@@ -197,7 +212,7 @@
     CPTPieChart *pieChart = [[CPTPieChart alloc] init];
     pieChart.dataSource = self;
     pieChart.delegate = self;
-    pieChart.pieRadius = (self.chartView.bounds.size.height * 0.75) / 2;
+    pieChart.pieRadius = self.chartView.bounds.size.height * 0.7 / 2;
     pieChart.identifier = graph.title;
     pieChart.startAngle = M_PI_4;
     pieChart.sliceDirection = CPTPieDirectionCounterClockwise;
@@ -212,14 +227,27 @@
 }
 
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return self.positions.count;
+    return self.showSectors ? self.sectors.count : self.positions.count;
 }
 
 - (NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
     if (CPTPieChartFieldSliceWidth == fieldEnum) {
-        Position *position = [self.positions objectAtIndex:index];
-        Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
-        return [NSNumber numberWithFloat:[position valueForQuote:quote]];
+        if (self.showSectors) {
+            float value = 0.0f;
+            NSString *sector = [self.sectors objectAtIndex:index];
+            for (Position *position in self.positions) {
+                if ([position.sector isEqualToString:sector]) {
+                    Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
+                    value += [position valueForQuote:quote];
+                }
+            }
+            return [NSNumber numberWithFloat:value];
+        }
+        else {
+            Position *position = [self.positions objectAtIndex:index];
+            Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
+            return [NSNumber numberWithFloat:[position valueForQuote:quote]];
+        }
     }
     return [NSDecimalNumber zero];
 }
@@ -229,20 +257,26 @@
     if (!style) {
         style = [[CPTMutableTextStyle alloc] init];
         style.color = [CPTColor darkGrayColor];
-        style.fontSize = 11.0f;
+        style.fontSize = 10.5f;
     }
-    
+
+    if (self.showSectors) {
+        return [[CPTTextLayer alloc] initWithText:[self.sectors objectAtIndex:index] style:style];
+    }
+
     Position *position = [self.positions objectAtIndex:index];
     return [[CPTTextLayer alloc] initWithText:position.symbol style:style];
 }
 
 -(CPTFill *)sliceFillForPieChart:(CPTPieChart *)pieChart recordIndex:(NSUInteger)index {
-    float alpha = ((float)self.positions.count - index) / self.positions.count;
-    return [CPTFill fillWithColor:[[CPTColor blueColor] colorWithAlphaComponent:alpha]];
+    CPTColor *color = self.showSectors ? [CPTColor greenColor] : [CPTColor blueColor];
+    float count = self.showSectors ? self.sectors.count : self.positions.count;
+    return [CPTFill fillWithColor:[color colorWithAlphaComponent:(count - index) / count]];
 }
 
 -(void)pieChart:(CPTPieChart *)pieChart sliceWasSelectedAtRecordIndex:(NSUInteger)index {
-    NSLog(@"Touched");
+    _showSectors = !self.showSectors;
+    [self.chartView.hostedGraph reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

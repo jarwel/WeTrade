@@ -111,6 +111,15 @@
     return symbols;
 }
 
++ (NSSet *)sectorsForPositions:(NSArray *)positions {
+    NSMutableSet *sectors = [[NSMutableSet alloc] init];
+    for (Position *position in positions) {
+        if (position.sector) {
+            [sectors addObject:position.sector];
+        }
+    }    return sectors;
+}
+
 + (NSNumber *)totalValueForQuotes:(NSDictionary *)quotes positions:(NSArray *)positions {
     float total = 0;
     for (Position *position in positions ) {
