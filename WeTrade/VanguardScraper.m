@@ -18,12 +18,13 @@
     return instance;
 }
 
-- (NSString *)source {
-    return @"vanguard";
-}
-
-- (NSURL *)url {
-    return [NSURL URLWithString:@"https://investor.vanguard.com/my-portfolio/"];
+- (id)init {
+    if (self = [super init]) {
+        self.source = @"vanguard";
+        self.url = [NSURL URLWithString:@"https://investor.vanguard.com/my-portfolio"];
+        self.image = [UIImage imageNamed:@"vanguard.jpeg"];
+    }
+    return self;
 }
 
 - (NSMutableArray* )parseWebView:(UIWebView *)webView {

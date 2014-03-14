@@ -19,12 +19,13 @@
     return instance;
 }
 
-- (NSString *)source {
-    return @"etrade";
-}
-
-- (NSURL *)url {
-    return [NSURL URLWithString:@"https://us.etrade.com/e/t/stockplan/olportfolioview?ploc=c-SubNav"];
+- (id)init {
+    if (self = [super init]) {
+        self.source = @"etrade";
+        self.url = [NSURL URLWithString:@"https://us.etrade.com/e/t/stockplan/olportfolioview?ploc=c-SubNav"];
+        self.image = [UIImage imageNamed:@"etrade.jpeg"];
+    }
+    return self;
 }
 
 - (NSMutableArray* )parseWebView:(UIWebView *)webView {
@@ -40,8 +41,8 @@
         NSString *row = [string substringWithRange:rowMatch.range];
         
         NSString *symbol = @"YHOO";
-        NSNumber *price = [self extractCurrencyFrom:row withPattern:@"<td style=\"height: 28px;\" fldnm=\"plan_price\" cn=\"\\d+\" class=\"\">.*?</td>"];
-        NSNumber *shares = [self extractDecimalFrom:row withPattern:@"<td style=\"height: 28px;\" fldnm=\"plan_sellable\" cn=\"\\d+\" class=\"\">.*?</td>"];
+        NSNumber *price = [super extractCurrencyFrom:row withPattern:@"<td style=\"height: 28px;\" fldnm=\"plan_price\" cn=\"\\d+\" class=\"\">.*?</td>"];
+        NSNumber *shares = [super extractDecimalFrom:row withPattern:@"<td style=\"height: 28px;\" fldnm=\"plan_sellable\" cn=\"\\d+\" class=\"\">.*?</td>"];
         float costBasis = (float)[price floatValue] * [shares floatValue];
         
         [lots addObject:[[Lot alloc] initWithSymbol:symbol shares:[shares floatValue] costBasis:costBasis]];

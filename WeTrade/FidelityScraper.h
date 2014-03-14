@@ -11,6 +11,5 @@
 @interface FidelityScraper : WebScraper
 
 + (FidelityScraper *)instance;
-- (NSMutableArray* )parseWebView:(UIWebView *)webView;
 
 @end

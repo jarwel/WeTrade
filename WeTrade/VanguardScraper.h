@@ -11,6 +11,5 @@
 @interface VanguardScraper : WebScraper
 
 + (VanguardScraper *)instance;
-- (NSMutableArray* )parseWebView:(UIWebView *)webView;
 
 @end

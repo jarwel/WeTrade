@@ -11,6 +11,5 @@
 @interface EtradeScraper : WebScraper
 
 + (EtradeScraper *)instance;
-- (NSMutableArray* )parseWebView:(UIWebView *)webView;
 
 @end

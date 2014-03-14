@@ -19,12 +19,13 @@
     return instance;
 }
 
-- (NSString *)source {
-    return @"fidelity";
-}
-
-- (NSURL *)url {
-    return [NSURL URLWithString:@"https://oltx.fidelity.com/ftgw/fbc/ofpositions/portfolioPositions"];
+- (id)init {
+    if (self = [super init]) {
+        self.source = @"fidelity";
+        self.url = [NSURL URLWithString:@"https://oltx.fidelity.com/ftgw/fbc/ofpositions/portfolioPositions"];
+        self.image = [UIImage imageNamed:@"fidelity.jpeg"];
+    }
+    return self;
 }
 
 - (NSMutableArray* )parseWebView:(UIWebView *)webView {
@@ -39,15 +40,14 @@
     for (NSTextCheckingResult *rowMatch in rows) {
         NSString *row = [string substringWithRange:rowMatch.range];
         
-        NSString *symbol = [self extractStringFrom:row withPattern:@"<strong>.*?</strong>"];
-        NSNumber *shares = [self extractDecimalFrom:row withPattern:@"<td class=\"right\" nowrap=\"nowrap\">.*?</td>"];
-        NSNumber *costBasis = [self extractCurrencyFrom:row withPattern:@"<td nowrap=\"nowrap\"><span class=\"right-float right.*?</span><span class=\"layout-clear-both\"></span></td>"];
+        NSString *symbol = [super extractStringFrom:row withPattern:@"<strong>.*?</strong>"];
+        NSNumber *shares = [super extractDecimalFrom:row withPattern:@"<td class=\"right\" nowrap=\"nowrap\">.*?</td>"];
+        NSNumber *costBasis = [super extractCurrencyFrom:row withPattern:@"<td nowrap=\"nowrap\"><span class=\"right-float right.*?</span><span class=\"layout-clear-both\"></span></td>"];
         
         [lots addObject:[[Lot alloc] initWithSymbol:symbol shares:[shares floatValue] costBasis:[costBasis floatValue]]];
         NSLog(@"Symbol: %@ Shares: %0.3f Cost Basis: %0.3f", symbol, [shares floatValue], [costBasis floatValue]);
     }
     return lots;
 }
-
 
 @end

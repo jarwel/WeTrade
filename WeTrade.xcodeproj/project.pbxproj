@@ -603,10 +603,10 @@
 				CA0F62AC18A73D61001FAA1A /* SecurityViewController.m */,
 				CACD59621891CFDE006FD228 /* EditLotsViewController.h */,
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
-				CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */,
-				CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */,
 				CA7A6C5818D1232F005C42D0 /* AccountViewController.h */,
 				CA7A6C5918D1232F005C42D0 /* AccountViewController.m */,
+				CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */,
+				CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

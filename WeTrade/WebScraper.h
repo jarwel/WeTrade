@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) NSString *source;
 @property (strong, nonatomic) NSURL *url;
+@property (strong, nonatomic) UIImage *image;
 
 - (NSMutableArray* )parseWebView:(UIWebView *)webView;
 - (NSString *)extractStringFrom:(NSString *)from withPattern:(NSString *)pattern;
