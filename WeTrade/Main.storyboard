@@ -323,27 +323,49 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPs-ew-24l">
-                                <rect key="frame" x="260" y="67" width="50" height="25"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2Z-aR-Vzx">
+                                <rect key="frame" x="200" y="64" width="120" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQh-U0-mrK">
+                                        <rect key="frame" x="20" y="3" width="50" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Chart">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" title="Chart">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onChartButton:" destination="qMQ-f6-otZ" eventType="touchUpInside" id="MjJ-nk-VMJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hPs-ew-24l">
+                                        <rect key="frame" x="70" y="3" width="50" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Metrics">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="selected" title="Metrics">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onMetricsButton:" destination="qMQ-f6-otZ" eventType="touchUpInside" id="upP-op-xiY"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="WeR-Tb-dTA"/>
-                                    <constraint firstAttribute="height" constant="25" id="Z0D-ej-0Vm"/>
+                                    <constraint firstAttribute="height" constant="25" id="Xkc-Mv-H6Y"/>
+                                    <constraint firstAttribute="width" constant="120" id="kMW-wz-kiF"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Metrics">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" title="Chart">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="onViewButton:" destination="qMQ-f6-otZ" eventType="touchUpInside" id="NUc-ho-w8H"/>
-                                </connections>
-                            </button>
+                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ftx-qf-4gt">
                                 <rect key="frame" x="120" y="64" width="200" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -680,14 +702,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="z2Z-aR-Vzx" secondAttribute="trailing" id="0rh-Ju-r0g"/>
                             <constraint firstItem="v8f-RC-M5i" firstAttribute="top" secondItem="BB6-NG-c4h" secondAttribute="bottom" constant="3" id="6rJ-Bk-jO4"/>
                             <constraint firstItem="sZo-O5-LVj" firstAttribute="leading" secondItem="qWU-q3-9jS" secondAttribute="leading" id="74a-2Q-srj"/>
-                            <constraint firstAttribute="trailing" secondItem="hPs-ew-24l" secondAttribute="trailing" constant="10" id="8Px-q3-vlM"/>
+                            <constraint firstItem="sZo-O5-LVj" firstAttribute="top" secondItem="Ftx-qf-4gt" secondAttribute="bottom" constant="11" id="DaO-PE-p0u"/>
                             <constraint firstItem="v8f-RC-M5i" firstAttribute="leading" secondItem="qWU-q3-9jS" secondAttribute="leading" constant="10" id="EeU-44-o2d"/>
                             <constraint firstAttribute="trailing" secondItem="sZo-O5-LVj" secondAttribute="trailing" id="Uyw-4p-8q9"/>
+                            <constraint firstItem="z2Z-aR-Vzx" firstAttribute="top" secondItem="BB6-NG-c4h" secondAttribute="bottom" id="ZwC-km-c5Q"/>
                             <constraint firstAttribute="trailing" secondItem="Ftx-qf-4gt" secondAttribute="trailing" id="cWY-Cn-A1f"/>
-                            <constraint firstItem="hPs-ew-24l" firstAttribute="top" secondItem="BB6-NG-c4h" secondAttribute="bottom" constant="3" id="e0p-ia-hjN"/>
-                            <constraint firstItem="sZo-O5-LVj" firstAttribute="top" secondItem="hPs-ew-24l" secondAttribute="bottom" constant="8" id="nQV-Bj-8Dw"/>
                             <constraint firstItem="Ftx-qf-4gt" firstAttribute="top" secondItem="BB6-NG-c4h" secondAttribute="bottom" id="vgc-ER-XAg"/>
                         </constraints>
                         <connections>
@@ -701,12 +723,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="Dzt-JX-idV" id="slS-XV-fTs"/>
+                        <outlet property="chartButton" destination="hQh-U0-mrK" id="LA2-XR-sAG"/>
+                        <outlet property="chartPickerView" destination="Ftx-qf-4gt" id="y2d-w0-YbB"/>
                         <outlet property="chartView" destination="sZo-O5-LVj" id="Uqg-cW-R6A"/>
                         <outlet property="chartViewHeightConstraint" destination="Z0U-YP-lhd" id="0IQ-iY-lzk"/>
                         <outlet property="commentButton" destination="TMm-5f-9C5" id="OGj-6c-m8u"/>
                         <outlet property="commentTextField" destination="KJL-gS-wiE" id="6R1-TS-KYS"/>
                         <outlet property="commentView" destination="3ek-H7-Gml" id="KV5-Yo-t8e"/>
-                        <outlet property="dataView" destination="nhh-Rj-Ev8" id="Rfl-Xb-NSo"/>
+                        <outlet property="dataPickerView" destination="z2Z-aR-Vzx" id="E2b-lA-ScL"/>
                         <outlet property="dividendDateLabel" destination="oF0-jG-jAI" id="olf-jL-16F"/>
                         <outlet property="dividendLabel" destination="LUa-fl-wVO" id="yNm-lz-5kN"/>
                         <outlet property="earningsPerShareLabel" destination="sdt-Wk-9dm" id="U25-lh-4PN"/>
@@ -716,6 +740,8 @@
                         <outlet property="highLabel" destination="Iix-Hb-vq8" id="oCU-rA-QNo"/>
                         <outlet property="lowLabel" destination="FUr-yX-cAB" id="FMh-aj-zh9"/>
                         <outlet property="marketCapitalizationLabel" destination="5Ip-hU-m2T" id="qM9-Ec-bhO"/>
+                        <outlet property="metricsButton" destination="hPs-ew-24l" id="Iyg-Od-pTP"/>
+                        <outlet property="metricsView" destination="nhh-Rj-Ev8" id="umE-T8-cqE"/>
                         <outlet property="nameLabel" destination="v8f-RC-M5i" id="lZx-QW-udP"/>
                         <outlet property="oneMonthButton" destination="ZAa-6Y-fof" id="9E7-MV-sft"/>
                         <outlet property="oneYearButton" destination="H6E-v6-zYe" id="JHp-2w-ojQ"/>
@@ -726,8 +752,6 @@
                         <outlet property="sixMonthButton" destination="fIT-eI-CxY" id="BtC-Rs-DEq"/>
                         <outlet property="tableView" destination="Uq4-Cv-UV3" id="D5o-vy-gfY"/>
                         <outlet property="threeMonthButton" destination="W3G-nW-jdg" id="j55-Rk-6uk"/>
-                        <outlet property="timeView" destination="Ftx-qf-4gt" id="xfa-yo-d35"/>
-                        <outlet property="viewButton" destination="hPs-ew-24l" id="BRc-Kt-vlB"/>
                         <outlet property="volumeLabel" destination="M89-LS-e4b" id="VNd-xD-sM6"/>
                         <outlet property="yieldLabel" destination="oq4-zt-dcf" id="hSm-pw-tId"/>
                     </connections>

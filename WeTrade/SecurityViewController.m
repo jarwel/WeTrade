@@ -39,13 +39,15 @@
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
-@property (weak, nonatomic) IBOutlet UIButton *viewButton;
+@property (weak, nonatomic) IBOutlet UIButton *metricsButton;
+@property (weak, nonatomic) IBOutlet UIButton *chartButton;
 @property (weak, nonatomic) IBOutlet UIButton *oneYearButton;
 @property (weak, nonatomic) IBOutlet UIButton *sixMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *threeMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *oneMonthButton;
-@property (weak, nonatomic) IBOutlet UIView *timeView;
-@property (weak, nonatomic) IBOutlet UIView *dataView;
+@property (weak, nonatomic) IBOutlet UIView *dataPickerView;
+@property (weak, nonatomic) IBOutlet UIView *chartPickerView;
+@property (weak, nonatomic) IBOutlet UIView *metricsView;
 @property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *chartViewHeightConstraint;
@@ -59,7 +61,8 @@
 @property (strong, nonatomic) FullQuote *fullQuote;
 @property (strong, nonatomic) History *history;
 
-- (IBAction)onViewButton:(id)sender;
+- (IBAction)onMetricsButton:(id)sender;
+- (IBAction)onChartButton:(id)sender;
 - (IBAction)onOneMonthButton:(id)sender;
 - (IBAction)onThreeMonthButton:(id)sender;
 - (IBAction)onSixMonthButton:(id)sender;
@@ -144,13 +147,15 @@
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     _isLandscape = UIDeviceOrientationIsLandscape(orientation) || orientation == UIDeviceOrientationPortraitUpsideDown;
     
-    [self.chartViewHeightConstraint setConstant: self.isLandscape ? 220.0f : 190.0f];
-    [self.viewButton setHidden:self.isLandscape];
+    [self.chartViewHeightConstraint setConstant: self.isLandscape ? 230.0f : 190.0f];
     [self.commentView setHidden:self.isLandscape];
     [self.tableView setHidden:self.isLandscape];
-    [self.timeView setHidden:!self.isLandscape];
-    [self.dataView setHidden:YES];
+    [self.dataPickerView setHidden:self.isLandscape];
+    [self.chartPickerView setHidden:!self.isLandscape];
+    [self.chartButton setSelected:YES];
     [self.chartView setHidden:NO];
+    [self.metricsButton setSelected:NO];
+    [self.metricsView setHidden:YES];
     
     if (!self.history || !self.isLandscape) {
         [self onOneMonthButton:self];
@@ -175,7 +180,7 @@
     graph.paddingLeft = 0.0f;
     graph.paddingTop = 0.0f;
     graph.paddingRight = 0.0f;
-    graph.paddingBottom = 30.0f;
+    graph.paddingBottom = 40.0f;
     graph.plotAreaFrame.masksToBorder = NO;
 }
 
@@ -357,10 +362,18 @@
     }
 }
 
-- (IBAction)onViewButton:(id)sender {
-    [self.viewButton setSelected:!self.viewButton.selected];
-    [self.chartView setHidden:!self.chartView.hidden];
-    [self.dataView setHidden:!self.chartView.hidden];
+- (IBAction)onMetricsButton:(id)sender {
+    [self.chartButton setSelected:NO];
+    [self.metricsButton setSelected:YES];
+    [self.chartView setHidden:YES];
+    [self.metricsView setHidden:NO];
+}
+
+- (IBAction)onChartButton:(id)sender {
+    [self.chartButton setSelected:YES];
+    [self.metricsButton setSelected:NO];
+    [self.chartView setHidden:NO];
+    [self.metricsView setHidden:YES];
 }
 
 - (IBAction)onOneMonthButton:(id)sender {
