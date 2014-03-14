@@ -38,6 +38,7 @@
 		CA60662B18982CC600A55D3F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA60662A18982CC600A55D3F /* SignUpViewController.m */; };
 		CA6B5C0918AB0870006CB919 /* FavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CA6B5C0818AB0870006CB919 /* FavoriteButton.m */; };
 		CA758CF218C93E4B0045CB40 /* QuoteService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA758CF118C93E4B0045CB40 /* QuoteService.m */; };
+		CA7A6C5A18D1232F005C42D0 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7A6C5918D1232F005C42D0 /* AccountViewController.m */; };
 		CA7B32FC1898988B001C14AF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CA7B32FB1898988B001C14AF /* Constants.m */; };
 		CA829F0018AC62D600AEA465 /* profile_default.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CA829EFF18AC62D600AEA465 /* profile_default.jpeg */; };
 		CA861DE018AEA4C00057D163 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = CA861DDF18AEA4C00057D163 /* FavoriteService.m */; };
@@ -79,6 +80,10 @@
 		CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */; };
 		CAF11A2B18C63F76006D8889 /* SecurityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAF11A2A18C63F76006D8889 /* SecurityCell.xib */; };
 		CAF11A2E18C67372006D8889 /* Security.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF11A2D18C67372006D8889 /* Security.m */; };
+		CAF1414318D2660800781558 /* fidelity.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CAF1414218D2660800781558 /* fidelity.jpeg */; };
+		CAF1414518D2660C00781558 /* etrade.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CAF1414418D2660C00781558 /* etrade.jpeg */; };
+		CAF1414A18D2748100781558 /* VanguardScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF1414918D2748100781558 /* VanguardScraper.m */; };
+		CAF1414C18D2853700781558 /* vanguard.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CAF1414B18D2853700781558 /* vanguard.jpeg */; };
 		CAFBB69F18B7D62700A8FD03 /* FavoriteBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFBB69E18B7D62700A8FD03 /* FavoriteBarButton.m */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +151,8 @@
 		CA6B5C0818AB0870006CB919 /* FavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteButton.m; sourceTree = "<group>"; };
 		CA758CF018C93E4B0045CB40 /* QuoteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuoteService.h; sourceTree = "<group>"; };
 		CA758CF118C93E4B0045CB40 /* QuoteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuoteService.m; sourceTree = "<group>"; };
+		CA7A6C5818D1232F005C42D0 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		CA7A6C5918D1232F005C42D0 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		CA7B32FA1898988B001C14AF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CA7B32FB1898988B001C14AF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CA829EFF18AC62D600AEA465 /* profile_default.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = profile_default.jpeg; sourceTree = "<group>"; };
@@ -284,6 +291,11 @@
 		CAF11A2A18C63F76006D8889 /* SecurityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityCell.xib; sourceTree = "<group>"; };
 		CAF11A2C18C67372006D8889 /* Security.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Security.h; sourceTree = "<group>"; };
 		CAF11A2D18C67372006D8889 /* Security.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Security.m; sourceTree = "<group>"; };
+		CAF1414218D2660800781558 /* fidelity.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fidelity.jpeg; sourceTree = "<group>"; };
+		CAF1414418D2660C00781558 /* etrade.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = etrade.jpeg; sourceTree = "<group>"; };
+		CAF1414818D2748100781558 /* VanguardScraper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VanguardScraper.h; sourceTree = "<group>"; };
+		CAF1414918D2748100781558 /* VanguardScraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VanguardScraper.m; sourceTree = "<group>"; };
+		CAF1414B18D2853700781558 /* vanguard.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = vanguard.jpeg; sourceTree = "<group>"; };
 		CAFBB69D18B7D62700A8FD03 /* FavoriteBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteBarButton.h; sourceTree = "<group>"; };
 		CAFBB69E18B7D62700A8FD03 /* FavoriteBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteBarButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -425,12 +437,14 @@
 		CA3046CE18C2BDDF004E0CD6 /* Scrapers */ = {
 			isa = PBXGroup;
 			children = (
+				CA3046D818C2BFB2004E0CD6 /* WebScraper.h */,
+				CA3046D918C2BFB2004E0CD6 /* WebScraper.m */,
 				CA3046D218C2BE55004E0CD6 /* FidelityScraper.h */,
 				CA3046D318C2BE55004E0CD6 /* FidelityScraper.m */,
 				CA3046D518C2BF58004E0CD6 /* EtradeScraper.h */,
 				CA3046D618C2BF58004E0CD6 /* EtradeScraper.m */,
-				CA3046D818C2BFB2004E0CD6 /* WebScraper.h */,
-				CA3046D918C2BFB2004E0CD6 /* WebScraper.m */,
+				CAF1414818D2748100781558 /* VanguardScraper.h */,
+				CAF1414918D2748100781558 /* VanguardScraper.m */,
 			);
 			name = Scrapers;
 			sourceTree = "<group>";
@@ -439,9 +453,12 @@
 			isa = PBXGroup;
 			children = (
 				CA89420818BBC3820046C1BD /* icon.png */,
-				CA861DEB18AEC65C0057D163 /* follow_selected.png */,
 				CA861DEC18AEC65C0057D163 /* follow.png */,
+				CA861DEB18AEC65C0057D163 /* follow_selected.png */,
 				CA829EFF18AC62D600AEA465 /* profile_default.jpeg */,
+				CAF1414418D2660C00781558 /* etrade.jpeg */,
+				CAF1414218D2660800781558 /* fidelity.jpeg */,
+				CAF1414B18D2853700781558 /* vanguard.jpeg */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -588,6 +605,8 @@
 				CACD59631891CFDE006FD228 /* EditLotsViewController.m */,
 				CAD1502918BFAB8A00C96BC5 /* ImportViewController.h */,
 				CAD1502A18BFAB8A00C96BC5 /* ImportViewController.m */,
+				CA7A6C5818D1232F005C42D0 /* AccountViewController.h */,
+				CA7A6C5918D1232F005C42D0 /* AccountViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -726,11 +745,14 @@
 				CA1008B51890647B0031CF68 /* Images.xcassets in Resources */,
 				CACD59731891E67D006FD228 /* LotCell.xib in Resources */,
 				CA861DED18AEC65C0057D163 /* follow_selected.png in Resources */,
+				CAF1414C18D2853700781558 /* vanguard.jpeg in Resources */,
 				CA861DEE18AEC65C0057D163 /* follow.png in Resources */,
 				CA977C451896214E002AD88F /* PositionCell.xib in Resources */,
 				CA89420918BBC3820046C1BD /* icon.png in Resources */,
+				CAF1414318D2660800781558 /* fidelity.jpeg in Resources */,
 				CA1008A71890647B0031CF68 /* InfoPlist.strings in Resources */,
 				CA829F0018AC62D600AEA465 /* profile_default.jpeg in Resources */,
+				CAF1414518D2660C00781558 /* etrade.jpeg in Resources */,
 				CACD593418919E7E006FD228 /* Main.storyboard in Resources */,
 				CAF11A2B18C63F76006D8889 /* SecurityCell.xib in Resources */,
 				CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */,
@@ -759,6 +781,7 @@
 				CA5D11301898CFDD006940E8 /* IIWrapController.m in Sources */,
 				CA0F62AD18A73D61001FAA1A /* SecurityViewController.m in Sources */,
 				CAFBB69F18B7D62700A8FD03 /* FavoriteBarButton.m in Sources */,
+				CAF1414A18D2748100781558 /* VanguardScraper.m in Sources */,
 				CA977C431896212F002AD88F /* PositionCell.m in Sources */,
 				CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */,
 				CA977C4F18964E8E002AD88F /* Quote.m in Sources */,
@@ -766,6 +789,7 @@
 				CA3046DA18C2BFB2004E0CD6 /* WebScraper.m in Sources */,
 				CA977C4C1896429D002AD88F /* FinanceClient.m in Sources */,
 				CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */,
+				CA7A6C5A18D1232F005C42D0 /* AccountViewController.m in Sources */,
 				CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */,
 				CA3046DD18C3933F004E0CD6 /* FullQuote.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,

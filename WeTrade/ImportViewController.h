@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WebScraper.h"
 
 @interface ImportViewController : UIViewController
+
+@property (strong, nonatomic) WebScraper *webScraper;
 
 @end

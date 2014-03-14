@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "WebScraper.h"
 
 @interface EtradeScraper : WebScraper

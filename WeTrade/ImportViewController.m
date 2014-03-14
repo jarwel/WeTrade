@@ -8,17 +8,13 @@
 
 #import "ImportViewController.h"
 #import "EditLotsViewController.h"
-#import "WebScraper.h"
 #import "ParseClient.h"
 #import "Lot.h"
-#import "FidelityScraper.h"
-#import "EtradeScraper.h"
 
 @interface ImportViewController ()
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
-@property (strong, nonatomic) WebScraper *webScraper;
 @property (strong, nonatomic) NSMutableArray *lots;
 
 - (IBAction)onCancelButton:(id)sender;
@@ -30,7 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _webScraper = [FidelityScraper instance];
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.webScraper.url]];
 }
 

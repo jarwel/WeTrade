@@ -150,7 +150,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HLc-5n-ZiP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11925" y="-3292"/>
+            <point key="canvasLocation" x="-12749" y="-3300"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MjS-4o-d7u">
@@ -171,7 +171,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nK6-xb-QiZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11385" y="-4659"/>
+            <point key="canvasLocation" x="-12209" y="-4667"/>
         </scene>
         <!--Home View Controller - My Portfolio-->
         <scene sceneID="eru-ud-5Yp">
@@ -299,7 +299,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ap9-Dj-fCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-10859" y="-4659"/>
+            <point key="canvasLocation" x="-11683" y="-4667"/>
         </scene>
         <!--Security View Controller-->
         <scene sceneID="m8s-hr-bHq">
@@ -579,7 +579,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ex-Dividend" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejO-5H-CKE">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ex-Div Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejO-5H-CKE">
                                         <rect key="frame" x="160" y="130" width="80" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -739,7 +739,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-10317" y="-4659"/>
+            <point key="canvasLocation" x="-11141" y="-4667"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FYc-3z-bY8">
@@ -754,7 +754,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ryl-nF-iaK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11385" y="-3780"/>
+            <point key="canvasLocation" x="-12209" y="-3788"/>
         </scene>
         <!--Watching View Controller - Watch List-->
         <scene sceneID="hhk-x7-bSk">
@@ -827,7 +827,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-10859" y="-3780"/>
+            <point key="canvasLocation" x="-11683" y="-3788"/>
         </scene>
         <!--Following View Controller-->
         <scene sceneID="NCn-lS-VCh">
@@ -876,7 +876,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7rh-81-x8f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11925" y="-4227"/>
+            <point key="canvasLocation" x="-12749" y="-4235"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zIA-id-dpK">
@@ -891,7 +891,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5YD-2G-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-10317" y="-3292"/>
+            <point key="canvasLocation" x="-10601" y="-3300"/>
         </scene>
         <!--Edit Lots View Controller - Manage Lots-->
         <scene sceneID="ZKx-hJ-9xU">
@@ -915,7 +915,7 @@
                                 <action selector="onDoneButton:" destination="uRJ-UM-ELb" id="SxX-2Z-yD4"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Import" id="U9t-Rl-tP9">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="U9t-Rl-tP9">
                             <connections>
                                 <action selector="onImportButton:" destination="uRJ-UM-ELb" id="LJ3-IN-K28"/>
                             </connections>
@@ -924,7 +924,46 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v03-BO-XZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-9797" y="-3292"/>
+            <point key="canvasLocation" x="-10081" y="-3300"/>
+        </scene>
+        <!--Account View Controller - Import Account-->
+        <scene sceneID="sYm-Y9-1xc">
+            <objects>
+                <tableViewController id="8xD-Yq-91S" customClass="AccountViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="1" sectionFooterHeight="1" id="zIl-H6-bJs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AccountCell" id="VAf-NX-Dvq">
+                                <rect key="frame" x="0.0" y="65" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VAf-NX-Dvq" id="nLv-wf-uCZ">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8xD-Yq-91S" id="FFW-aa-Zdy"/>
+                            <outlet property="delegate" destination="8xD-Yq-91S" id="kmx-0C-KD9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Import Account" id="uYt-tT-DQa">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Unf-mc-44i">
+                            <connections>
+                                <action selector="onCancelButton:" destination="8xD-Yq-91S" id="HN3-bh-Gbj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="lTi-Sj-5ne" kind="push" identifier="ImportAccountSegue" id="xNu-YS-zCy"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L0o-S8-1EQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-11683" y="-2908"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="o0g-0e-f9E">
@@ -934,14 +973,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="lTi-Sj-5ne" kind="relationship" relationship="rootViewController" id="ZH5-gg-gMW"/>
+                        <segue destination="8xD-Yq-91S" kind="relationship" relationship="rootViewController" id="5Qa-S6-Dzo"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="saA-mb-NTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11385" y="-2900"/>
+            <point key="canvasLocation" x="-12209" y="-2908"/>
         </scene>
-        <!--Import View Controller - Import-->
+        <!--Import View Controller-->
         <scene sceneID="L51-AP-XwF">
             <objects>
                 <viewController id="lTi-Sj-5ne" customClass="ImportViewController" sceneMemberID="viewController">
@@ -961,12 +1000,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Import" id="PZb-e7-Ze6">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="zgB-PA-aik">
-                            <connections>
-                                <action selector="onCancelButton:" destination="lTi-Sj-5ne" id="CIu-n6-Dnh"/>
-                            </connections>
-                        </barButtonItem>
+                    <navigationItem key="navigationItem" id="PZb-e7-Ze6">
                         <barButtonItem key="rightBarButtonItem" title="Import" id="xN3-Yq-39t">
                             <connections>
                                 <segue destination="NJ6-vU-gFH" kind="modal" identifier="EditLotsSegue" id="T22-1a-XiM"/>
@@ -979,7 +1013,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L9J-ba-Ds9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-10859" y="-2900"/>
+            <point key="canvasLocation" x="-11141" y="-2908"/>
         </scene>
     </scenes>
     <resources>
@@ -993,6 +1027,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="uFQ-FL-4gM"/>
-        <segue reference="fcC-fv-hjr"/>
+        <segue reference="naP-fe-8VP"/>
     </inferredMetricsTieBreakers>
 </document>

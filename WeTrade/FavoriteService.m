@@ -99,9 +99,11 @@
 
 
 - (void)unfollowSecurity:(Security *)security {
-    [self.securities removeObjectForKey:security.objectId];
-    [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
-    [[ParseClient instance] unfollowSecurity:security];
+    if (security.objectId) {
+        [self.securities removeObjectForKey:security.objectId];
+        [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
+        [[ParseClient instance] unfollowSecurity:security];
+    }
 }
 
 - (void)reload {

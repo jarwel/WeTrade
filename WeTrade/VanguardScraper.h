@@ -1,16 +1,16 @@
 //
-//  FidelityScraper.h
+//  VanguardScraper.h
 //  WeTrade
 //
-//  Created by Jason Wells on 3/1/14.
+//  Created by Jason Wells on 3/13/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
 #import "WebScraper.h"
 
-@interface FidelityScraper : WebScraper
+@interface VanguardScraper : WebScraper
 
-+ (FidelityScraper *)instance;
++ (VanguardScraper *)instance;
 - (NSMutableArray* )parseWebView:(UIWebView *)webView;
 
 @end

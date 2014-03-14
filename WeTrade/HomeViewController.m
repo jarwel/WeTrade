@@ -295,16 +295,6 @@
     [self performSegueWithIdentifier:@"ShowSecuritySegue" sender:self];
 }
 
-- (IBAction)onChangeButton:(id)sender {
-    [self.changeButton setSelected:!self.changeButton.selected];
-    [self reloadTotals];
-    [self.tableView reloadData];
-}
-
-- (IBAction)onDoneButton:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowSecuritySegue"]) {
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
@@ -313,6 +303,16 @@
         securityViewController.symbol = position.symbol;
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (IBAction)onChangeButton:(id)sender {
+    [self.changeButton setSelected:!self.changeButton.selected];
+    [self reloadTotals];
+    [self.tableView reloadData];
+}
+
+- (IBAction)onDoneButton:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
