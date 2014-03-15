@@ -212,10 +212,15 @@
     CPTPieChart *pieChart = [[CPTPieChart alloc] init];
     pieChart.dataSource = self;
     pieChart.delegate = self;
-    pieChart.pieRadius = self.chartView.bounds.size.height * 0.7 / 2;
+    pieChart.pieRadius = (self.chartView.bounds.size.height * 0.7f) / 2;
     pieChart.identifier = graph.title;
     pieChart.startAngle = M_PI_4;
     pieChart.sliceDirection = CPTPieDirectionCounterClockwise;
+    
+    CPTMutableLineStyle *lineStyle = [CPTLineStyle lineStyle];
+    lineStyle.lineColor = [CPTColor grayColor];
+    lineStyle.lineWidth = 0.5f;
+    pieChart.borderLineStyle = lineStyle;
     
     CPTGradient *overlayGradient = [[CPTGradient alloc] init];
     overlayGradient.gradientType = CPTGradientTypeRadial;
