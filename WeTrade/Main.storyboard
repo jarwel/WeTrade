@@ -1017,13 +1017,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zAn-kg-76j">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAn-kg-76j">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="zAn-kg-76j" secondAttribute="trailing" id="1lb-JC-tDo"/>
+                            <constraint firstItem="Eyh-Ji-MlM" firstAttribute="top" secondItem="zAn-kg-76j" secondAttribute="bottom" id="E51-DX-fbU"/>
+                            <constraint firstItem="zAn-kg-76j" firstAttribute="leading" secondItem="U3E-h1-s0S" secondAttribute="leading" id="Qh0-4h-CZ8"/>
+                            <constraint firstItem="zAn-kg-76j" firstAttribute="top" secondItem="U3E-h1-s0S" secondAttribute="top" id="gsh-1w-bSh"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="PZb-e7-Ze6">
                         <barButtonItem key="rightBarButtonItem" title="Import" id="xN3-Yq-39t">
@@ -1051,7 +1057,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="uFQ-FL-4gM"/>
+        <segue reference="T22-1a-XiM"/>
         <segue reference="fcC-fv-hjr"/>
     </inferredMetricsTieBreakers>
 </document>

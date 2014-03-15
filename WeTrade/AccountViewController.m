@@ -14,10 +14,12 @@
 
 @interface AccountViewController ()
 
-@property (strong, nonatomic) NSMutableArray *images;
 @property (strong, nonatomic) NSMutableArray *webScrapers;
+@property (strong, nonatomic) NSMutableArray *images;
 
 - (IBAction)onCancelButton:(id)sender;
+
+- (UIImage *)sizeImage:(UIImage *)image;
 
 @end
 
@@ -33,8 +35,7 @@
     
     _images = [[NSMutableArray alloc] init];
     for (WebScraper *webScraper in self.webScrapers) {
-        UIImage *image = [self sizeImage:webScraper.image];
-        [self.images addObject:image];
+        [self.images addObject:[self sizeImage:webScraper.image]];
     }
 }
 
@@ -60,7 +61,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     UIImage *image = [self.images objectAtIndex:indexPath.row];
-    cell.backgroundColor = [UIColor colorWithPatternImage:image];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.contentMode = UIViewContentModeCenter;
+    cell.backgroundView = imageView;
     return cell;
 }
 
