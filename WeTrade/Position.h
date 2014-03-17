@@ -20,6 +20,6 @@
 
 - (void)addLot:(Lot *)lot;
 - (float)valueForQuote:(Quote *)quote;
-+ (NSMutableArray *)fromObjects:(NSArray *)objects;
++ (NSArray *)fromLots:(NSArray *)lots;
 
 @end

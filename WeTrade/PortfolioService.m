@@ -90,6 +90,10 @@
             [removes addObject:lot];
         }
     }
+    
+    [self.lots addObjectsFromArray:lots];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+    
     [[ParseClient instance] removeLots:removes callback:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [[ParseClient instance] createLots:lots withSource:source callback:^(BOOL succeeded, NSError *error) {
@@ -171,41 +175,30 @@
 }
 
 + (void)positionsForUserId:(NSString *)userId callback:(void (^)(NSArray *positions))callback {
-    [[ParseClient instance] fetchLotsForUserId:userId callback:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            NSArray *positions = [Position fromObjects:objects];
-            NSSet *symbols = [self symbolsForPositions:positions];
-            [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSDictionary *sectors) {
-                for (Position *position in positions) {
-                    NSString *sector = [sectors objectForKey:position.symbol];
-                    position.sector = sector;
-                }
-                callback(positions);
-            }];
-        }
-        else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
+    [[ParseClient instance] fetchLotsForUserId:userId callback:^(NSArray *lots) {
+        NSArray *positions = [Position fromLots:lots];
+        NSSet *symbols = [self symbolsForPositions:positions];
+        [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSDictionary *sectors) {
+            for (Position *position in positions) {
+                NSString *sector = [sectors objectForKey:position.symbol];
+                position.sector = sector;
+            }
+            callback(positions);
+        }];
     }];
 }
 
 - (void)reload {
-    [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            NSMutableArray *lots = [Lot fromParseObjects:objects];
-            NSMutableSet *symbols = [[NSMutableSet alloc] init];
-            for (Lot *lot in lots) {
-                [symbols addObject:lot.symbol];
-            }
-            [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSDictionary *sectors) {
-                _sectors = sectors;
-                _lots = lots;
-                [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
-            }];
+    [[ParseClient instance] fetchLots:^(NSArray *lots) {
+        NSMutableSet *symbols = [[NSMutableSet alloc] init];
+        for (Lot *lot in lots) {
+            [symbols addObject:lot.symbol];
         }
-        else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
+        [[FinanceClient instance] fetchSectorsForSymbols:symbols callback:^(NSDictionary *sectors) {
+            _sectors = sectors;
+            _lots = [lots mutableCopy];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PortfolioChangedNotification object:nil];
+        }];
     }];
 }
 

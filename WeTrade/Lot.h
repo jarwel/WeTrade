@@ -19,6 +19,5 @@
 
 - (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis;
 - (BOOL)mightBeCash;
-+ (NSMutableArray *)fromParseObjects:(NSArray *)parseObjects;
 
 @end

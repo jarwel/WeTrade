@@ -62,12 +62,12 @@
     return self.shares * quote.price;
 }
 
-+ (NSArray *)fromObjects:(NSArray *)objects {
++ (NSArray *)fromLots:(NSArray *)lots {
     NSMutableDictionary *positions = [NSMutableDictionary dictionary];
-    for (PFObject *object in objects) {
-        NSString *symbol = [object objectForKey:@"symbol"];
+    for (Lot *lot in lots) {
+        NSString *symbol = lot.symbol;
         
-        if ([[object objectForKey:@"cash"] boolValue] ) {
+        if ([lot.cash boolValue] ) {
             symbol = CashSymbol;
         }
         
@@ -77,7 +77,7 @@
             [positions setObject:position forKey:symbol];
         }
         Position *position = [positions objectForKey:symbol];
-        [position.lots addObject:[[Lot alloc] initWithData:object]];
+        [position.lots addObject:lot];
     }
     return [[NSArray alloc] initWithArray:[positions allValues]];
 }

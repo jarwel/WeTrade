@@ -159,30 +159,25 @@
 }
 
 - (void)fetchPortfolioForUser:(PFUser *)user indexPath:(NSIndexPath *)indexPath {
-    [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            NSArray *positions = [Position fromObjects:objects];
+    [[ParseClient instance] fetchLotsForUserId:user.objectId callback:^(NSArray *lots) {
+        NSArray *positions = [Position fromLots:lots];
             
-            UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-            if (userCell) {
-                NSSet *symbols = [PortfolioService symbolsForPositions:positions];
-                NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
-                NSNumber *percentChange = [PortfolioService dayChangeForQuotes:quotes positions:positions];
+        UserCell *userCell = (UserCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (userCell) {
+            NSSet *symbols = [PortfolioService symbolsForPositions:positions];
+            NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
+            NSNumber *percentChange = [PortfolioService dayChangeForQuotes:quotes positions:positions];
                 
-                userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
-                userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
-            }
-            
-            [self.portfolios setObject:positions forKey:user.objectId];
-            
-            if (![self.timers containsObject:user.objectId]) {
-                [self.timers addObject:user.objectId];
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:user.objectId, @"userId", nil];
-                [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(expireChangeForTimer:) userInfo:userInfo repeats:NO];
-            }
+            userCell.totalChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", [percentChange floatValue]];
+            userCell.totalChangeLabel.textColor = [PortfolioService colorForChange:[percentChange floatValue]];
         }
-        else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
+            
+        [self.portfolios setObject:positions forKey:user.objectId];
+            
+        if (![self.timers containsObject:user.objectId]) {
+            [self.timers addObject:user.objectId];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:user.objectId, @"userId", nil];
+            [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(expireChangeForTimer:) userInfo:userInfo repeats:NO];
         }
     }];
 }

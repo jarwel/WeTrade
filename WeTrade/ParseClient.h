@@ -14,8 +14,8 @@
 @interface ParseClient : NSObject
 
 + (ParseClient *)instance;
-- (void)fetchLots:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchLots:(void (^)(NSArray *lots))callback;
+- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *lots))callback;
 - (void)fetchCommentsForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback;

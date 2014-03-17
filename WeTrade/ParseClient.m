@@ -22,17 +22,28 @@
     return instance;
 }
 
-- (void)fetchLots:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)fetchLots:(void (^)(NSArray *lots))callback {
     NSString *userId = [PFUser currentUser].objectId;
     [self fetchLotsForUserId:userId callback:callback];
 }
 
-- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *lots))callback {
     NSLog(@"fetchLotsForUserId: %@", userId);
     PFQuery *query = [PFQuery queryWithClassName:@"Lot"];
     [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [query whereKey:@"userId" equalTo:userId];
-    [query findObjectsInBackgroundWithBlock:callback];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSMutableArray *lots = [[NSMutableArray alloc] initWithCapacity:objects.count];
+            for (PFObject *parseObject in objects) {
+                [lots addObject:[[Lot alloc] initWithData:parseObject]];
+            }
+            callback(lots);
+        }
+        else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (void)fetchCommentsForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback {

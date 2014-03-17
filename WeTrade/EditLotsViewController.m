@@ -33,18 +33,13 @@
     }
     
     if (!self.lots) {
-        [[ParseClient instance] fetchLots:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                _lots = [[Lot fromParseObjects:objects] sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
-                    NSString *firstSymbol = ((Lot*)first).symbol;
-                    NSString *secondSymbol= ((Lot*)second).symbol;
-                    return [firstSymbol compare:secondSymbol];
-                }];
-            
-                [self.tableView reloadData];
-            } else {
-                NSLog(@"Error: %@ %@", error, [error userInfo]);
-            }
+        [[ParseClient instance] fetchLots:^(NSArray *lots) {
+            _lots = [lots sortedArrayUsingComparator:^NSComparisonResult(id first, id second) {
+                NSString *firstSymbol = ((Lot*)first).symbol;
+                NSString *secondSymbol= ((Lot*)second).symbol;
+                return [firstSymbol compare:secondSymbol];
+            }];
+            [self.tableView reloadData];
         }];
     }
 }
