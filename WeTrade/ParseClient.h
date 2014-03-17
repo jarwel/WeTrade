@@ -18,7 +18,7 @@
 - (void)fetchLotsForUserId:(NSString *)userId callback:(void (^)(NSArray *lots))callback;
 - (void)fetchCommentsForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchUsersForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
-- (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(Security *security))callback;
 - (void)fetchSecuritiesForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback;
 - (void)fetchFavoriteUsers:(void (^)(NSArray *users))callback;
 - (void)fetchFavoriteSecurities:(void (^)(NSArray *securities))callback;

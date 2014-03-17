@@ -19,10 +19,10 @@
 
 @interface PortfolioViewController ()
 
-@property (weak, nonatomic) IBOutlet UIButton *changeButton;
-@property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UIView *tableHeaderView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *changeButton;
+@property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
 
@@ -304,14 +304,13 @@
     }
     else {
         Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
-        
-        if (self.changeButton.selected && position.costBasis > 0) {
-            float totalChange = ([position valueForQuote:quote] - position.costBasis) / position.costBasis * 100;
-            positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", totalChange];
-            positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:totalChange];
-        }
-        else {
-            if (quote) {
+        if (quote) {
+            if (self.changeButton.selected && position.costBasis > 0) {
+                float totalChange = ([position valueForQuote:quote] - position.costBasis) / position.costBasis * 100;
+                positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", totalChange];
+                positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:totalChange];
+            }
+            else {
                 positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", quote.percentChange];
                 positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:quote.priceChange];
             }

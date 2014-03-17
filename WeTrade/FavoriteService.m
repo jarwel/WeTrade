@@ -82,17 +82,11 @@
     else {
         [[ParseClient instance] createSecurityWithSymbol:security.symbol callback:^(BOOL succeeded, NSError *error) {
             if (!error) {
-                [[ParseClient instance] fetchSecurityForSymbol:security.symbol callback:^(NSArray *objects, NSError *error) {
-                    if (!error) {
-                        Security *security = [Security fromParseObjects:objects].firstObject;
-                        [self.securities addObject:security];
-                        [self.objectIds addObject:security.objectId];
-                        [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
-                        [[ParseClient instance] followSecurity:security];
-                    }
-                    else {
-                        NSLog(@"Error: %@ %@", error, [error userInfo]);
-                    }
+                [[ParseClient instance] fetchSecurityForSymbol:security.symbol callback:^(Security *security) {
+                    [self.securities addObject:security];
+                    [self.objectIds addObject:security.objectId];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:FavoritesChangedNotification object:nil];
+                    [[ParseClient instance] followSecurity:security];
                 }];
             }
             else {

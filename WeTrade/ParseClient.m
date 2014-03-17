@@ -39,8 +39,7 @@
                 [lots addObject:[[Lot alloc] initWithData:parseObject]];
             }
             callback(lots);
-        }
-        else {
+        } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
@@ -67,13 +66,19 @@
     [query findObjectsInBackgroundWithBlock:callback];
 }
 
-- (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)fetchSecurityForSymbol:(NSString *)symbol callback:(void (^)(Security *security))callback {
     NSLog(@"fetchSecurityForSymbol: %@", symbol);
     
     PFQuery *query = [PFQuery queryWithClassName:@"Security"];
     [query whereKey:@"symbol" equalTo:symbol];
-    [query setLimit:1];
-    [query findObjectsInBackgroundWithBlock:callback];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (!error) {
+            Security *security = [[Security alloc] initWithData:object];
+            callback(security);
+        } else {
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (void)fetchSecuritiesForSearch:(NSString *)search callback:(void (^)(NSArray *objects, NSError *error))callback {

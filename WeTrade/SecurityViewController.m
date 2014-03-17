@@ -21,6 +21,10 @@
 
 @interface SecurityViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *dataPickerView;
+@property (weak, nonatomic) IBOutlet UIView *chartPickerView;
+@property (weak, nonatomic) IBOutlet UIView *metricsView;
+@property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousCloseLabel;
@@ -36,7 +40,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *yieldLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDividendDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dividendDateLabel;
-@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UIButton *metricsButton;
@@ -45,11 +48,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *sixMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *threeMonthButton;
 @property (weak, nonatomic) IBOutlet UIButton *oneMonthButton;
-@property (weak, nonatomic) IBOutlet UIView *dataPickerView;
-@property (weak, nonatomic) IBOutlet UIView *chartPickerView;
-@property (weak, nonatomic) IBOutlet UIView *metricsView;
-@property (weak, nonatomic) IBOutlet UIView *commentView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *chartViewHeightConstraint;
 @property (weak, nonatomic) IBOutlet CPTGraphHostingView *chartView;
 @property (weak, nonatomic) IBOutlet FavoriteBarButton *favoriteBarButton;
@@ -93,18 +93,8 @@
     [self initChart];
     [self initTable];
     
-    [[ParseClient instance] fetchSecurityForSymbol:self.symbol callback:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            Security *security = [Security fromParseObjects:objects].firstObject;
-            
-            if (!security) {
-                security = [[Security alloc] initWithSymbol:self.symbol];
-            }
-            [self.favoriteBarButton setupForSecurity:security];
-            
-        } else {
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
+    [[ParseClient instance] fetchSecurityForSymbol:self.symbol callback:^(Security *security) {
+        [self.favoriteBarButton setupForSecurity:security];
     }];
     [[ParseClient instance] fetchCommentsForSymbol:self.symbol callback:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -339,7 +329,6 @@
     CGSize size = {self.tableView.frame.size.width , 99999};
     CGFloat height = [comment.text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping].height;
     return 60 + height;
-
 }
 
 - (void)reloadMetrics {
