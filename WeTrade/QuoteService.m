@@ -13,7 +13,9 @@
 @interface QuoteService ()
 
 @property (strong, nonatomic) NSMutableDictionary *quotes;
+@property (strong, nonatomic) NSTimer *reloadTimer;
 
+- (void)updateTimer;
 - (void)reload;
 - (void)clear;
 
@@ -32,10 +34,58 @@
 - (id)init {
     if (self = [super init]) {
         _quotes = [[NSMutableDictionary alloc] init];
-        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reload) userInfo:nil repeats:YES];
+        [self updateTimer];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clear) name:LogoutNotification object:nil];
     }
     return self;
+}
+
+- (void)updateTimer {
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    [calendar setTimeZone:[NSTimeZone timeZoneWithName:@"US/Eastern"]];
+    NSInteger hour = [[calendar components:NSHourCalendarUnit fromDate:now] hour];
+    
+    int seconds;
+    if (hour > 8 && hour < 17) {
+        _reloadTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reload) userInfo:nil repeats:YES];
+        seconds = [[self marketCloseFromDate:now] timeIntervalSinceDate:now];
+        NSLog(@"Seconds until close: %d", seconds);
+        
+    }
+    else {
+        [self.reloadTimer invalidate];
+        _reloadTimer = nil;
+        seconds = [[self marketOpenFromDate:now] timeIntervalSinceDate:now];
+        NSLog(@"Seconds until open: %d", seconds);
+    }
+    [NSTimer scheduledTimerWithTimeInterval:seconds target:self selector:@selector(updateTimer) userInfo:nil repeats:NO];
+}
+
+- (NSDate *)marketOpenFromDate:(NSDate *)date {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit fromDate:date];
+    [dateComponents setTimeZone:[NSTimeZone timeZoneWithName:@"US/Eastern"]];
+    if ([dateComponents hour] > 8) {
+        [dateComponents setDay:[dateComponents day] + 1];
+    }
+    [dateComponents setHour:8];
+    [dateComponents setMinute:0];
+    [dateComponents setSecond:0];
+    return [calendar dateFromComponents:dateComponents];
+}
+
+- (NSDate *)marketCloseFromDate:(NSDate *)date {
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit fromDate:date];
+    [dateComponents setTimeZone:[NSTimeZone timeZoneWithName:@"US/Eastern"]];
+    if ([dateComponents hour] > 17) {
+        [dateComponents setDay:[dateComponents day] + 1];
+    }
+    [dateComponents setHour:17];
+    [dateComponents setMinute:0];
+    [dateComponents setSecond:0];
+    return [calendar dateFromComponents:dateComponents];
 }
 
 - (Quote *)quoteForSymbol:(NSString *)symbol {
