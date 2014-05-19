@@ -263,6 +263,7 @@
         style = [[CPTMutableTextStyle alloc] init];
         style.color = [CPTColor darkGrayColor];
         style.fontSize = 10.5f;
+        style.lineBreakMode = NSLineBreakByWordWrapping;
     }
 
     if (self.showSectors) {
@@ -305,7 +306,7 @@
     else {
         Quote *quote = [[QuoteService instance] quoteForSymbol:position.symbol];
         if (quote) {
-            if (self.changeButton.selected && position.costBasis > 0) {
+            if (self.changeButton.selected) {
                 float totalChange = ([position valueForQuote:quote] - position.costBasis) / position.costBasis * 100;
                 positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f%%", totalChange];
                 positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:totalChange];
@@ -324,6 +325,7 @@
         if (self.isLandscape) {
             positionCell.sectorLabel.text = position.sector;
             positionCell.percentChangeLabel.text = [NSString stringWithFormat:@"%+0.2f (%+0.2f%%)", quote.priceChange, quote.percentChange];
+            positionCell.percentChangeLabel.textColor = [PortfolioService colorForChange:quote.priceChange];
         }
         else {
             positionCell.sectorLabel.text = nil;

@@ -10,11 +10,12 @@
 
 @implementation Lot
 
-- (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis {
+- (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis source:(NSString *)source {
     if (self = [super init]) {
         _symbol = symbol;
         _shares = shares;
         _costBasis = costBasis;
+        _source = source;
     }
     return self;
 }

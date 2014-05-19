@@ -50,14 +50,14 @@
     if (hour > 8 && hour < 17) {
         _reloadTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(reload) userInfo:nil repeats:YES];
         seconds = [[self marketCloseFromDate:now] timeIntervalSinceDate:now];
-        NSLog(@"Seconds until close: %d", seconds);
+        NSLog(@"seconds until market close: %d", seconds);
         
     }
     else {
         [self.reloadTimer invalidate];
         _reloadTimer = nil;
         seconds = [[self marketOpenFromDate:now] timeIntervalSinceDate:now];
-        NSLog(@"Seconds until open: %d", seconds);
+        NSLog(@"seconds until market open: %d", seconds);
     }
     [NSTimer scheduledTimerWithTimeInterval:seconds target:self selector:@selector(updateTimer) userInfo:nil repeats:NO];
 }

@@ -17,7 +17,7 @@
 @property (nonatomic, assign) NSString *source;
 @property (nonatomic, assign) NSString *cash;
 
-- (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis;
+- (id)initWithSymbol:(NSString *)symbol shares:(float)shares costBasis:(float)costBasis source:(NSString *)source;
 - (BOOL)mightBeCash;
 
 @end

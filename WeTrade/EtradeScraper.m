@@ -39,13 +39,14 @@
     
     for (NSTextCheckingResult *rowMatch in rows) {
         NSString *row = [string substringWithRange:rowMatch.range];
-        
+        NSLog(@"%@", row);
+
         NSString *symbol = @"YHOO";
         NSNumber *price = [super extractCurrencyFrom:row withPattern:@"<td style=\"height: 28px;\" fldnm=\"plan_price\" cn=\"\\d+\" class=\"\">.*?</td>"];
         NSNumber *shares = [super extractDecimalFrom:row withPattern:@"<td style=\"height: 28px;\" fldnm=\"plan_sellable\" cn=\"\\d+\" class=\"\">.*?</td>"];
         float costBasis = (float)[price floatValue] * [shares floatValue];
         
-        [lots addObject:[[Lot alloc] initWithSymbol:symbol shares:[shares floatValue] costBasis:costBasis]];
+        [lots addObject:[[Lot alloc] initWithSymbol:symbol shares:[shares floatValue] costBasis:costBasis source:self.source]];
         NSLog(@"Symbol: %@ Shares: %0.3f Price: %0.3f", symbol, [shares floatValue], [price floatValue]);
     }
     return lots;
