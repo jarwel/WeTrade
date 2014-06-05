@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
+#import "Security.h"
 
 @interface SecurityViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CPTPlotDataSource>
 
-@property (strong, nonatomic) NSString *symbol;
+@property (strong, nonatomic) Security *security;
 
 @end

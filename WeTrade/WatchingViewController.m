@@ -200,7 +200,7 @@
         }
         
         SecurityViewController *securityViewController = segue.destinationViewController;
-        securityViewController.symbol = security.symbol;
+        securityViewController.security = security;
     }
 }
 

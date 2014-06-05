@@ -15,7 +15,6 @@
 #import "CommentCell.h"
 #import "Comment.h"
 #import "FullQuote.h"
-#import "Security.h"
 #import "HistoricalQuote.h"
 #import "History.h"
 
@@ -88,15 +87,12 @@
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor grayColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
     [self.view.layer insertSublayer:gradient atIndex:0];
     
-    [self setTitle:self.symbol];
-    [self.favoriteBarButton setupForSecurity:[[Security alloc] initWithSymbol:self.symbol]];
+    [self setTitle:self.security.symbol];
+    [self.favoriteBarButton setupForSecurity:self.security];
     [self initChart];
     [self initTable];
     
-    [[ParseClient instance] fetchSecurityForSymbol:self.symbol callback:^(Security *security) {
-        [self.favoriteBarButton setupForSecurity:security];
-    }];
-    [[ParseClient instance] fetchCommentsForSymbol:self.symbol callback:^(NSArray *objects, NSError *error) {
+    [[ParseClient instance] fetchCommentsForSymbol:self.security.symbol callback:^(NSArray *objects, NSError *error) {
         if (!error) {
             _comments = [Comment fromParseObjects:objects];
             [self.tableView reloadData];
@@ -104,7 +100,7 @@
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
-    [[FinanceClient instance] fetchMetricsForSymbol:self.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[FinanceClient instance] fetchMetricsForSymbol:self.security.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _fullQuote = [FullQuote fromData:data];
             [self reloadMetrics];
@@ -422,7 +418,7 @@
 }
 
 - (void)fetchHistoryForStartDate:(NSDate *)startDate endDate:(NSDate *)endDate {
-    [[FinanceClient instance] fetchHistoryForSymbol:self.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [[FinanceClient instance] fetchHistoryForSymbol:self.security.symbol startDate:startDate endDate:endDate callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
             _history = [History fromData:data];
             [self refreshChart];
@@ -447,7 +443,7 @@
     [self.commentButton setHidden:NO];
     NSString *commentText = self.commentTextField.text;
     if (commentText) {
-        [[ParseClient instance] createCommentWithSymbol:self.symbol text:commentText];
+        [[ParseClient instance] createCommentWithSymbol:self.security.symbol text:commentText];
         Comment *comment = [[Comment alloc] init];
         comment.user = [PFUser currentUser];
         comment.text = commentText;

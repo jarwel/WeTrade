@@ -344,7 +344,7 @@
         NSIndexPath *indexPath = [[self tableView] indexPathForSelectedRow];
         Position *position = [self.positions objectAtIndex:indexPath.row];
         SecurityViewController *securityViewController = segue.destinationViewController;
-        securityViewController.symbol = position.symbol;
+        securityViewController.security = [[Security alloc] initWithSymbol:position.symbol];
     }
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
