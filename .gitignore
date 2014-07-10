@@ -3,6 +3,7 @@
 *.pbxuser
 !default.pbxuser
 *.xcworkspace
+*.xcuserstate
 !default.xcworkspace
 *.mode1v3
 !default.mode1v3
