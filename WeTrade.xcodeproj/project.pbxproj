@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62A718A6CFE9001FAA1A /* RestObject.m */; };
 		CA0F62AD18A73D61001FAA1A /* SecurityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AC18A73D61001FAA1A /* SecurityViewController.m */; };
 		CA0F62B018A742D2001FAA1A /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA0F62AF18A742D2001FAA1A /* CommentCell.m */; };
 		CA0F62B218A742F2001FAA1A /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA0F62B118A742F2001FAA1A /* CommentCell.xib */; };
@@ -98,8 +97,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CA0F62A618A6CFE9001FAA1A /* RestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestObject.h; sourceTree = "<group>"; };
-		CA0F62A718A6CFE9001FAA1A /* RestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestObject.m; sourceTree = "<group>"; };
 		CA0F62AB18A73D61001FAA1A /* SecurityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityViewController.h; sourceTree = "<group>"; };
 		CA0F62AC18A73D61001FAA1A /* SecurityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityViewController.m; sourceTree = "<group>"; };
 		CA0F62AE18A742D2001FAA1A /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
@@ -632,8 +629,6 @@
 				CA4A1DA718AA93A1002D2DEC /* History.m */,
 				CA977C3E1896118B002AD88F /* ParseObject.h */,
 				CA977C3F1896118B002AD88F /* ParseObject.m */,
-				CA0F62A618A6CFE9001FAA1A /* RestObject.h */,
-				CA0F62A718A6CFE9001FAA1A /* RestObject.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -799,7 +794,6 @@
 				CA861DE018AEA4C00057D163 /* FavoriteService.m in Sources */,
 				CA977C4818962696002AD88F /* Position.m in Sources */,
 				CA0F62B518A7464F001FAA1A /* Comment.m in Sources */,
-				CA0F62A818A6CFE9001FAA1A /* RestObject.m in Sources */,
 				CA60662818982BFE00A55D3F /* SignInViewController.m in Sources */,
 				CA4A1DA818AA93A1002D2DEC /* History.m in Sources */,
 				CA89420718B9A49A0046C1BD /* PortfolioService.m in Sources */,
