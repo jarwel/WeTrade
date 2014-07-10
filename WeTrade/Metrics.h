@@ -1,14 +1,14 @@
 //
-//  FullQuote.h
+//  Metrics.h
 //  WeTrade
 //
 //  Created by Jason Wells on 3/2/14.
 //  Copyright (c) 2014 Jason Wells. All rights reserved.
 //
 
-#import "RestObject.h"
+#import <Foundation/Foundation.h>
 
-@interface FullQuote : RestObject
+@interface Metrics : NSObject
 
 @property (nonatomic, strong, readonly) NSString *symbol;
 @property (nonatomic, strong, readonly) NSString *name;
@@ -31,6 +31,6 @@
 @property (nonatomic, strong, readonly) NSString *dividendDate;
 @property (nonatomic, strong, readonly) NSString *volumeText;
 
-+ (FullQuote *)fromData:(NSData *)data;
++ (Metrics *)fromData:(NSData *)data;
 
 @end

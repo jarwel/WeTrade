@@ -14,7 +14,7 @@
 #import "FavoriteBarButton.h"
 #import "CommentCell.h"
 #import "Comment.h"
-#import "FullQuote.h"
+#import "Metrics.h"
 #import "HistoricalQuote.h"
 #import "History.h"
 
@@ -57,7 +57,7 @@
 @property (strong, nonatomic) CPTXYPlotSpace *plotSpace;
 @property (strong, nonatomic) CPTScatterPlot *pricePlot;
 @property (strong, nonatomic) NSMutableArray *comments;
-@property (strong, nonatomic) FullQuote *fullQuote;
+@property (strong, nonatomic) Metrics *metrics;
 @property (strong, nonatomic) History *history;
 
 - (IBAction)onMetricsButton:(id)sender;
@@ -102,7 +102,7 @@
     }];
     [[FinanceClient instance] fetchMetricsForSymbol:self.security.symbol callback:^(NSURLResponse *response, NSData *data, NSError *error) {
         if (!error) {
-            _fullQuote = [FullQuote fromData:data];
+            _metrics = [Metrics fromData:data];
             [self reloadMetrics];
         } else {
             NSLog(@"Error: %@ %@", error, [error userInfo]);
@@ -328,22 +328,22 @@
 }
 
 - (void)reloadMetrics {
-    self.nameLabel.text = self.fullQuote.name;
-    self.openLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.open];
-    self.previousCloseLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.previousClose];
-    self.highLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.high];
-    self.lowLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.low];
-    self.volumeLabel.text = self.fullQuote.volumeText;
-    self.oneYearTargetLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.oneYearTarget];
-    self.marketCapitalizationLabel.text = self.fullQuote.marketCapitalization;
-    self.ebitdaLabel.text = self.fullQuote.ebitda;
-    self.pricePerEarnings.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.pricePerEarnings];
-    self.earningsPerShareLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.earningsPerShare];
-    if (self.fullQuote.dividend > 0) {
-        self.dividendLabel.text = [NSString stringWithFormat:@"%0.2f", self.fullQuote.dividend];
-        self.yieldLabel.text = [NSString stringWithFormat:@"%0.2f%%", self.fullQuote.yield];
-        self.exDividendDateLabel.text = self.fullQuote.exDividendDate;
-        self.dividendDateLabel.text = self.fullQuote.dividendDate;
+    self.nameLabel.text = self.metrics.name;
+    self.openLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.open];
+    self.previousCloseLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.previousClose];
+    self.highLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.high];
+    self.lowLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.low];
+    self.volumeLabel.text = self.metrics.volumeText;
+    self.oneYearTargetLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.oneYearTarget];
+    self.marketCapitalizationLabel.text = self.metrics.marketCapitalization;
+    self.ebitdaLabel.text = self.metrics.ebitda;
+    self.pricePerEarnings.text = [NSString stringWithFormat:@"%0.2f", self.metrics.pricePerEarnings];
+    self.earningsPerShareLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.earningsPerShare];
+    if (self.metrics.dividend > 0) {
+        self.dividendLabel.text = [NSString stringWithFormat:@"%0.2f", self.metrics.dividend];
+        self.yieldLabel.text = [NSString stringWithFormat:@"%0.2f%%", self.metrics.yield];
+        self.exDividendDateLabel.text = self.metrics.exDividendDate;
+        self.dividendDateLabel.text = self.metrics.dividendDate;
     }
 }
 

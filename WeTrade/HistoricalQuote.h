@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "RestObject.h"
 
-@interface HistoricalQuote : RestObject
+@interface HistoricalQuote : NSObject
 
 @property (nonatomic, strong, readonly) NSString *symbol;
 @property (nonatomic, strong, readonly) NSDate *date;
 @property (nonatomic, assign, readonly) float close;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

@@ -10,18 +10,16 @@
 
 @implementation HistoricalQuote
 
-- (NSString *)symbol {
-    return [self objectForKey:@"Symbol"];
-}
-
-- (NSDate *)date {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    return [dateFormatter dateFromString:[self objectForKey:@"Date"]];
-}
-
-- (float)close {
-    return [[self objectForKey:@"Close"] floatValue];
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [super init]) {
+        _symbol = [dictionary objectForKey:@"symbol"];
+        _close = [[dictionary objectForKey:@"Close"] floatValue];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        _date = [formatter dateFromString:[dictionary objectForKey:@"Date"]];
+    }
+    return self;
 }
 
 @end

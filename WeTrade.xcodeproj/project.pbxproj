@@ -28,7 +28,7 @@
 		CA3046D418C2BE55004E0CD6 /* FidelityScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D318C2BE55004E0CD6 /* FidelityScraper.m */; };
 		CA3046D718C2BF58004E0CD6 /* EtradeScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D618C2BF58004E0CD6 /* EtradeScraper.m */; };
 		CA3046DA18C2BFB2004E0CD6 /* WebScraper.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046D918C2BFB2004E0CD6 /* WebScraper.m */; };
-		CA3046DD18C3933F004E0CD6 /* FullQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046DC18C3933F004E0CD6 /* FullQuote.m */; };
+		CA3046DD18C3933F004E0CD6 /* Metrics.m in Sources */ = {isa = PBXBuildFile; fileRef = CA3046DC18C3933F004E0CD6 /* Metrics.m */; };
 		CA4A1DA818AA93A1002D2DEC /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = CA4A1DA718AA93A1002D2DEC /* History.m */; };
 		CA5B60C818C63879001D2647 /* WatchingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B60C718C63879001D2647 /* WatchingViewController.m */; };
 		CA5B60CB18C63F16001D2647 /* SecurityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5B60CA18C63F16001D2647 /* SecurityCell.m */; };
@@ -131,8 +131,8 @@
 		CA3046D618C2BF58004E0CD6 /* EtradeScraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EtradeScraper.m; sourceTree = "<group>"; };
 		CA3046D818C2BFB2004E0CD6 /* WebScraper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebScraper.h; sourceTree = "<group>"; };
 		CA3046D918C2BFB2004E0CD6 /* WebScraper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebScraper.m; sourceTree = "<group>"; };
-		CA3046DB18C3933F004E0CD6 /* FullQuote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullQuote.h; sourceTree = "<group>"; };
-		CA3046DC18C3933F004E0CD6 /* FullQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullQuote.m; sourceTree = "<group>"; };
+		CA3046DB18C3933F004E0CD6 /* Metrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Metrics.h; sourceTree = "<group>"; };
+		CA3046DC18C3933F004E0CD6 /* Metrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Metrics.m; sourceTree = "<group>"; };
 		CA4A1DA618AA93A1002D2DEC /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
 		CA4A1DA718AA93A1002D2DEC /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
 		CA5B60C618C63879001D2647 /* WatchingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WatchingViewController.h; sourceTree = "<group>"; };
@@ -624,8 +624,8 @@
 				CAF11A2D18C67372006D8889 /* Security.m */,
 				CA977C4D18964E8E002AD88F /* Quote.h */,
 				CA977C4E18964E8E002AD88F /* Quote.m */,
-				CA3046DB18C3933F004E0CD6 /* FullQuote.h */,
-				CA3046DC18C3933F004E0CD6 /* FullQuote.m */,
+				CA3046DB18C3933F004E0CD6 /* Metrics.h */,
+				CA3046DC18C3933F004E0CD6 /* Metrics.m */,
 				CA0F62B618A7550D001FAA1A /* HistoricalQuote.h */,
 				CA0F62B718A7550D001FAA1A /* HistoricalQuote.m */,
 				CA4A1DA618AA93A1002D2DEC /* History.h */,
@@ -791,7 +791,7 @@
 				CAA68945189B60F300CE7FAA /* FollowingViewController.m in Sources */,
 				CA7A6C5A18D1232F005C42D0 /* AccountViewController.m in Sources */,
 				CAD1502B18BFAB8A00C96BC5 /* ImportViewController.m in Sources */,
-				CA3046DD18C3933F004E0CD6 /* FullQuote.m in Sources */,
+				CA3046DD18C3933F004E0CD6 /* Metrics.m in Sources */,
 				CACD596D1891D246006FD228 /* LotCell.m in Sources */,
 				CACD59641891CFDE006FD228 /* EditLotsViewController.m in Sources */,
 				CA6B5C0918AB0870006CB919 /* FavoriteButton.m in Sources */,

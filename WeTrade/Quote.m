@@ -10,51 +10,50 @@
 
 @implementation Quote
 
-- (NSString *)symbol {
-    return [self objectForKey:@"symbol"];
-}
-
-- (NSString *)name {
-    return [self objectForKey:@"Name"];
-}
-
-- (float)price {
-    NSString *price = [self objectForKey:@"LastTradePriceOnly"];
-    if (price) {
-        return [price floatValue];
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [super init]) {
+        _symbol = [dictionary objectForKey:@"symbol"];
+        _name = [dictionary objectForKey:@"Name"];
+        _price = [[dictionary objectForKey:@"LastTradePriceOnly"] floatValue];
+        _priceChange = [[dictionary objectForKey:@"Change"] floatValue];
+        _percentChange =[[dictionary objectForKey:@"ChangeinPercent"] floatValue];
+        _previousClose = [[dictionary objectForKey:@"PreviousClose"] floatValue];
+        
     }
-    return 0;
+    return self;
 }
 
-- (float)priceChange {
-    NSString *priceChange = [self objectForKey:@"Change"];
-    if (priceChange) {
-        return [priceChange floatValue];
++ (Quote *)fromDictionary:(NSDictionary *)dictionary {
+    if ([dictionary objectForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"] == [NSNull null]) {
+        return [[Quote alloc] initWithDictionary:dictionary];
     }
-    return 0;
+    return nil;
 }
 
-- (float)percentChange {
-    NSString *percentChange = [self objectForKey:@"ChangeinPercent"];
-    if (percentChange) {
-        return [percentChange floatValue];
++ (NSArray *)fromData:(NSData *)data {
+    NSMutableArray *quotes = [[NSMutableArray alloc] init];
+    
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSDictionary *query = [dictionary objectForKey:@"query"];
+    int count = [[query objectForKey:@"count"] intValue];
+    if (count == 1) {
+        NSDictionary *results = [query objectForKey:@"results"];
+        NSDictionary *dictionary = [results objectForKey:@"quote"];
+        Quote* quote = [Quote fromDictionary:dictionary];
+        if (quote) {
+            [quotes addObject:quote];
+        }
     }
-    return 0;
-}
-
-- (float)previousClose {
-    NSString *previousClose = [self objectForKey:@"PreviousClose"];
-    if (previousClose) {
-        return [previousClose floatValue];
+    if (count > 1) {
+        NSDictionary *results = [query objectForKey:@"results"];
+        for (NSDictionary *dictionary in [results objectForKey:@"quote"]) {
+            Quote* quote = [Quote fromDictionary:dictionary];
+            if (quote) {
+                [quotes addObject:quote];
+            }
+        }
     }
-    return 0;
-}
-
-- (BOOL)isValid {
-    if ([self objectForKey:@"ErrorIndicationreturnedforsymbolchangedinvalid"]) {
-        return NO;
-    }
-    return YES;
+    return quotes;
 }
 
 @end

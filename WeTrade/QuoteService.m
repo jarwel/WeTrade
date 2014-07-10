@@ -96,16 +96,20 @@
         [symbols addObject:symbol];
         
         [self.quotes setObject:[[Quote alloc] init] forKey:symbol];
-        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
-            if (quotes.count > 0) {
-                for (Quote *quote in quotes) {
-                    [self.quotes setObject:quote forKey:quote.symbol];
+        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+            if (!error) {
+                NSArray* quotes = [Quote fromData:data];
+                if (quotes.count > 0) {
+                    for (Quote *quote in quotes) {
+                        [self.quotes setObject:quote forKey:quote.symbol];
+                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
         }];
     }
-
     return quote;
 }
 
@@ -126,28 +130,39 @@
     }
     
     if (missingSymbols.count > 0) {
-        [[FinanceClient instance] fetchQuotesForSymbols:missingSymbols callback:^(NSArray *quotes) {
-            if (quotes.count > 0) {
-                for (Quote *quote in quotes) {
-                    [self.quotes setObject:quote forKey:quote.symbol];
+        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+            if (!error) {
+                NSArray* quotes = [Quote fromData:data];
+                if (quotes.count > 0) {
+                    for (Quote *quote in quotes) {
+                        [self.quotes setObject:quote forKey:quote.symbol];
+                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
+
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
         }];
     }
-    
     return quotes;
 }
 
 - (void)reload {
     if (self.quotes.count > 0) {
         NSSet *symbols = [NSSet setWithArray:self.quotes.allKeys];
-        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSArray *quotes) {
-            if (quotes.count > 0) {
-                for (Quote *quote in quotes) {
-                    [self.quotes setObject:quote forKey:quote.symbol];
+        [[FinanceClient instance] fetchQuotesForSymbols:symbols callback:^(NSURLResponse *response, NSData *data, NSError *error) {
+            if (!error) {
+                NSArray* quotes = [Quote fromData:data];
+                if (quotes.count > 0) {
+                    for (Quote *quote in quotes) {
+                        [self.quotes setObject:quote forKey:quote.symbol];
+                    }
+                    [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
                 }
-                [[NSNotificationCenter defaultCenter] postNotificationName:QuotesUpdatedNotification object:nil];
+                
+            } else {
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
             }
         }];
     }

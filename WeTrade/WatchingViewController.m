@@ -100,7 +100,7 @@
 
                     NSDictionary *quotes = [[QuoteService instance] quotesForSymbols:symbols];
                     Quote *searchQuote = [quotes objectForKey:searchSymbol];
-                    if (!isSecurityForSearch && searchQuote && searchQuote.isValid) {
+                    if (!isSecurityForSearch && searchQuote) {
                         NSMutableArray *securitiesWithSearchText = [securities mutableCopy];
                         [securitiesWithSearchText insertObject:[[Security alloc] initWithSymbol:searchSymbol] atIndex:0];
                         _searchResults = securitiesWithSearchText;

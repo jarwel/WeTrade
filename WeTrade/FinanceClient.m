@@ -20,9 +20,7 @@
     return instance;
 }
 
-- (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSArray *quotes))callback {
-    NSMutableArray *quotes = [[NSMutableArray alloc] init];
-    
+- (void)fetchQuotesForSymbols:(NSSet *)symbols callback:(void (^)(NSURLResponse *response, NSData *data, NSError *error))callback {
     NSString *symbolString = [NSString stringWithFormat:@"'%@'", [[symbols allObjects] componentsJoinedByString:@"','"]];
     NSLog(@"fetchQuotesForSymbols: %@", symbolString);
 
@@ -32,28 +30,7 @@
     
     NSLog(@"%@", url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-        if (!connectionError) {
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSDictionary *query = [dictionary objectForKey:@"query"];
-                
-            int count = [[query objectForKey:@"count"] intValue];
-            if (count == 1) {
-                NSDictionary *results = [query objectForKey:@"results"];
-                NSDictionary *quote = [results objectForKey:@"quote"];
-                [quotes addObject:[[Quote alloc] initWithDictionary:quote]];
-            }
-            if (count > 1) {
-                NSDictionary *results = [query objectForKey:@"results"];
-                for (NSDictionary *quote in [results objectForKey:@"quote"]) {
-                    [quotes addObject:[[Quote alloc] initWithDictionary:quote]];
-                }
-            }
-            callback(quotes);
-        } else {
-            NSLog(@"Error: %@ %@", connectionError, [connectionError userInfo]);
-        }
-    }];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:callback];
 }
 
 - (void)fetchSectorsForSymbols:(NSSet *)symbols callback:(void (^)(NSDictionary *sectors))callback {

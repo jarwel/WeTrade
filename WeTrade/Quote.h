@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestObject.h"
 
-@interface Quote : RestObject
+@interface Quote : NSObject
 
 @property (nonatomic, strong, readonly) NSString *symbol;
 @property (nonatomic, strong, readonly) NSString *name;
@@ -18,6 +17,8 @@
 @property (nonatomic, assign, readonly) float percentChange;
 @property (nonatomic, assign, readonly) float open;
 @property (nonatomic, assign, readonly) float previousClose;
-@property (nonatomic, assign, readonly) BOOL isValid;
+
++ (Quote *)fromDictionary:(NSDictionary *)dictionary;
++ (NSArray *)fromData:(NSData *)data;
 
 @end
